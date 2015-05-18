@@ -43,6 +43,7 @@ class CashBankAdjustment < ActiveRecord::Base
   end
   
   
+  
   def self.create_object( params )
     new_object = self.new
     new_object.cash_bank_id = params[:cash_bank_id]
@@ -70,7 +71,7 @@ class CashBankAdjustment < ActiveRecord::Base
     return self
   end
   
-  def confirm( params )
+  def confirm_object( params )
     if self.is_confirmed? 
       self.errors.add(:generic_errors, "Sudah di konfirmasi")
       return self
@@ -82,7 +83,7 @@ class CashBankAdjustment < ActiveRecord::Base
     end
     
     if params[:confirmed_at].nil? or not params[:confirmed_at].is_a?(DateTime)
-      self.errors.add(:collected_at, "Harus ada tanggal penerimaan pembayaran")
+      self.errors.add(:generic_errors, "Harus ada tanggal konfirmasi")
       return self 
     end
     
@@ -119,7 +120,7 @@ class CashBankAdjustment < ActiveRecord::Base
       ).each {|x| x.delete_object  }
   end
   
-  def unconfirm 
+  def unconfirm_object
     if not self.is_confirmed?
       self.errors.add(:generic_errors, "belum di konfirmasi")
       return self 

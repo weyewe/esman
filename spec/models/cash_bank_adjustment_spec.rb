@@ -98,7 +98,7 @@ describe CashBankAdjustment do
     end
     
     it "should not be allowed to confirm" do
-      @cba.confirm(:confirmed_at => DateTime.now)
+      @cba.confirm_object(:confirmed_at => DateTime.now)
       @cba.errors.size.should_not == 0 
       @cba.is_confirmed.should be_false 
     end
@@ -118,7 +118,7 @@ describe CashBankAdjustment do
     end
     
     it "should not allow unconfirm" do
-      @cba.unconfirm
+      @cba.unconfirm_object
       
       @cba.errors.size.should_not == 0 
       
@@ -129,14 +129,14 @@ describe CashBankAdjustment do
     end
     
     it "should be confirmable" do
-      @cba.confirm(:confirmed_at => DateTime.now )
+      @cba.confirm_object(:confirmed_at => DateTime.now )
       @cba.is_confirmed.should be_true
     end
     
     context "confirmed cash bank adjustment" do 
       before(:each) do 
         @initial_cb_amount = @cb.amount 
-        @cba.confirm(:confirmed_at => DateTime.now )
+        @cba.confirm_object(:confirmed_at => DateTime.now )
         @cba.is_confirmed.should be_true
         @cba.reload 
         @cb.reload
@@ -148,13 +148,18 @@ describe CashBankAdjustment do
         diff.should == @adjustment_amount
       end
       
+      it "can be unconfirmed" do
+        @cba.unconfirm_object
+        @cba.is_confirmed.should be_false
+        @cba.confirmed_at.should == nil
+      end
       
       it "should confirm cba" do
         @cba.is_confirmed.should be_true 
       end
       
       it "should not allow double confirmation" do
-        @cba.confirm(:confirmed_at => DateTime.now )
+        @cba.confirm_object(:confirmed_at => DateTime.now )
         @cba.errors.size.should_not == 0 
       end
       
@@ -169,7 +174,7 @@ describe CashBankAdjustment do
         cash_mutation.mutation_date.should == @cba.adjustment_date
         cash_mutation.cash_bank_id.should == @cba.cash_bank_id
       end
-      
+
     end
   end
   
