@@ -113,3 +113,8 @@ SOLUTION_CASE = {
   :pending => 2,
   :solved =>  3    # 
 }
+
+ADJUSTMENT_STATUS = {
+  :addition => 1, 
+  :deduction => 2 
+  }

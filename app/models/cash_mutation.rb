@@ -1,2 +1,20 @@
 class CashMutation < ActiveRecord::Base
+  
+  def self.create_object(params)
+    new_object = self.new 
+    new_object.source_class = params[:source_class]
+    new_object.source_id = params[:source_id]
+    new_object.amount = params[:amount]
+    new_object.status = params[:status]
+    new_object.mutation_date = params[:mutation_date]
+    new_object.cash_bank_id = params[:cash_bank_id] 
+    
+    new_object.save 
+    return self 
+  end
+   
+  
+  def delete_object
+    self.destroy
+  end
 end

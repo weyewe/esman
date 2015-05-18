@@ -3,6 +3,9 @@ class CashBank < ActiveRecord::Base
   validates_uniqueness_of :name
   
   
+  has_many :cash_bank_adjustments
+  
+  
   def self.create_object( params )
     new_object  = self.new
     new_object.name = params[:name]
@@ -23,5 +26,10 @@ class CashBank < ActiveRecord::Base
   end
   
   def delete_object
+  end
+  
+  def update_amount( amount )
+    self.amount += amount
+    self.save 
   end
 end

@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518043652) do
+ActiveRecord::Schema.define(version: 20150518045423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cash_bank_adjustments", force: true do |t|
+    t.integer  "cash_bank_id"
+    t.decimal  "amount",          precision: 14, scale: 2, default: 0.0
+    t.integer  "status",                                   default: 1
+    t.datetime "adjustment_date"
+    t.datetime "confirmed_at"
+    t.boolean  "is_confirmed",                             default: false
+    t.text     "description"
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cash_bank_mutations", force: true do |t|
     t.datetime "created_at"
@@ -31,6 +44,12 @@ ActiveRecord::Schema.define(version: 20150518043652) do
   end
 
   create_table "cash_mutations", force: true do |t|
+    t.string   "source_class"
+    t.integer  "source_id"
+    t.decimal  "amount",        precision: 14, scale: 2, default: 0.0
+    t.integer  "status",                                 default: 1
+    t.datetime "mutation_date"
+    t.integer  "cash_bank_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
