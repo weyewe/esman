@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
    
    before_save :ensure_authentication_token
 
+  has_many :home_assignments
+  has_many :homes, :through => :home_assignments
 
    def ensure_authentication_token
      if authentication_token.blank?
@@ -35,7 +37,7 @@ class User < ActiveRecord::Base
    def self.create_main_user(params) 
      new_user = User.new( :email => params[:email], 
                              :password => params[:password],
-                             :password => params[:password_confirmation] ,
+                             :password_confirmation => params[:password_confirmation] ,
                              :name => params[:name])
 
 

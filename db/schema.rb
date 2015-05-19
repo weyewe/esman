@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518045423) do
+ActiveRecord::Schema.define(version: 20150518093458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,30 @@ ActiveRecord::Schema.define(version: 20150518045423) do
     t.integer  "status",                                 default: 1
     t.datetime "mutation_date"
     t.integer  "cash_bank_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "home_assignments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "home_id"
+    t.boolean  "is_deleted",      default: false
+    t.datetime "assignment_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "home_types", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "homes", force: true do |t|
+    t.string   "name"
+    t.text     "address"
+    t.integer  "home_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

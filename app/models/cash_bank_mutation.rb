@@ -25,7 +25,7 @@ class CashBankMutation < ActiveRecord::Base
     end
     
     if source_cash_bank.nil? 
-      self.errors.add(:source_cash_bank_id, "Harus source cashbank id")
+      self.errors.add(:source_cash_bank_id, "Harus ada source cashbank id")
       return self
     end
      
