@@ -66,6 +66,18 @@ Ext.define("AM.controller.Operation", {
 				}
 				]
 			}, 
+      { 
+				text:'PaymentRequest', 
+				viewClass:'AM.view.operation.PaymentRequest', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'payment_requests',
+					action : 'index'
+				}
+				]
+			}, 
 			 
     ]
 	},

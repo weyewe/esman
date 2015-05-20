@@ -10,7 +10,8 @@ class CreateCashBankAdjustments < ActiveRecord::Migration
       
       t.datetime :confirmed_at 
       t.boolean :is_confirmed, :default => false 
-      
+      t.datetime :deleted_at 
+      t.boolean :is_deleted, :default => false 
       t.text :description
       t.string :code 
 

@@ -89,7 +89,55 @@ Ext.define("AM.controller.Master", {
 						action : 'index'
 					}
 				]
-			} 
+			} ,
+      { 
+				text:'Home', 
+				viewClass:'AM.view.master.Home', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'homes',
+						action : 'index'
+					}
+				]
+			} ,
+      { 
+				text:'Home Type', 
+				viewClass:'AM.view.master.HomeType', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'home_types',
+						action : 'index'
+					}
+				]
+			},
+      { 
+				text:'Home Assignment', 
+				viewClass:'AM.view.master.HomeAssignment', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'home_assignments',
+						action : 'index'
+					}
+				]
+			},
+      { 
+				text:'Vendor', 
+				viewClass:'AM.view.master.Vendor', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'vendors',
+						action : 'index'
+					}
+				]
+			}
     ]
 	},
 	

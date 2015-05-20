@@ -4,7 +4,7 @@ class CashMutation < ActiveRecord::Base
     new_object = self.new 
     new_object.source_class = params[:source_class]
     new_object.source_id = params[:source_id]
-    new_object.amount = params[:amount]
+    new_object.amount = BigDecimal( params[:amount] || '0')
     new_object.status = params[:status]
     new_object.mutation_date = params[:mutation_date]
     new_object.cash_bank_id = params[:cash_bank_id] 

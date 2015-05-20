@@ -2,6 +2,7 @@ class Home < ActiveRecord::Base
   validates_presence_of :name 
   validates_presence_of :address
   validates_presence_of :home_type_id
+  belongs_to :home_type 
   has_many :home_assignments
   has_many :users, :through => :home_assignments
   
@@ -22,6 +23,10 @@ class Home < ActiveRecord::Base
   
   end
   
+  def self.active_objects
+    self
+  end
+  
   def self.create_object(params)
     new_object = self.new
     new_object.name = params[:name]
@@ -39,7 +44,7 @@ class Home < ActiveRecord::Base
     return self
   end
   
-  def delete_object(params)
+  def delete_object()
     self.destroy
   end
 

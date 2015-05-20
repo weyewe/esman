@@ -5,7 +5,7 @@ class CashBank < ActiveRecord::Base
   
   has_many :cash_bank_adjustments
   
-  
+  belongs_to :receipt_voucher
   def self.create_object( params )
     new_object  = self.new
     new_object.name = params[:name]

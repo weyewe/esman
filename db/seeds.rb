@@ -52,81 +52,59 @@ data_entry_role = Role.create!(
   
   admin = User.create_main_user(  :name => "Admin4", :email => "admin4@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
+  
+data_entry = User.create_object(
+  :name => "jojo",
+  :email => "jojo@gmail.com",
+  :password => "jojo1234",
+  :password_confirmation => "jojo1234",
+  :role_id => data_entry_role.id
+  )
 
 
+(1.upto 20).each do |x| 
+  Vendor.create_object(
+    :name => "Vendor #{x}",
+    :address => "alamat vendor kita",
+    :description => "boom! this is the description"
+    )
+end
+
+home_type_array = []
+["ruko 1 lantai", "ruko 2 lantai", "ruko corner", "rumah tipe 21", "rumah tipe 88"].each do |x|
+  home_type =  HomeType.create_object(
+    :name => x,
+    :description => "Description of #{x}",
+    :amount => rand(1..10) * BigDecimal("40000")
+    )
+  home_type_array << home_type 
+end
+
+home_array = []
+total_home_type = home_type_array.length 
+(1.upto 20).each do |x|  
+  selected_home_type = home_type_array[ rand(0..(total_home_type-1) )]
+  home = Home.create_object(
+    :home_type_id => selected_home_type.id ,
+    :name => "#{x} #{selected_home_type.name} ",
+    :address => "The address"
+    )
+  home_array << home 
+end
+
+user_array = []
+User.all.each {|u| user_array << u }
+
+total_user = user_array.length 
+
+home_array.each do |home|
+  selected_user = user_array[ rand(0..(total_user-1) )]
   
-  customer_1 = Customer.create_object(
-    :name        => "mcnell", 
-    :address     => " kalibesar no 50 ", 
-    :pic         => " WILLY ", 
-    :contact     => "082125583534", 
-    :email       => "walawee@gmail.com", 
-  )
-  
-  customer_2 = Customer.create_object(
-    :name        => "toll", 
-    :address     => " kalibesar no 50 ", 
-    :pic         => " WILLY ", 
-    :contact     => "082125583534", 
-    :email       => "toll@gmail.com", 
-  )
-  
-  customer_3 = Customer.create_object(
-    :name        => "penanshin", 
-    :address     => " kalibesar no 50 ", 
-    :pic         => " WILLY ", 
-    :contact     => "082125583534", 
-    :email       => "toll@gmail.com", 
-  )
-  
-  customer_array = [customer_1, customer_2, customer_3 ]
-  
-  item_type_pc = ItemType.create_object(
-    :name => "PC",
-    :description => "Seperangkat komputer: mouse, CPU, Monitor, Speaker (optional)"
-  )
-  
-  item_type_laptop = ItemType.create_object(
-    :name => "Laptop",
-    :description => "Awesome"
-  )
-  
-  item_type_array = [item_type_pc, item_type_laptop]
-  
-  
-  (1..3).each do |x|
-    customer_array.each do |customer_object|
-      item_type_array.each do |type_object|
-        
-        a=  Item.create_object(
-          :customer_id              => customer_object.id,
-          :item_type_id                  => type_object.id,
-          :description              => "#{customer_object.name} #{type_object.name} #{x} ",
-          :manufactured_at          => DateTime.new(2011, 10,10), 
-          :warranty_expiry_date     => DateTime.new(2013, 10,10)
-        )
-        
-        a.errors.messages.each {|x| puts "Item error: #{x}"}
-      end
-    end
-  end
-  
-  puts "Total item: #{Item.all.count}"
-  
-  
-   
-   customer = Customer.first
-   customer.items.each do |item|
-     Maintenance.create_object(
-       :item_id        => item.id, 
-       :customer_id    => customer.id           ,
-       :user_id        => User.first.id         ,
-       :complaint_date => DateTime.now          ,
-       :complaint      => "awesome complaint"   ,
-       :complaint_case => MAINTENANCE_CASE[:emergency]
-      )
-   end
-  
-  
-  puts "Total maintenance: #{Maintenance.all.count}"
+  HomeAssignment.create_object(
+    :user_id => selected_user.id ,
+    :home_id => home.id ,
+    :assignment_date => DateTime.now 
+    
+    )
+end
   

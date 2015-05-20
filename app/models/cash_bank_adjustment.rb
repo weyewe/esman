@@ -59,6 +59,11 @@ class CashBankAdjustment < ActiveRecord::Base
   end
   
   def update_object( params ) 
+    if self.is_confirmed? 
+      self.errors.add(:generic_errors, "Sudah di konfirmasi")
+      return self
+    end
+    
     self.cash_bank_id = params[:cash_bank_id]
     self.amount = BigDecimal( params[:amount] || '0')
     self.status = params[:status]
@@ -146,5 +151,13 @@ class CashBankAdjustment < ActiveRecord::Base
    
   
   def delete_object(params)
+    if self.is_confirmed?
+      self.errors.add(:generic_errors, "Sudah di konfirmasi")
+      return self 
+    end
+    self.is_deleted = true
+    self.deleted_at = DateTime.now
+    self.save
+    return self
   end
 end

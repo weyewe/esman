@@ -11,10 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518093458) do
+ActiveRecord::Schema.define(version: 20150519090837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "advanced_payments", force: true do |t|
+    t.integer  "home_id"
+    t.datetime "start_date"
+    t.integer  "duration"
+    t.string   "code"
+    t.text     "description"
+    t.decimal  "amount",       precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_confirmed",                          default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",                            default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cash_bank_adjustments", force: true do |t|
     t.integer  "cash_bank_id"
@@ -23,6 +38,8 @@ ActiveRecord::Schema.define(version: 20150518093458) do
     t.datetime "adjustment_date"
     t.datetime "confirmed_at"
     t.boolean  "is_confirmed",                             default: false
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",                               default: false
     t.text     "description"
     t.string   "code"
     t.datetime "created_at"
@@ -65,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150518093458) do
     t.integer  "user_id"
     t.integer  "home_id"
     t.boolean  "is_deleted",      default: false
+    t.datetime "deleted_at"
     t.datetime "assignment_date"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -73,6 +91,7 @@ ActiveRecord::Schema.define(version: 20150518093458) do
   create_table "home_types", force: true do |t|
     t.string   "name"
     t.text     "description"
+    t.decimal  "amount",      precision: 14, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,6 +100,114 @@ ActiveRecord::Schema.define(version: 20150518093458) do
     t.string   "name"
     t.text     "address"
     t.integer  "home_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invoices", force: true do |t|
+    t.integer  "source_id"
+    t.string   "source_class"
+    t.string   "code"
+    t.integer  "home_id"
+    t.decimal  "amount",       precision: 14, scale: 2, default: 0.0
+    t.datetime "due_date"
+    t.datetime "invoice_date"
+    t.text     "description"
+    t.boolean  "is_confirmed",                          default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",                            default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "monthly_generators", force: true do |t|
+    t.datetime "generated_date"
+    t.string   "code"
+    t.text     "description"
+    t.boolean  "is_confirmed",   default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",     default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payables", force: true do |t|
+    t.string   "source_class"
+    t.integer  "source_id"
+    t.string   "source_code"
+    t.decimal  "amount",           precision: 14, scale: 2, default: 0.0
+    t.decimal  "remaining_amount", precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_deleted",                                default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payment_requests", force: true do |t|
+    t.integer  "vendor_id"
+    t.datetime "request_date"
+    t.string   "code"
+    t.text     "description"
+    t.decimal  "amount",       precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_confirmed",                          default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",                            default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payment_voucher_details", force: true do |t|
+    t.integer  "payment_voucher_id"
+    t.decimal  "amount",             precision: 14, scale: 2, default: 0.0
+    t.integer  "payable_id"
+    t.boolean  "is_deleted",                                  default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payment_vouchers", force: true do |t|
+    t.string   "code"
+    t.text     "description"
+    t.integer  "vendor_id"
+    t.integer  "cash_bank_id"
+    t.datetime "payment_date"
+    t.decimal  "amount",       precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_confirmed",                          default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",                            default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "receipt_vouchers", force: true do |t|
+    t.string   "code"
+    t.text     "description"
+    t.integer  "user_id"
+    t.integer  "receivable_id"
+    t.integer  "cash_bank_id"
+    t.datetime "receipt_date"
+    t.decimal  "amount",        precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_confirmed",                           default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_deleted",                             default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "receivables", force: true do |t|
+    t.string   "source_class"
+    t.integer  "source_id"
+    t.string   "source_code"
+    t.decimal  "amount",           precision: 14, scale: 2, default: 0.0
+    t.decimal  "remaining_amount", precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_deleted",                                default: false
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -118,5 +245,13 @@ ActiveRecord::Schema.define(version: 20150518093458) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "vendors", force: true do |t|
+    t.string   "name"
+    t.text     "address"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

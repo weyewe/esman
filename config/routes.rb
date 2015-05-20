@@ -10,9 +10,10 @@ Ticketie::Application.routes.draw do
     get 'search_role' => 'roles#search', :as => :search_role, :method => :get
     get 'search_user' => 'app_users#search', :as => :search_user, :method => :get
     get 'search_item_type' => 'item_types#search', :as => :search_item_type, :method => :get
+    get 'search_home_type' => 'home_types#search', :as => :search_home_type, :method => :get
     get 'search_item' => 'items#search', :as => :search_item, :method => :get
     get 'search_customer' => 'customers#search', :as => :search_customer, :method => :get
-    
+    get 'search_vendor' => 'vendors#search', :as => :search_vendor, :method => :get
     get 'work_customer_reports' => 'maintenances#customer_reports', :as => :work_customer_reports
     
     # master data 
@@ -23,7 +24,11 @@ Ticketie::Application.routes.draw do
     
     resources :maintenances
     
-    
+    resources :home_types
+    resources :homes
+    resources :home_assignments
+    resources :vendors
+    resources :payment_requests
   end
   
   

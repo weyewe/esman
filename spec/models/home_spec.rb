@@ -10,12 +10,14 @@ describe Home do
     
     @home_type1 = HomeType.create_object(
       :name => "Type1",
-      :description => "description1"
+      :description => "description1",
+      :amount => "50000"
       )
     
     @home_type2 = HomeType.create_object(
       :name => "Type2",
-      :description => "description2"
+      :description => "description2",
+      :amount => "25000"
       )
   end
   

@@ -4,6 +4,7 @@ class CreateHomeAssignments < ActiveRecord::Migration
       t.integer :user_id
       t.integer :home_id
       t.boolean :is_deleted ,:default => false
+      t.datetime :deleted_at
       t.datetime :assignment_date
       t.timestamps
     end

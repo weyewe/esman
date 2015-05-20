@@ -54,7 +54,11 @@ class CashBankMutation < ActiveRecord::Base
     return new_object
   end
    
-  def update_object(params)
+  def update_object(params) 
+    if self.is_confirmed?
+      self.errors.add(:generic_errors,"Sudah dikonfirmasi")
+      return self
+    end
     self.target_cash_bank_id = params[:target_cash_bank_id]
     self.source_cash_bank_id = params[:source_cash_bank_id]
     self.amount =  BigDecimal( params[:amount] || '0')
@@ -155,7 +159,13 @@ class CashBankMutation < ActiveRecord::Base
     end  
   end
     
-  def delete_object
-    self.destroy
+ def delete_object
+    if self.is_confirmed?
+      self.errors.add(:generic_errors, "Sudah di konfirmasi")
+      return self 
+    end
+    self.is_deleted = true
+    self.deleted_at = DateTime.now
+    self.save
   end
 end

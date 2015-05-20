@@ -1,9 +1,9 @@
 Ext.define('AM.model.ItemType', {
   	extend: 'Ext.data.Model',
   	fields: [
-    	{ name: 'id', item_type: 'int' },
-			{ name: 'name', item_type: 'string' },
-			{ name: 'description', item_type: 'string' },
+    	{ name: 'id', type: 'int' },
+			{ name: 'name', type: 'string' },
+			{ name: 'description', type: 'string' },
 			 
   	],
 

@@ -9,6 +9,10 @@ class HomeAssignment < ActiveRecord::Base
   belongs_to :home 
   
   
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
   def valid_user_and_valid_home
     return if user_id.nil? or home_id.nil? 
 
@@ -23,21 +27,26 @@ class HomeAssignment < ActiveRecord::Base
     if home.nil?
       self.errors.add(:home , "Harus ada home yang dipilih")
       return self
-    end
-      
-    previous_assignment_counter = HomeAssignment.where(
+    end       
+    
+    previous_assignment = HomeAssignment.where(
       :home_id => home.id,
       :user_id => user.id,
       :is_deleted => false 
-      ).count
-    
+      ).first
+     
+#     current_home = self.home 
+    puts "gonnna go to the validaation"
+    puts "#{previous_assignment}"
     if self.persisted? 
-      if previous_assignment_counter > 1 
+      
+      if  (not previous_assignment.nil?) and  previous_assignment.id != self.id
         self.errors.add(:generic_errors, "Sudah ada")
         return self 
       end
     else
-      if previous_assignment_counter > 0
+      #       when the user is trying to create a home assignment
+      if not previous_assignment.nil?
         self.errors.add(:generic_errors, "Sudah ada")
         return self 
       end
@@ -71,11 +80,14 @@ class HomeAssignment < ActiveRecord::Base
     self.home_id = params[:home_id]
     self.assignment_date = params[:assignment_date]
     self.save
+    return self
   end
   
-  def delete_object
+ def delete_object
     self.is_deleted = true
+    self.deleted_at = DateTime.now
     self.save
+   return self
   end
   
 end

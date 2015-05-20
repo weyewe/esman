@@ -20,6 +20,7 @@ describe HomeAssignment do
     @hmt = HomeType.create_object(
       :name => "Type1",
       :description => "description",
+      :amount => "50000"
     )
     
     @hm = Home.create_object(
@@ -158,13 +159,19 @@ describe HomeAssignment do
         @hma2.should be_valid
       end
       
+      it "should assign home1 and home2 to user1" do
+        @hma.user_id.should == @user.id
+        @hma2.user_id.should == @user.id
+      end
+      
       it "update hma2 to home1" do
+        puts "Gonna update home assignment so that we will have double assignment\n"*5
         @hma2.update_object(
           :user_id => @user.id,
           :home_id => @hm.id,
           :assignment_date => DateTime.now
         )
-        @hma2.errors.size.should == 0 
+        @hma2.errors.size.should_not == 0 
         @hma2.should_not be_valid
       end
       

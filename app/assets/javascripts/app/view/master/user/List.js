@@ -8,7 +8,7 @@ Ext.define('AM.view.master.user.List' ,{
 	initComponent: function() {
 		this.columns = [
 			{ header: 'ID', dataIndex: 'id'},
-			{ header: 'Nama',  dataIndex: 'name', flex: 1},
+			{ header: 'Nama',  dataIndex: 'name', flex:1},
 			{	header: 'Email', dataIndex: 'email', flex: 1 },
 			{	header: 'Role', dataIndex: 'role_name', flex: 1 },
 		];
@@ -45,7 +45,7 @@ Ext.define('AM.view.master.user.List' ,{
 			store	: this.store, 
 			displayInfo: true,
 			displayMsg: 'Displaying topics {0} - {1} of {2}',
-			emptyMsg: "No topics to display" 
+			emptyMsg: "No user to display" 
 		});
 
 		this.callParent(arguments);

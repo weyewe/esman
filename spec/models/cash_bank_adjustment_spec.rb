@@ -26,7 +26,7 @@ describe CashBankAdjustment do
       :code => nil
     )
     
-    cba.errors.messages.each {|x| puts x}
+#     cba.errors.messages.each {|x| puts x}
     cba.errors.size.should_not == 0 
   end
   

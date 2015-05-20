@@ -326,10 +326,10 @@ Ext.define('AM.controller.Maintenances', {
 			record.set( 'solution_date' , values['solution_date'] );
 			
 			 
-			// form.query('checkbox').forEach(function(checkbox){
-			// 	record.set( checkbox['name']  ,checkbox['checked'] ) ;
-			// });
-			// 
+			form.query('checkbox').forEach(function(checkbox){
+				record.set( checkbox['name']  ,checkbox['checked'] ) ;
+			});
+			
 			form.setLoading(true);
 			record.save({
 				params : {
