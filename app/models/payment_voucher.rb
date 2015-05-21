@@ -6,6 +6,15 @@ class PaymentVoucher < ActiveRecord::Base
   belongs_to :cash_bank
   has_many :payment_voucher_details
   
+  
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
+  def  active_payment_voucher_details
+    self.payment_voucher_details
+  end
+  
   def valid_vendor
     return if  vendor_id.nil?
     cb = Vendor.find_by_id vendor_id
@@ -88,6 +97,7 @@ class PaymentVoucher < ActiveRecord::Base
       CashMutation.create_object(
         :source_class => self.class.to_s, 
         :source_id => self.id ,  
+        :source_code => self.code,
         :amount => pvd.amount ,  
         :status => ADJUSTMENT_STATUS[:deduction],  
         :mutation_date => self.confirmed_at ,  
@@ -130,6 +140,11 @@ class PaymentVoucher < ActiveRecord::Base
       self.errors.add(:generic_errors, "Sudah memiliki detail")
       return self 
     end 
+    if self.amount > self.cash_bank.amount 
+      self.errors.add(:generic_errors, "Dana tidak mencukupi")
+      return self 
+    end
+    
     self.is_confirmed = true
     self.confirmed_at = params[:confirmed_at]
     if self.save

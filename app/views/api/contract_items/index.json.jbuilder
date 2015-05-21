@@ -11,6 +11,9 @@ json.contract_items @objects do |object|
 	json.customer_id					object.customer_id
 	json.customer_name				object.customer.name
 	json.contract_maintenance_id  object.contract_maintenance_id 
+  
+  
 end
+
 
 

@@ -9,6 +9,9 @@ class AdvancedPayment < ActiveRecord::Base
   validate :valid_home
   validate :valid_amount_and_duration
   
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
   
   def valid_home
     return if home_id.nil? 
@@ -134,6 +137,7 @@ class AdvancedPayment < ActiveRecord::Base
       Invoice.create_object(
         :source_id => self.id,
         :source_class => self.class.to_s,
+        :source_code => self.code,
         :invoice_date => self.confirmed_at, 
         :home_id => self.home_id,
         :amount => BigDecimal(self.amount/self.duration),

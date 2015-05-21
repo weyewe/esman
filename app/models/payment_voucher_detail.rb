@@ -5,6 +5,11 @@ class PaymentVoucherDetail < ActiveRecord::Base
   belongs_to :payable
   belongs_to :payment_voucher
   
+  
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
   def valid_payment_voucher
     return if  payment_voucher_id.nil?
     cb = PaymentVoucher.find_by_id payment_voucher_id

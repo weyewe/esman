@@ -26,8 +26,6 @@ Ext.define('AM.view.master.home.Form', {
 						mapping : "id"
 					}  
 			],
-			
-		 
 			proxy  	: {
 				type : 'ajax',
 				url : 'api/search_home_type',

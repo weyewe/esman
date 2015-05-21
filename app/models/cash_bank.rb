@@ -16,6 +16,10 @@ class CashBank < ActiveRecord::Base
     return new_object
   end
   
+  def self.active_objects
+    self
+  end
+  
   def update_object( params ) 
     self.name = params[:name]
     self.description = params[:description]

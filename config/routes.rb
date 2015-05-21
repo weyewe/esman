@@ -9,11 +9,15 @@ Ticketie::Application.routes.draw do
     put 'update_password' , :to => "passwords#update" , :as => :update_password
     get 'search_role' => 'roles#search', :as => :search_role, :method => :get
     get 'search_user' => 'app_users#search', :as => :search_user, :method => :get
+    get 'search_home' => 'homes#search', :as => :search_home, :method => :get
     get 'search_item_type' => 'item_types#search', :as => :search_item_type, :method => :get
     get 'search_home_type' => 'home_types#search', :as => :search_home_type, :method => :get
     get 'search_item' => 'items#search', :as => :search_item, :method => :get
     get 'search_customer' => 'customers#search', :as => :search_customer, :method => :get
     get 'search_vendor' => 'vendors#search', :as => :search_vendor, :method => :get
+    get 'search_cash_bank' => 'cash_banks#search', :as => :search_cash_bank, :method => :get
+    get 'search_payable' => 'payables#search', :as => :search_payable, :method => :get
+    get 'search_receivable' => 'receivables#search', :as => :search_receivable, :method => :get
     get 'work_customer_reports' => 'maintenances#customer_reports', :as => :work_customer_reports
     
     # master data 
@@ -29,6 +33,19 @@ Ticketie::Application.routes.draw do
     resources :home_assignments
     resources :vendors
     resources :payment_requests
+    resources :payment_vouchers
+    resources :payment_voucher_details
+    resources :cash_banks
+    resources :cash_bank_adjustments
+    resources :cash_bank_mutations
+    resources :cash_mutations
+    resources :invoices
+    resources :advanced_payments
+    resources :receipt_vouchers
+    resources :monthly_generators
+    resources :monthly_generator_invoices
+    resources :deposit_documents
+    
   end
   
   

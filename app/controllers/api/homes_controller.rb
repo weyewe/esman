@@ -79,10 +79,16 @@ class Api::HomesController < Api::BaseApiController
     @object = Home.find(params[:id])
     @object.delete_object
 
-    if @object.is_deleted
-      render :json => { :success => true, :total => Home.active_objects.count }  
-    else
-      render :json => { :success => false, :total => Home.active_objects.count }  
+    if not @object.is_deleted?
+      msg = {
+        :success => false, 
+        :message => {
+          :errors => extjs_error_format( @object.errors )  
+        }
+      }      
+      render :json => msg
+    else     
+      render :json => { :success => true, :total => PaymentRequest.active_objects.count }  
     end
   end
   
@@ -99,10 +105,10 @@ class Api::HomesController < Api::BaseApiController
     if  selected_id.nil?
       @objects = Home.active_objects.joins(:home_type).where{
                               (
-                                (name =~  livesearch ) | 
-                                (address =~  livesearch ) |
-                                (home_type.name =~ livesearch ) |
-                                (home_type.description =~ livesearch)
+                                (name =~  query ) | 
+                                (address =~  query ) |
+                                (home_type.name =~ query ) |
+                                (home_type.description =~ query)
                               )
                               }.
                         page(params[:page]).
@@ -111,10 +117,10 @@ class Api::HomesController < Api::BaseApiController
                         
       @total = Home.active_objects.joins(:home_type).where{ 
                               (
-                                (name =~  livesearch ) | 
-                                (address =~  livesearch ) |
-                                (home_type.name =~ livesearch ) |
-                                (home_type.description =~ livesearch)
+                                (name =~  query ) | 
+                                (address =~  query ) |
+                                (home_type.name =~ query ) |
+                                (home_type.description =~ query)
                               )
                               }.count
     else

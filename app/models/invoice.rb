@@ -1,9 +1,16 @@
 class Invoice < ActiveRecord::Base
-
+  
+  belongs_to :home
+  
+  def self.active_objects
+    self
+  end
+  
   def self.create_object (params)
      new_object = self.new
      new_object.source_id = params[:source_id]
      new_object.source_class = params[:source_class]
+     new_object.source_code = params[:source_code]
      new_object.home_id = params[:home_id]
      new_object.amount = BigDecimal( params[:amount] || '0')
      new_object.due_date = params[:due_date]
@@ -20,6 +27,7 @@ class Invoice < ActiveRecord::Base
   def update_object (params)
      self.source_id = params[:source_id]
      self.source_class = params[:source_class]
+     self.source_code = params[:source_code]
      self.home_id = params[:home_id]
      self.amount =  BigDecimal( params[:amount] || '0')
      self.due_date = params[:due_date]

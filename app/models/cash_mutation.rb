@@ -1,4 +1,8 @@
 class CashMutation < ActiveRecord::Base
+  belongs_to :cash_bank
+  def self.active_objects
+    self
+  end
   
   def self.create_object(params)
     new_object = self.new 
@@ -8,7 +12,7 @@ class CashMutation < ActiveRecord::Base
     new_object.status = params[:status]
     new_object.mutation_date = params[:mutation_date]
     new_object.cash_bank_id = params[:cash_bank_id] 
-    
+    new_object.source_code = params[:source_code]
     new_object.save 
     return self 
   end

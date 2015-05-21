@@ -10,6 +10,10 @@ class CashBankAdjustment < ActiveRecord::Base
   validate :valid_adjustment_status
   validate :valid_amount
   
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
   def valid_cash_bank
     return if  cash_bank_id.nil?
     
@@ -51,8 +55,8 @@ class CashBankAdjustment < ActiveRecord::Base
     new_object.status = params[:status]
     new_object.adjustment_date = params[:adjustment_date]
     new_object.description = params[:description]
-    new_object.code = params[:code]
-     
+    new_object.save
+    new_object.code = "Cadj-" + new_object.id.to_s  
     new_object.save
     
     return new_object
@@ -87,7 +91,12 @@ class CashBankAdjustment < ActiveRecord::Base
       return self 
     end
     
-    if params[:confirmed_at].nil? or not params[:confirmed_at].is_a?(DateTime)
+#     if params[:confirmed_at].nil? or not params[:confirmed_at].is_a?(DateTime)
+#       self.errors.add(:generic_errors, "Harus ada tanggal konfirmasi")
+#       return self 
+#     end
+    
+    if params[:confirmed_at].nil?
       self.errors.add(:generic_errors, "Harus ada tanggal konfirmasi")
       return self 
     end
@@ -114,14 +123,15 @@ class CashBankAdjustment < ActiveRecord::Base
         :amount => self.amount ,  
         :status => self.status,  
         :mutation_date => self.adjustment_date ,  
-        :cash_bank_id => self.cash_bank_id 
+        :cash_bank_id => self.cash_bank_id ,
+        :source_code => self.code
        ) 
   end
   
   def destroy_cash_mutation
     CashMutation.where(
         :source_class => self.class.to_s, 
-        :source_id => self.id 
+        :source_id => self.id
       ).each {|x| x.delete_object  }
   end
   

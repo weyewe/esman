@@ -1,6 +1,11 @@
 class MonthlyGenerator < ActiveRecord::Base
   validates_presence_of :generated_date 
   
+  def self.active_objects
+  self.where{
+      (is_deleted.eq false) 
+      }
+  end
   
   def self.create_object(params)
     new_object = self.new
@@ -74,6 +79,7 @@ class MonthlyGenerator < ActiveRecord::Base
         inv = Invoice.create_object(
           :source_id => self.id,
           :source_class => self.class.to_s,
+          :source_code => self.code,
           :invoice_date => self.generated_date, 
           :home_id => home.id,
           :amount => home.home_type.amount,

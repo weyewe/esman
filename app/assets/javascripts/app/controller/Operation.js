@@ -48,20 +48,44 @@ Ext.define("AM.controller.Operation", {
 	 
 
 	scheduledFolder : {
-		text 			: "Scheduled", 
+		text 			: "Operation", 
 		viewClass : '',
 		iconCls		: 'text-folder', 
     expanded	: true,
 		children 	: [
         
 			{ 
-				text:'Maintenance A', 
-				viewClass:'AM.view.operation.Maintenance', 
+				text:'Invoice', 
+				viewClass:'AM.view.operation.Invoice', 
 				leaf:true, 
 				iconCls:'text',
 				conditions : [
 				{
-					controller : 'maintenances',
+					controller : 'invoices',
+					action : 'index'
+				}
+				]
+			}, 
+     	{ 
+				text:'Advanced Payment', 
+				viewClass:'AM.view.operation.AdvancedPayment', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'advanced_payments',
+					action : 'index'
+				}
+				]
+			}, 
+      	{ 
+				text:'Monthly Generator', 
+				viewClass:'AM.view.operation.MonthlyGenerator', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'monthly_generators',
 					action : 'index'
 				}
 				]
@@ -74,6 +98,52 @@ Ext.define("AM.controller.Operation", {
 				conditions : [
 				{
 					controller : 'payment_requests',
+					action : 'index'
+				}
+				]
+			}, 
+			{ 
+				text:'DepositDocument', 
+				viewClass:'AM.view.operation.DepositDocument', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'deposit_documents',
+					action : 'index'
+				}
+				]
+			},  
+    ]
+	},
+  
+  financeFolder : {
+		text 			: "Finance", 
+		viewClass : '',
+		iconCls		: 'text-folder', 
+    expanded	: true,
+		children 	: [
+        
+			{ 
+				text:'PaymentVoucher', 
+				viewClass:'AM.view.operation.PaymentVoucher', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'payment_vouchers',
+					action : 'index'
+				}
+				]
+			}, 
+      { 
+				text:'ReceiptVoucher', 
+				viewClass:'AM.view.operation.ReceiptVoucher', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'receipt_vouchers',
 					action : 'index'
 				}
 				]
@@ -124,6 +194,7 @@ Ext.define("AM.controller.Operation", {
 		
 		me.folderList = [
 			this.scheduledFolder,
+      this.financeFolder
 			// this.emergencyFolder
 			// this.inventoryFolder,
 			// this.reportFolder,

@@ -235,7 +235,7 @@ Ext.define('AM.controller.PaymentRequests', {
 			form.setLoading(true);
 			record.save({
 				params : {
-					confirm: true 
+					unconfirm: true 
 				},
 				success : function(record){
 					form.setLoading(false);

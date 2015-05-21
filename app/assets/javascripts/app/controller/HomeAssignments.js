@@ -82,11 +82,9 @@ Ext.define('AM.controller.HomeAssignments', {
   },
 	onDestroy: function(){
 		// console.log("on Destroy the savings_entries list ");
-    console.log(" refreshing home assignment store" );
-    console.log("checking home assignment store");
-    console.log( this.getHomeAssignmentsStore() );
+
 		this.getHomeAssignmentsStore().loadData([],false);
-    console.log("finished refreshing the store");
+
 	},
 
 	liveSearch : function(grid, newValue, oldValue, options){

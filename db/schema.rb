@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519090837) do
+ActiveRecord::Schema.define(version: 20150521114952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,9 @@ ActiveRecord::Schema.define(version: 20150519090837) do
     t.boolean  "is_confirmed",                                 default: false
     t.text     "description"
     t.datetime "confirmed_at"
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",                                   default: false
+    t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -70,10 +73,29 @@ ActiveRecord::Schema.define(version: 20150519090837) do
   create_table "cash_mutations", force: true do |t|
     t.string   "source_class"
     t.integer  "source_id"
+    t.string   "source_code"
     t.decimal  "amount",        precision: 14, scale: 2, default: 0.0
     t.integer  "status",                                 default: 1
     t.datetime "mutation_date"
     t.integer  "cash_bank_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "deposit_documents", force: true do |t|
+    t.string   "code"
+    t.text     "description"
+    t.integer  "user_id"
+    t.integer  "home_id"
+    t.datetime "deposit_date"
+    t.decimal  "amount_deposit", precision: 14, scale: 2, default: 0.0
+    t.decimal  "amount_charge",  precision: 14, scale: 2, default: 0.0
+    t.boolean  "is_confirmed",                            default: false
+    t.datetime "confirmed_at"
+    t.boolean  "is_finished",                             default: false
+    t.datetime "finished_at"
+    t.boolean  "is_deleted",                              default: false
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -107,6 +129,7 @@ ActiveRecord::Schema.define(version: 20150519090837) do
   create_table "invoices", force: true do |t|
     t.integer  "source_id"
     t.string   "source_class"
+    t.string   "source_code"
     t.string   "code"
     t.integer  "home_id"
     t.decimal  "amount",       precision: 14, scale: 2, default: 0.0

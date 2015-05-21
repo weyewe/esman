@@ -76,10 +76,16 @@ class Api::HomeTypesController < Api::BaseApiController
     @object = HomeType.find(params[:id])
     @object.delete_object
 
-    if @object.is_deleted
-      render :json => { :success => true, :total => HomeType.active_objects.count }  
-    else
-      render :json => { :success => false, :total => HomeType.active_objects.count }  
+    if not @object.is_deleted?
+      msg = {
+        :success => false, 
+        :message => {
+          :errors => extjs_error_format( @object.errors )  
+        }
+      }      
+      render :json => msg
+    else     
+      render :json => { :success => true, :total => PaymentRequest.active_objects.count }  
     end
   end
   

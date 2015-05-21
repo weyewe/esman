@@ -91,7 +91,7 @@ Ext.define('AM.view.operation.paymentrequest.Form', {
        {
 					xtype: 'datefield',
 					name : 'request_date',
-					fieldLabel: 'Tanggal request',
+					fieldLabel: 'Tanggal Request',
 					format: 'Y-m-d',
 				},
         {

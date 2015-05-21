@@ -80,6 +80,16 @@ home_type_array = []
   home_type_array << home_type 
 end
 
+
+cash_bank_array = []
+["BCA", "MANDIRI", "BCA2", "MANDIRI2", "KAS"].each do |x|
+  cash_bank =  CashBank.create_object(
+    :name => x,
+    :description => "Description of #{x}",
+    )
+  cash_bank_array << cash_bank 
+end
+
 home_array = []
 total_home_type = home_type_array.length 
 (1.upto 20).each do |x|  

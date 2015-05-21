@@ -11,7 +11,9 @@ class PaymentRequest < ActiveRecord::Base
   
   
   def self.active_objects
-    self.where(:is_deleted => false)
+    self.where{
+      (is_deleted.eq false)
+      }
   end
   
   def valid_vendor
@@ -38,7 +40,6 @@ class PaymentRequest < ActiveRecord::Base
     new_object.request_date = params[:request_date]
     new_object.amount = params[:amount]
     new_object.description = params[:description]
-    new_object.code = params[:code]
     new_object.save
     new_object.code = "Pr-" + new_object.id.to_s  
     new_object.save

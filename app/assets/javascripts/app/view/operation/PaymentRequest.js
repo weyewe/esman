@@ -1,6 +1,6 @@
 Ext.define('AM.view.operation.PaymentRequest', {
     extend: 'AM.view.Worksheet',
-    alias: 'widget.homeProcess',
+    alias: 'widget.paymentrequestProcess',
 	 
 		
 		items : [

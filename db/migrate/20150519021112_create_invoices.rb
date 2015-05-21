@@ -3,6 +3,7 @@ class CreateInvoices < ActiveRecord::Migration
     create_table :invoices do |t|
       t.integer :source_id
       t.string :source_class
+      t.string :source_code
       t.string :code
       t.integer :home_id 
       t.decimal :amount , :default        => 0,  :precision => 14, :scale => 2

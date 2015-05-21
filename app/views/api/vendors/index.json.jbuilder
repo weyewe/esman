@@ -7,7 +7,7 @@ json.vendors @objects do |object|
 	json.name	object.name
   json.address	object.address
 	json.description	object.description	 
-
+  	 
 
 	
 end

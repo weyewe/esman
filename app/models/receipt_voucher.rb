@@ -5,6 +5,12 @@ class ReceiptVoucher < ActiveRecord::Base
   validate :valid_user
   belongs_to :receivable
   belongs_to :cash_bank
+  belongs_to :user
+  
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
   
   def valid_receivable
     return if  receivable_id.nil?
@@ -96,7 +102,8 @@ class ReceiptVoucher < ActiveRecord::Base
         :amount => self.amount ,  
         :status => ADJUSTMENT_STATUS[:addition],  
         :mutation_date => self.confirmed_at ,  
-        :cash_bank_id => self.cash_bank_id 
+        :cash_bank_id => self.cash_bank_id ,
+        :source_code => self.code
        ) 
   end
   

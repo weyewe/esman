@@ -1,5 +1,14 @@
 class Payable < ActiveRecord::Base
   belongs_to :payment_voucher
+  
+  
+  def self.active_objects
+  self.where{
+      (is_deleted.eq false)&
+      (remaining_amount.gt 0)
+      }
+  end
+  
   def self.create_object (params)
     new_object = self.new
     new_object.source_class = params[:source_class]

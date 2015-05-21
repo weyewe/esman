@@ -8,6 +8,10 @@ class CashBankMutation < ActiveRecord::Base
   validate :valid_amount
   
   
+  def self.active_objects
+    self.where(:is_deleted => false)
+  end
+  
   def valid_target_and_source
     return if target_cash_bank_id.nil? or source_cash_bank_id.nil?
     
@@ -46,9 +50,9 @@ class CashBankMutation < ActiveRecord::Base
     new_object.source_cash_bank_id = params[:source_cash_bank_id]
     new_object.amount =  BigDecimal( params[:amount] || '0')
     new_object.description = params[:description]
-    new_object.mutation_date = params[:mutation_date]
-   
-    
+    new_object.mutation_date = params[:mutation_date]   
+    new_object.save
+    new_object.code = "Cmt-" + new_object.id.to_s  
     new_object.save
     
     return new_object
@@ -91,7 +95,7 @@ class CashBankMutation < ActiveRecord::Base
       return self
     end
     
-    if params[:confirmed_at].nil? or not params[:confirmed_at].is_a?(DateTime)
+    if params[:confirmed_at].nil? 
       self.errors.add(:generic_errors, "Harus ada tanggal konfirmasi")
       return self 
     end
@@ -112,7 +116,8 @@ class CashBankMutation < ActiveRecord::Base
         :amount => self.amount,
         :status =>  ADJUSTMENT_STATUS[:addition],
         :mutation_date => self.mutation_date,
-        :cash_bank_id => self.target_cash_bank_id 
+        :cash_bank_id => self.target_cash_bank_id ,
+        :source_code => self.code
         )
       
      #       create cash mutation for targetcashbank
@@ -122,7 +127,8 @@ class CashBankMutation < ActiveRecord::Base
         :amount => self.amount,
         :status =>  ADJUSTMENT_STATUS[:deduction],
         :mutation_date => self.mutation_date,
-        :cash_bank_id => self.source_cash_bank_id 
+        :cash_bank_id => self.source_cash_bank_id ,
+        :source_code => self.code
         )
   
     end

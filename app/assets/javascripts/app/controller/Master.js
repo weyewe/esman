@@ -137,53 +137,101 @@ Ext.define("AM.controller.Master", {
 						action : 'index'
 					}
 				]
+			},
+     { 
+				text:'CashBank', 
+				viewClass:'AM.view.master.CashBank', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'cashbanks',
+						action : 'index'
+					}
+				]
+			},
+      { 
+				text:'CashBankAdjustment', 
+				viewClass:'AM.view.master.CashBankAdjustment', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'cashbankadjustments',
+						action : 'index'
+					}
+				]
+			},
+      { 
+				text:'CashBankMutation', 
+				viewClass:'AM.view.master.CashBankMutation', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'cashbankmutations',
+						action : 'index'
+					}
+				]
+			},
+      { 
+				text:'CashMutation', 
+				viewClass:'AM.view.master.CashMutation', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'cashmutations',
+						action : 'index'
+					}
+				]
 			}
     ]
 	},
 	
-	customerSetupFolder : {
-		text 			: "CustomerSetup", 
-		viewClass : '',
-		iconCls		: 'text-folder', 
-    expanded	: true,
-		children 	: [
+// 	customerSetupFolder : {
+// 		text 			: "CustomerSetup", 
+// 		viewClass : '',
+// 		iconCls		: 'text-folder', 
+//     expanded	: true,
+// 		children 	: [
         
-			{ 
-				text:'Item', 
-				viewClass:'AM.view.master.Item', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-					{
-						controller : 'items',
-						action : 'index'
-					}
-				]
-			}, 
-    ]
-	},
+// 			{ 
+// 				text:'Item', 
+// 				viewClass:'AM.view.master.Item', 
+// 				leaf:true, 
+// 				iconCls:'text',
+// 				conditions : [
+// 					{
+// 						controller : 'items',
+// 						action : 'index'
+// 					}
+// 				]
+// 			}, 
+//     ]
+// 	},
 	
-	reportFolder : {
-		text 			: "Employee Report", 
-		viewClass : '',
-		iconCls		: 'text-folder', 
-    expanded	: true,
-		children 	: [
+// 	reportFolder : {
+// 		text 			: "Employee Report", 
+// 		viewClass : '',
+// 		iconCls		: 'text-folder', 
+//     expanded	: true,
+// 		children 	: [
         
-			{ 
-				text:'By Customer', 
-				viewClass:'AM.view.master.report.employee.WorkCustomer', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-					{
-						controller : 'maintenances',
-						action : 'report'
-					}
-				]
-			}, 
-    ]
-	},
+// 			{ 
+// 				text:'By Customer', 
+// 				viewClass:'AM.view.master.report.employee.WorkCustomer', 
+// 				leaf:true, 
+// 				iconCls:'text',
+// 				conditions : [
+// 					{
+// 						controller : 'maintenances',
+// 						action : 'report'
+// 					}
+// 				]
+// 			}, 
+//     ]
+// 	},
 	   
 	 
 	onActiveProtectedContent: function( panel, options) {
