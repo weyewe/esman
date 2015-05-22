@@ -16,8 +16,16 @@ Ticketie::Application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+config.assets.digest = false
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  # config.assets.precompile += ['application.js', 
+  #         'application.css', 
+  #           'bootstrap-email.css', 
+  #           'bootstrap.css',
+  #           "fb/public.css"]
+
 
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
@@ -26,4 +34,10 @@ Ticketie::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+    config.assets.digest = true
+
+  # Adds additional error checking when serving assets at runtime.
+  # Checks for improperly declared sprockets dependencies.
+  # Raises helpful error messages.
+  config.assets.raise_runtime_errors = true
 end

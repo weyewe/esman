@@ -1,6 +1,12 @@
 Ticketie::Application.routes.draw do
   devise_for :users
-  root :to => 'home#index'
+  root :to => 'home#overview'
+  get 'tipe_properti' => 'home#property_type' 
+  get 'fasilitas' => 'home#facility' 
+  get 'lokasi' => 'home#location' 
+
+  get 'admin' => 'home#index'
+
   
   
   namespace :api do
