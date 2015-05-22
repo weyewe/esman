@@ -35,12 +35,11 @@ Ticketie::Application.configure do
             'application.css', 
               'bootstrap-email.css', 
               'bootstrap.css',
-              "fb/public.css",
-              "fb/logo.png"]
-  config.assets.precompile << 'fb/*.js'
+              "fb/public.css" ]
+  # config.assets.precompile << 'fb/*.js'
   config.assets.precompile << 'fb/*.jpg'
   config.assets.precompile << 'fb/*.png'
-  config.assets.precompile << 'fb/*.css'
+  # config.assets.precompile << 'fb/*.css'
   config.assets.precompile << 'fb/*.gif'
 
   # Generate digests for assets URLs.
