@@ -128,7 +128,7 @@ Ext.define("AM.controller.Authentication", {
 		me.getViewport().setLoading( true ) ;
 		Ext.Ajax.request({
 		    url: 'api/users/sign_out',
-		    method: 'DELETE',
+		    method: 'GET',
 		    params: {
 		    },
 		    jsonData: {},
