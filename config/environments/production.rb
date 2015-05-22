@@ -21,6 +21,7 @@ Ticketie::Application.configure do
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = true
+  config.serve_static_files = true 
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -32,10 +33,9 @@ Ticketie::Application.configure do
 
 
   config.assets.precompile += ['application.js', 
-            'application.css', 
+            'frontend.css',
               'bootstrap-email.css', 
-              'bootstrap.css',
-              "fb/public.css" ]
+              'bootstrap.css'  ]
   # config.assets.precompile << 'fb/*.js'
   config.assets.precompile << 'fb/*.jpg'
   config.assets.precompile << 'fb/*.png'

@@ -40,3 +40,4 @@ production:
   database: neosikki_production
   pool: 5
   username: weyewe
+  password: willy1234W

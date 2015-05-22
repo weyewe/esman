@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.1.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -53,9 +53,9 @@ gem 'bootstrap-sass', '~> 2.3.1.0'
 gem 'the_role', '~> 2.5.2'
 gem 'the_role_bootstrap3_ui'
 gem 'protected_attributes'
-gem 'squeel', :git => "git://github.com/ernie/squeel.git"
+gem 'squeel', :git => "git://github.com/activerecord-hackery/squeel.git"
  
-
+# https://github.com/activerecord-hackery/squeel.git
 group :production do
   gem 'rails_12factor'
 end
