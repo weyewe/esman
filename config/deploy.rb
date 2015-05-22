@@ -14,7 +14,8 @@ require 'mina/unicorn'
  
 set :domain, '128.199.148.227'
 set :deploy_to, '/var/www/sableng.com'
-set :repository, 'git://github.com/weyewe/play_mina_unicorn.git'
+# https://github.com/weyewe/esman.git
+set :repository, 'git://github.com/weyewe/esman.git'
 set :branch, 'master'
 set :user , 'deployer'
 set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
