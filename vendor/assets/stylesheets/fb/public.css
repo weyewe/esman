@@ -63,7 +63,7 @@ a:hover{
 .nav{
 	height:36px;
 	float:right;
-	background:url("/assets/fb/nav-fill.jpg")   repeat-x;
+	background: url("/assets/fb/nav-fill.jpg")   repeat-x;
 	margin-top:45px;
 }
 *+ html .nav{
@@ -74,14 +74,14 @@ a:hover{
 }
 .nav ul{
 	height:36px;
-	background:url("/assets/fb/nav-left.jpg")      no-repeat left;
+	background: url("/assets/fb/nav-left.jpg")      no-repeat left;
 	overflow:hidden;
 	float:right;
 }
 .nav ul li{
 	height:36px;
 	float:left;
-	background:url("/assets/fb/bar.jpg")  no-repeat right;
+	background: url("/assets/fb/bar.jpg")  no-repeat right;
 	padding-right:1px;
 }
 .nav ul a{
@@ -94,11 +94,11 @@ a:hover{
 	line-height:36px;
 }
 .nav ul a:hover,.nav ul #active{
-	background:url("/assets/fb/nav-hover-fill.jpg")     repeat-x;
+	background: url("/assets/fb/nav-hover-fill.jpg")     repeat-x;
 	text-decoration:none;
 }
 .nav ul .active{
-	background:url("/assets/fb/nav-hover-fill.jpg")   repeat-x;
+	background: url("/assets/fb/nav-hover-fill.jpg")   repeat-x;
 	text-decoration:none;
 }
 .nav ul .fast{
@@ -107,11 +107,11 @@ a:hover{
 	text-align:center;
 }
 .nav ul .fast:hover,.nav ul #selected, .nav ul .selected{
-	background:url("/assets/fb/home.gif")   no-repeat;
+	background: url("/assets/fb/home.gif")   no-repeat;
 }
 .nav ul li.last{
 	width:161px;
-	background:url("/assets/fb/purchase-and-pricing.gif")    no-repeat;
+	background: url("/assets/fb/purchase-and-pricing.gif")    no-repeat;
 	padding-right:0;
 }
 .nav ul li.last a{
