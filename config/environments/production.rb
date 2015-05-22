@@ -27,13 +27,20 @@ Ticketie::Application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
+  config.assets.compile = false
+
+
+
   config.assets.precompile += ['application.js', 
             'application.css', 
               'bootstrap-email.css', 
               'bootstrap.css',
               "fb/public.css",
               "fb/logo.png"]
+  config.assets.precompile << '*.js'
+  config.assets.precompile << '*.jpg'
+  config.assets.precompile << '*.png'
+  config.assets.precompile << '*.css'
 
   # Generate digests for assets URLs.
   config.assets.digest = true
