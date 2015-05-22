@@ -50,7 +50,7 @@ gem "kaminari"
 gem 'uuidtools'
 
 gem 'bootstrap-sass', '~> 2.3.1.0'
-gem 'the_role', '~> 2.5.2'
+gem 'the_role' #, '~> 2.5.2'
 gem 'the_role_bootstrap3_ui'
 gem 'protected_attributes'
 gem 'squeel', :git => "git://github.com/activerecord-hackery/squeel.git"

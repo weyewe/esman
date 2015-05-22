@@ -221,7 +221,7 @@ DEPENDENCIES
   sdoc
   simple_form
   squeel!
-  the_role (~> 2.5.2)
+  the_role
   the_role_bootstrap3_ui
   thin
   turbolinks
