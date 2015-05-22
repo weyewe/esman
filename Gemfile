@@ -34,6 +34,7 @@ gem 'turbolinks'
 
 gem 'thin'
 gem 'roadie' # for sending email 's css
+gem 'roadie-rails'
 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -55,8 +56,8 @@ gem 'bootstrap-sass', '~> 2.3.1.0'
 # gem 'the_role', '~> 3.0.0'
 
 gem 'the_role_api', '~> 3.0.0'
-gem 'protected_attributes'
-gem 'squeel', :git => "git://github.com/activerecord-hackery/squeel.git"
+gem 'protected_attributes', '~> 1.0.5'
+# gem 'squeel', :git => "git://github.com/activerecord-hackery/squeel.git"
  
 # https://github.com/activerecord-hackery/squeel.git
 group :production do

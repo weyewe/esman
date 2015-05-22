@@ -17,3 +17,4 @@ TheRole.configure do |config|
   # config.destroy_strategy = nil
 end
 
+

@@ -21,3 +21,5 @@ module Ticketie
     # config.i18n.default_locale = :de
   end
 end
+
+ROADIE_I_KNOW_ABOUT_VERSION_3 = true 
