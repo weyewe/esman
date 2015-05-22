@@ -49,15 +49,52 @@ class MonthlyGenerator < ActiveRecord::Base
     return self
   end
   
+  def validate_invoice_used_at_receipt_voucher
+    
+  end
+  
   def unconfirm_object
     if not self.is_confirmed? 
       self.errors.add(:generic_errors, "Belum di konfirmasi")
       return self
+    end   
+    rvl = Invoice.where(
+        :source_id => self.id,
+        :source_class => self.class.to_s, 
+        :is_deleted =>false
+        )
+    rvl.each do |x|  
+      invclass = x.class.to_s
+      invid = x.id
+      rv_count = ReceiptVoucher.joins(:receivable).where{
+        (
+          (receivable.source_class.eq invclass) &
+          (receivable.source_id.eq invid) &
+          (is_deleted.eq false)
+        )
+      }.count
+      if rv_count > 0
+        self.errors.add(:generic_errors, "Sudah di buat ReceiptVoucher")
+        return self
+      end
     end
-    
+        
     self.is_confirmed = false
     self.confirmed_at = nil
+    self.delete_invoice if self.save
     return self
+  end
+  
+  def delete_invoice
+    rvl = Invoice.where(
+      :source_id => self.id,
+      :source_class => self.class.to_s, 
+      :is_deleted =>false
+      )
+    rvl.each do |x|
+     x.unconfirm_object
+     x.delete_object
+    end
   end
   
   def generate_invoice
@@ -74,7 +111,8 @@ class MonthlyGenerator < ActiveRecord::Base
         ( invoice_date.lte end_of_month ) & 
         ( invoice_date.gt start_of_month ) & 
         ( home_id.eq home.id) & 
-        (( source_class.eq source_class_target) | (source_class.eq advance_payment_class) )
+        (( source_class.eq source_class_target) | (source_class.eq advance_payment_class) ) &
+        ( is_deleted.eq false)
         }.count == 0
         inv = Invoice.create_object(
           :source_id => self.id,

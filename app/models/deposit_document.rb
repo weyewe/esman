@@ -143,6 +143,20 @@ class DepositDocument < ActiveRecord::Base
       return self 
     end
     
+    rvclass = self.class.to_s
+    rvid = self.id
+    rv_count = ReceiptVoucher.joins(:receivable).where{
+      (
+        (receivable.source_class.eq rvclass) &
+        (receivable.source_id.eq rvid) &
+        (is_deleted.eq false)
+      )
+      }.count
+    if rv_count > 0
+      self.errors.add(:generic_errors, "Sudah di buat ReceiptVoucher")
+      return self 
+    end
+    
     self.is_confirmed = false
     self.confirmed_at = nil
     self.delete_receivable if self.save
@@ -155,7 +169,12 @@ class DepositDocument < ActiveRecord::Base
     end
     
     if self.is_finished?
-      self.errors.add(:generic_errors, "Sudah elesai")
+      self.errors.add(:generic_errors, "Sudah selesai")
+      return self
+    end
+    
+    if self.amount_deposit < BigDecimal(params[:amount_charge])
+      self.errors.add(:amount_charge, "Tidak Boleh melebihi Amount Deposit")
       return self
     end
     
@@ -169,6 +188,20 @@ class DepositDocument < ActiveRecord::Base
     if not self.is_finished?
       self.errors.add(:generic_errors, "belum selesai")
       return self 
+    end
+    
+    prclass = self.class.to_s
+    prid = self.id
+    payment_voucher_count = PaymentVoucherDetail.joins(:payable).where{
+      (
+        (payable.source_class.eq prclass) &
+        (payable.source_id.eq prid) &
+        (is_deleted.eq false)
+      )
+      }.count
+    if payment_voucher_count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di PaymentVoucher")
+      return self
     end
     
     self.is_finished = false

@@ -66,30 +66,30 @@ Ext.define("AM.controller.Master", {
 				}
 				]
 			}, 
-			{ 
-				text:'Customer', 
-				viewClass:'AM.view.master.Customer', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-				{
-					controller : 'customers',
-					action : 'index'
-				}
-				]
-			},
-			{ 
-				text:'Item Type', 
-				viewClass:'AM.view.master.ItemType', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-					{
-						controller : 'item_types',
-						action : 'index'
-					}
-				]
-			} ,
+// 			{ 
+// 				text:'Customer', 
+// 				viewClass:'AM.view.master.Customer', 
+// 				leaf:true, 
+// 				iconCls:'text',
+// 				conditions : [
+// 				{
+// 					controller : 'customers',
+// 					action : 'index'
+// 				}
+// 				]
+// 			},
+// 			{ 
+// 				text:'Item Type', 
+// 				viewClass:'AM.view.master.ItemType', 
+// 				leaf:true, 
+// 				iconCls:'text',
+// 				conditions : [
+// 					{
+// 						controller : 'item_types',
+// 						action : 'index'
+// 					}
+// 				]
+// 			} ,
       { 
 				text:'Home', 
 				viewClass:'AM.view.master.Home', 
@@ -189,49 +189,49 @@ Ext.define("AM.controller.Master", {
     ]
 	},
 	
-// 	customerSetupFolder : {
-// 		text 			: "CustomerSetup", 
-// 		viewClass : '',
-// 		iconCls		: 'text-folder', 
-//     expanded	: true,
-// 		children 	: [
+	customerSetupFolder : {
+		text 			: "CustomerSetup", 
+		viewClass : '',
+		iconCls		: 'text-folder', 
+    expanded	: true,
+		children 	: [
         
-// 			{ 
-// 				text:'Item', 
-// 				viewClass:'AM.view.master.Item', 
-// 				leaf:true, 
-// 				iconCls:'text',
-// 				conditions : [
-// 					{
-// 						controller : 'items',
-// 						action : 'index'
-// 					}
-// 				]
-// 			}, 
-//     ]
-// 	},
+			{ 
+				text:'Item', 
+				viewClass:'AM.view.master.Item', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'items',
+						action : 'index'
+					}
+				]
+			}, 
+    ]
+	},
 	
-// 	reportFolder : {
-// 		text 			: "Employee Report", 
-// 		viewClass : '',
-// 		iconCls		: 'text-folder', 
-//     expanded	: true,
-// 		children 	: [
+	reportFolder : {
+		text 			: "Employee Report", 
+		viewClass : '',
+		iconCls		: 'text-folder', 
+    expanded	: true,
+		children 	: [
         
-// 			{ 
-// 				text:'By Customer', 
-// 				viewClass:'AM.view.master.report.employee.WorkCustomer', 
-// 				leaf:true, 
-// 				iconCls:'text',
-// 				conditions : [
-// 					{
-// 						controller : 'maintenances',
-// 						action : 'report'
-// 					}
-// 				]
-// 			}, 
-//     ]
-// 	},
+			{ 
+				text:'By Customer', 
+				viewClass:'AM.view.master.report.employee.WorkCustomer', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+					{
+						controller : 'maintenances',
+						action : 'report'
+					}
+				]
+			}, 
+    ]
+	},
 	   
 	 
 	onActiveProtectedContent: function( panel, options) {
@@ -241,9 +241,9 @@ Ext.define("AM.controller.Master", {
 		
 		me.folderList = [
 			this.setupFolder,
-			this.customerSetupFolder,
-			// this.inventoryFolder,
-			this.reportFolder,
+// 			this.customerSetupFolder,
+// 			// this.inventoryFolder,
+// 			this.reportFolder,
 			// this.projectReportFolder
 		];
 		

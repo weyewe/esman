@@ -160,7 +160,7 @@ class CashBankAdjustment < ActiveRecord::Base
   end
    
   
-  def delete_object(params)
+  def delete_object
     if self.is_confirmed?
       self.errors.add(:generic_errors, "Sudah di konfirmasi")
       return self 

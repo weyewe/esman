@@ -29,7 +29,18 @@ class Vendor < ActiveRecord::Base
     return self
   end
   
-  def delete_object()
+  def delete_object
+    if PaymentRequest.where(:vendor_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di PaymentRequest")
+      return self
+    end
+    if PaymentVoucher.where(:vendor_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di PaymentVoucher")
+      return self
+    end
+    self.is_deleted = true
+    self.deleted_at = DateTime.now
+    return self
     self.destroy
   end
 end

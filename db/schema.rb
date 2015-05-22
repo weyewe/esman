@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 20150521114952) do
     t.text     "description"
     t.boolean  "is_bank",                              default: true
     t.decimal  "amount",      precision: 14, scale: 2, default: 0.0
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",                           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -114,6 +116,8 @@ ActiveRecord::Schema.define(version: 20150521114952) do
     t.string   "name"
     t.text     "description"
     t.decimal  "amount",      precision: 14, scale: 2, default: 0.0
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",                           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -122,6 +126,8 @@ ActiveRecord::Schema.define(version: 20150521114952) do
     t.string   "name"
     t.text     "address"
     t.integer  "home_type_id"
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -273,6 +279,8 @@ ActiveRecord::Schema.define(version: 20150521114952) do
     t.string   "name"
     t.text     "address"
     t.text     "description"
+    t.datetime "deleted_at"
+    t.boolean  "is_deleted",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -4,6 +4,8 @@ class CreateVendors < ActiveRecord::Migration
       t.string :name
       t.text   :address
       t.text   :description
+      t.datetime :deleted_at 
+      t.boolean :is_deleted, :default => false 
       t.timestamps
     end
   end

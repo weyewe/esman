@@ -24,7 +24,7 @@ class Home < ActiveRecord::Base
   end
   
   def self.active_objects
-    self
+    self.where(:is_deleted => false)
   end
   
   def self.create_object(params)
@@ -44,8 +44,22 @@ class Home < ActiveRecord::Base
     return self
   end
   
-  def delete_object()
-    self.destroy
+  def delete_object
+    if Invoice.where(:home_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di Invoice")
+      return self
+    end
+    if AdvancedPayment.where(:home_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di AdvancedPayment")
+      return self
+    end
+    if HomeAssignment.where(:home_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di HomeAsssignment")
+      return self
+    end
+    self.is_deleted = true
+    self.deleted_at = DateTime.now
+    return self
   end
 
 end

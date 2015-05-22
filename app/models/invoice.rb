@@ -3,7 +3,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :home
   
   def self.active_objects
-    self
+    self.where(:is_deleted => false)
   end
   
   def self.create_object (params)
@@ -53,11 +53,29 @@ class Invoice < ActiveRecord::Base
       )
   end
   
+  def delete_receivable
+    rvl = Receivable.where(
+      :source_id =>self.id,
+      :source_class => self.class.to_s, 
+      :is_deleted =>false
+      )
+    rvl.each do |x|
+     x.delete_object
+    end
+  end
+  
   def confirm_object (params)
     self.is_confirmed = true
     self.confirmed_at = params[:confirmed_at]
     self.generate_receivable if self.save  
+    return self
   end
-    
+  
+  def unconfirm_object
+    self.is_confirmed = false
+    self.confirmed_at = nil
+    self.delete_receivable if self.save    
+  end
+  
   
 end

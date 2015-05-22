@@ -33,7 +33,11 @@ class HomeType < ActiveRecord::Base
     return self
   end
   
-  def delete_object(params)  
+  def delete_object
+    if Home.where(:home_type_id => self.id,:is_deleted => false).count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di Home")
+      return self
+    end
     self.is_deleted = true
     self.deleted_at = DateTime.now
     self.save

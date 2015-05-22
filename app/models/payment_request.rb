@@ -100,7 +100,19 @@ class PaymentRequest < ActiveRecord::Base
       self.errors.add(:generic_errors, "belum di konfirmasi")
       return self 
     end
-    
+    prclass = self.class.to_s
+    prid = self.id
+    payment_voucher_count = PaymentVoucherDetail.joins(:payable).where{
+      (
+        (payable.source_class.eq prclass) &
+        (payable.source_id.eq prid) &
+        (is_deleted.eq false)
+      )
+      }.count
+    if payment_voucher_count > 0
+      self.errors.add(:generic_errors, "Sudah terpakai di PaymentVoucher")
+      return self
+    end
     self.is_confirmed = false
     self.confirmed_at = nil
     if self.save
@@ -113,6 +125,7 @@ class PaymentRequest < ActiveRecord::Base
       self.errors.add(:generic_errors, "Sudah di konfirmasi")
       return self 
     end
+ 
     self.is_deleted = true
     self.deleted_at = DateTime.now
     self.save

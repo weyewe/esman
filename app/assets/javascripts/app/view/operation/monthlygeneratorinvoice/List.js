@@ -12,6 +12,7 @@ Ext.define('AM.view.operation.monthlygeneratorinvoice.List' ,{
 			{ header: 'Code',  dataIndex: 'code', flex: 1},
 			{	header: 'Source', dataIndex: 'source_class', flex: 1 } ,
       {	header: 'Source Code', dataIndex: 'source_code', flex: 1 } ,
+      {	header: 'Home', dataIndex: 'home_name', flex: 1 } ,
       {	header: 'Amount', dataIndex: 'amount', flex: 1 }, 
       {	header: 'Deskripsi', dataIndex: 'description', flex: 1 },
       {	header: 'Tanggal Invoice', dataIndex: 'invoice_date', flex: 1 },

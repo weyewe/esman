@@ -11,6 +11,7 @@ Ext.define('AM.view.operation.invoice.List' ,{
 			{ header: 'Code',  dataIndex: 'code', flex: 1},
 			{	header: 'Source', dataIndex: 'source_class', flex: 1 } ,
       {	header: 'Source Code', dataIndex: 'source_code', flex: 1 } ,
+      {	header: 'Home', dataIndex: 'home_name', flex: 1 } ,
       {	header: 'Amount', dataIndex: 'amount', flex: 1 }, 
       {	header: 'Deskripsi', dataIndex: 'description', flex: 1 },
       {	header: 'Tanggal Invoice', dataIndex: 'invoice_date', flex: 1 },
@@ -48,26 +49,26 @@ Ext.define('AM.view.operation.invoice.List' ,{
 	},
 
 	enableRecordButtons: function(record) {
-		this.editObjectButton.enable();
-		this.deleteObjectButton.enable();
-    this.confirmObjectButton.enable();
-    this.unconfirmObjectButton.enable();
+// 		this.editObjectButton.enable();
+// 		this.deleteObjectButton.enable();
+//     this.confirmObjectButton.enable();
+//     this.unconfirmObjectButton.enable();
     
-    selectedObject = this.getSelectedObject();
-		if( selectedObject && selectedObject.get("is_confirmed") == true ){
-			this.confirmObjectButton.hide();
-			this.unconfirmObjectButton.show();
-		}else{
-			this.confirmObjectButton.show();
-			this.unconfirmObjectButton.hide();
-		}
+//     selectedObject = this.getSelectedObject();
+// 		if( selectedObject && selectedObject.get("is_confirmed") == true ){
+// 			this.confirmObjectButton.hide();
+// 			this.unconfirmObjectButton.show();
+// 		}else{
+// 			this.confirmObjectButton.show();
+// 			this.unconfirmObjectButton.hide();
+// 		}
 		 
 	},
 
 	disableRecordButtons: function(record) {
-		this.editObjectButton.disable();
-		this.deleteObjectButton.disable();
-    this.confirmObjectButton.disable();
-    this.unconfirmObjectButton.disable();
+// 		this.editObjectButton.disable();
+// 		this.deleteObjectButton.disable();
+//     this.confirmObjectButton.disable();
+//     this.unconfirmObjectButton.disable();
 	}
 });

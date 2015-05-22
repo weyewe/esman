@@ -6,12 +6,14 @@ class Api::MonthlyGeneratorInvoicesController < Api::BaseApiController
     
     @objects = Invoice.where(
       :source_id => @object.id, 
-      :source_class => @object.class.to_s 
+      :source_class => @object.class.to_s,
+      :is_deleted => false
       ).page(params[:page]).per(params[:limit]).order("id DESC")
     
     @total = Invoice.where(
       :source_id => @object.id, 
-      :source_class => @object.class.to_s 
+      :source_class => @object.class.to_s,
+      :is_deleted => false
       ).count
     
     

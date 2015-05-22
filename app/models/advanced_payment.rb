@@ -169,7 +169,19 @@ class AdvancedPayment < ActiveRecord::Base
       self.errors.add(:generic_errors, "belum di konfirmasi")
       return self 
     end
-    
+    rvclass = self.class.to_s
+    rvid = self.id
+    rv_count = ReceiptVoucher.joins(:receivable).where{
+      (
+        (receivable.source_class.eq rvclass) &
+        (receivable.source_id.eq rvid) &
+        (is_deleted.eq false)
+      )
+      }.count
+    if rv_count > 0
+      self.errors.add(:generic_errors, "Sudah di buat ReceiptVoucher")
+      return self 
+    end
     self.is_confirmed = false
     self.confirmed_at = nil
     if self.save

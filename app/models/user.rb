@@ -56,12 +56,23 @@ class User < ActiveRecord::Base
    end
 
    def delete_object 
-
-     random_password                    = UUIDTools::UUID.timestamp_create.to_s[0..7]
-     self.password = random_password
-     self.password_confirmation = random_password 
-     self.is_deleted = true 
-     self.save 
+      if HomeAssignment.where(:user_id => self.id,:is_deleted => false).count > 0
+         self.errors.add(:generic_errors, "Sudah terpakai di HomeAssignment")
+        return self
+      end
+      if ReceiptVoucher.where(:user_id => self.id,:is_deleted => false).count > 0
+         self.errors.add(:generic_errors, "Sudah terpakai di ReceiptVoucher")
+        return self
+      end
+      if DepositDocument.where(:user_id => self.id,:is_deleted => false).count > 0
+       self.errors.add(:generic_errors, "Sudah terpakai di DepositDocument")
+        return self
+      end
+      random_password                    = UUIDTools::UUID.timestamp_create.to_s[0..7]
+      self.password = random_password
+      self.password_confirmation = random_password 
+      self.is_deleted = true 
+      self.save 
 
    end
 
