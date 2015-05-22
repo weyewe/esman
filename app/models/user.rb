@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  include TheRole::User
+  # include TheRole::User
+  include TheRole::Api::User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
