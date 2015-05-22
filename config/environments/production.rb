@@ -32,7 +32,8 @@ Ticketie::Application.configure do
             'application.css', 
               'bootstrap-email.css', 
               'bootstrap.css',
-              "fb/public.css"]
+              "fb/public.css",
+              "fb/logo.png"]
 
   # Generate digests for assets URLs.
   config.assets.digest = true
