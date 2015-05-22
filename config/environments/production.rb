@@ -41,6 +41,7 @@ Ticketie::Application.configure do
   config.assets.precompile << 'fb/*.jpg'
   config.assets.precompile << 'fb/*.png'
   config.assets.precompile << 'fb/*.css'
+  config.assets.precompile << 'fb/*.gif'
 
   # Generate digests for assets URLs.
   config.assets.digest = true
