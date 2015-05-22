@@ -1,0 +1,26 @@
+<h1>List of Outstanding Invoice</h1>
+<br /> <br />
+
+
+<div class='paginator'>
+	<table style="width:100%;">
+	  <tr>
+	    <td>Home</td>
+	    <td>Address</td>  
+	    <td>Description</td>  
+	    <td>Tenant</td>  
+	    <td>Location</td>
+	  </tr>
+		<% @objects.each do |object| %>
+			<tr>
+				<td><%= object.name %></td>
+				<td><%= object.address %></td>  
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		<% end %> 
+	  
+	 </table>
+	<%= paginate @objects %>
+</div>

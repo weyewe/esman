@@ -1,0 +1,34 @@
+<html>
+  <head> 
+    <title>PnBIT application</title>
+
+
+    <%= stylesheet_link_tag 'http://s3-ap-southeast-1.amazonaws.com/ext-player/resources/css/ext-all.css', 
+              'application'       %>
+
+
+    <% if Rails.env.production? %>
+      <%= javascript_include_tag "#{EXT_41_JS}",
+              # 'ux', 
+              "#{EXTENSIBLE}",
+              "application" %>
+    <% else %>
+    <%= javascript_include_tag  "#{EXT_41_JS}", #'ext-all-debug-w-comments', 
+                        # 'ux',
+                         "#{EXTENSIBLE}", 
+                        "application" %> 
+    <% end %> 
+
+    <style>
+  /*        .sample-ct {      
+            height: 500px;
+        }*/
+    </style>
+
+    <%= csrf_meta_tag %>
+
+  </head>
+  <body>
+    <%= yield %>  
+  </body>
+</html>

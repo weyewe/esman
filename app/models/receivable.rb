@@ -33,6 +33,8 @@ class Receivable < ActiveRecord::Base
   def update_remaining_amount (amount)
     self.remaining_amount += amount
     self.save
+ 
+
     return self
   end
   

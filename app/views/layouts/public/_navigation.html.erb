@@ -1,12 +1,50 @@
 <div class="nav">
-					<ul>
-    	<li><%=  link_to "Home", root_url  %> </li>
-       	<li><%= link_to "Tipe Properti",  tipe_properti_url  %></li>
-		<li><%= link_to "Fasilitas",  fasilitas_url  %></li>
+    <ul>
 
-		<li><%= link_to "Lokasi",  lokasi_url  %></li>
+    	<li>
+            <% if params[:controller] == "home" && params[:action] == "overview" %>
+                <%=  link_to "Home", root_url , :class => "selected fast" %> 
+            <% else %>
+                <%=  link_to "Home", root_url  %> 
+            <% end %> 
+            
+        </li>
+       	<li>
+            <% if params[:controller] == "home" && params[:action] == "property_type" %>
+                <%= link_to "Tipe Properti",  tipe_properti_url , :class => "active" %>
+            <% else %>
+                <%= link_to "Tipe Properti",  tipe_properti_url  %>
+            <% end %> 
+        </li>
+		<li>
+            <% if params[:controller] == "home" && params[:action] == "facility" %>
+                <%= link_to "Fasilitas",  fasilitas_url , :class => "active" %>
+            <% else %>
+               <%= link_to "Fasilitas",  fasilitas_url  %>
+            <% end %> 
+
+            
+        </li>
+
+		<li>
+            <% if params[:controller] == "home" && params[:action] == "location" %>
+                <%= link_to "Lokasi",  lokasi_url, :class => "active"  %>
+            <% else %>
+               <%= link_to "Lokasi",  lokasi_url  %>
+            <% end %> 
+
+            
+        </li>
 
         <!-- <li><a class="" href="http://futsalbilling.com/demo.php">Lokasi</a></li> -->
-        <li class="last"><a href="http://futsalbilling.com/purchase.php">Login Warga</a></li>
+        <li class="last">
+            <% if current_user %>
+                <%= link_to "Logout", destroy_user_session_url  %>
+            <% else %>
+                <%= link_to "Login Warga", new_user_session_path  %>
+            <% end %> 
+        	
+        	<!-- <a href="http://futsalbilling.com/purchase.php">Login Warga</a> -->
+        </li>
     </ul>
 </div>

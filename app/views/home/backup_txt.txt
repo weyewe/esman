@@ -1,0 +1,71 @@
+
+
+	 
+	 <!--start of wraper-->
+     <div class="outer">
+     	<div class="wraper">
+        <!--start of banner-->
+	    	<div class="banner">
+                <div class="contactBanner">
+                    <h1 style="color:#296da0;">Login Warga</h1>
+                </div>
+            </div>
+            <!--end of banner-->
+            <!--start of mainbody-->
+            <div class="mainbody">
+	      		<!--start of center-->
+    	        <div class="center">
+    	        	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
+    	        	<%#= simple_form_for @user , session_path(@user) do |f| %>
+					  <%= f.input :email %>
+					  <%= f.input :password %>
+					  <%= f.button :submit %>
+					<% end %>
+<!-- 
+
+        	        <dl class="contactForm">
+                        <div id="ctl00_main_pnlForm">
+            	            <dd>
+                	            <p>Isi email anda, dan anda akan diberikan akses untuk live demo online.</p>
+                            </dd>
+                            <dd>
+                                <p></p>
+								<form action="http://futsalbilling.com/mail.php" method="POST" style="margin-top: 30px;">
+                                <p><label>Email:</label><input name="email" type="text" id="ctl00_main_email">&nbsp;&nbsp;</p>
+                                <p><input type="image" id="ctl00_main_cmd" class="submitBtn" alt="Submit" src="./login_files/submit.gif" style="border-width:0px;"></p>
+								</form>
+            	            </dd>
+						</div>
+                    </dl>
+                
+ -->
+                </div>
+                <!--end of center-->
+				
+				
+                <div class="mainBottom"><p><a href="http://futsalbilling.com/purchase.php">Lihat harga</a>, 
+                   atau <a href="http://futsalbilling.com/tour.php">Pelajari lebih lanjut</a></p>
+				</div>
+            </div>
+            <!--end of mainbody-->
+      	</div>
+  	</div>
+
+  	<!-- <h2>Sign in WILLY</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, autofocus: true %></div>
+
+  <div><%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %></div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+  <% end -%>
+
+  <div><%= f.submit "Sign in" %></div>
+<% end %>
+
+<%= render "users/shared/links" %>
+ -->

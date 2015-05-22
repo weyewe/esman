@@ -14,6 +14,10 @@ class CreateInvoices < ActiveRecord::Migration
       t.datetime :confirmed_at
       t.boolean :is_deleted , :default =>false
       t.datetime :deleted_at
+
+      t.boolean :is_paid , :default => false 
+      t.datetime :paid_at  
+
       t.timestamps
     end
   end

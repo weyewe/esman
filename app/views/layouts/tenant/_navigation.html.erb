@@ -1,0 +1,21 @@
+<div class="nav">
+	<ul>
+    	<li>
+            <% if params[:controller] == "tenant_reports" && params[:action] == "outstanding_invoice" %>
+                <%=  link_to "Pending", tenant_outstanding_invoice_url , :class => "selected fast"  %>  
+            <% else %>
+                <%=  link_to "Pending", tenant_outstanding_invoice  %> 
+            <% end %> 
+
+            
+        </li>
+       	<!-- <li><%= link_to "History",  tipe_properti_url  %></li>  -->
+		<!-- <li><%= link_to "Report",  lokasi_url  %></li> -->
+
+        <!-- <li><a class="" href="http://futsalbilling.com/demo.php">Lokasi</a></li> -->
+        <li class="last">
+        	<%= link_to "Logout", destroy_user_session_url  %>
+        	<!-- <a href="http://futsalbilling.com/purchase.php">Login Warga</a> -->
+        </li>
+    </ul>
+</div>

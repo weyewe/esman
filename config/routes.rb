@@ -1,9 +1,15 @@
 Ticketie::Application.routes.draw do
   devise_for :users
+  
   root :to => 'home#overview'
   get 'tipe_properti' => 'home#property_type' 
   get 'fasilitas' => 'home#facility' 
   get 'lokasi' => 'home#location' 
+
+  get 'tenant_outstanding_invoice' => 'tenant_reports#outstanding_invoice'
+  get 'tenant_invoice_history' => 'tenant_reports#tenant_invoice_history'
+
+
 
   get 'admin' => 'home#index'
 

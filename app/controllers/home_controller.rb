@@ -1,22 +1,23 @@
 class HomeController < ApplicationController
+
+  
+  skip_before_filter :authenticate_user!
+
   def index
+    render layout: "extjs"
   end
 
 
 
-  def overview
-	render layout: "public"
+  def overview 
   end
 
-  def property_type
-  	render layout: "public"
+  def property_type 
   end
 
-  def facility
-  	render layout: "public"
+  def facility 
   end
 
-  def location
-  	render layout: "public"
+  def location 
   end
 end
