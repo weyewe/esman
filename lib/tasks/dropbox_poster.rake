@@ -20,6 +20,25 @@ task :post_to_dropbox => :environment do
     
 end
 
+task :local_report => :environment do
+  WickedPdf.config = {
+    exe_path:  '/usr/bin/wkhtmltopdf'
+  }
+
+  a = GroupLoanWeeklyCollectionReportsController.new
+  html = a.print( 5 )
+
+  pdf = WickedPdf.new.pdf_from_string(html,{
+   orientation:  'Landscape',
+   :page_size => "Letter"
+  })
+  
+  File.open("#{Rails.root}/awesome/file.pdf", 'wb') do |file|
+    file << pdf
+  end
+
+end 
+
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
   temporary_folder = "#{folder_location}/temporary"
@@ -71,6 +90,10 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
 
 end
+
+# cd /var/www/sableng.com/current ; bundle exec rake generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox
+# 
+
 
 =begin
 	

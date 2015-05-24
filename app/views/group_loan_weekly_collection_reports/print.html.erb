@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>LKS</title>
-    <%= wicked_pdf_stylesheet_link_tag "application" %>
-    <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+    <%#= wicked_pdf_stylesheet_link_tag "application" %>
+    <link rel="stylesheet" 
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <style>
       @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
       body, h1, h2, h3, h4, h5, h6{
@@ -17,12 +18,9 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-6">
-          <h1>
-            <a href="https://twitter.com/tahirtaous">
+          <h1> 
               <%= wicked_pdf_image_tag 'logo.png' %>
-            <!-- <img src="logo.png"> -->
-            <!-- Logo here -->
-            </a>
+          
           </h1>
         </div>
         <div class="col-xs-6 text-right">
