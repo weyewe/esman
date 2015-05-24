@@ -1,6 +1,7 @@
 require 'dropbox_sdk'
 require 'fileutils'
 require "pdf/merger"
+require 'rjb'
 
 task :post_to_dropbox => :environment do
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
@@ -60,7 +61,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   pdf.save_as result_pdf , failure_list
 
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
-  
+
   file = open( result_pdf )
 
   dropbox_file_location  = "/willy/#{result_filename}.txt"

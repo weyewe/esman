@@ -28,6 +28,7 @@ gem 'dropbox-sdk'
 gem 'httparty'
 gem 'json'
 gem 'pdf-merger'
+gem 'rjb'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
