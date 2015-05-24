@@ -125,7 +125,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
     puts "id: #{x}"
 
     a = GroupLoanWeeklyCollectionReportsController.new
-    html = a.print( id )
+    html = a.print( x )
 
     pdf = WickedPdf.new.pdf_from_string(html,{
      orientation:  'Landscape',
