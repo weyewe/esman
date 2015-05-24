@@ -4,6 +4,7 @@ require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 require 'mina/unicorn'
 # require 'mina/rvm'    # for rvm support. (http://rvm.io)
+require 'mina/whenever'
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -63,6 +64,9 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/secrets.yml"]
   queue %[echo "-----> Be sure to edit 'shared/config/secrets.yml'."]
 
+  queue! %[touch "#{deploy_to}/shared/config/secret_ruby.rb"]
+  queue %[echo "-----> Be sure to edit 'shared/config/secret_ruby.rb'."]
+
   # sidekiq needs a place to store its pid file and log file
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
@@ -95,6 +99,7 @@ task :deploy => :environment do
     # end
     to :launch do
       invoke :'unicorn:restart'
+      # invoke :'whenever:update'
     end
   end
 end

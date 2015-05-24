@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://futsalbilling.com/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>
+	Green Mansion
+</title>
+
+<%= stylesheet_link_tag "frontend" %>
+<!-- <link href="./FutsalBilling - Pro Billing Futsal Software_files/styles.css" rel="stylesheet" type="text/css"> -->
+<!-- Favicon --> 
+<link rel="shortcut icon" href="http://futsalbilling.com/favicon.ico">
+
+
+
+<meta name="description" content="Manajemen bisnis lapangan futsal menjadi simple. Tidak ada double booking dan mempercepat pelaporan keuangan">
+<meta name="keywords" content="Futsal, Billing, Futsal Billing, Billing Software, Billing Software Jakarta">
+</head>
+
+<body>
+	 	 <!--start of header-->
+     <div class="outerhdr">
+	 	<div class="header">
+        	<a href="http://futsalbilling.com/index.php" class="logo">
+                <%= image_tag "fb/logo.png" %> 
+            </a>
+
+            <%= render :partial => "/layouts/public/navigation" %>
+
+        </div>
+     </div>
+
+     <%= yield %>
+     <!--end of header-->	 
+
+    
+		<!--start of footer-->
+    <div class="outerftr">
+    	<div class="footer">
+	    	<p><small>© Teddy Tee</small></p>
+	                
+	        <a class="ftrLogo" href="http://futsalbilling.com/index.php">
+                <%= image_tag "fb/footer_logo.png"   %>  
+        </div>
+    </div>
+    <!--end of footer-->
+    
+    
+
+
+</body></html>

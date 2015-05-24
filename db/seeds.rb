@@ -11,7 +11,7 @@ admin_role = Role.create!(
   :the_role    => role.to_json
 )
 
-admin_role = TheRole.create_admin!
+# admin_role = TheRole.create_admin!
 
 # update admin_role
 # https://github.com/TheRole/docs/blob/master/MigrationsFromV2.md
