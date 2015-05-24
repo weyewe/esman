@@ -95,13 +95,14 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
 
   id_list = []
-  counter = 0 
+  # counter = 0 
   server_response["group_loan_weekly_collection_reports"].each do |row|
-    break if counter == 5
+    # break if counter == 5
     id_list << row["id"]
-    counter = counter + 1
+    # counter = counter + 1
   end
 
+  puts "total : #{id_list.size}"
   puts "id_list: #{id_list}"
 
 
