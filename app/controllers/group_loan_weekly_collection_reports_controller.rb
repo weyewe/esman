@@ -13,11 +13,32 @@ class GroupLoanWeeklyCollectionReportsController < ApplicationController
 		return html
 	end
 
-	def print(params_id)
-		# @object = GroupLoanWeeklyCollectionReport.find_by_id params_id
+	def print(id)
+		response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
+			{ 
+			  :body => {
+			    :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+			  }
+		})
 
-		# @objects  = @object.extract_details_from_server
-		@collection_week_number = params_id
+		server_response =  JSON.parse(response.body )
+
+		auth_token  = server_response["auth_token"]
+
+		response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports/#{id}" ,
+		  :query => {
+		    :auth_token => auth_token
+		})
+
+		server_response =  JSON.parse(response.body )
+		@local_now = DateTime.now + 7.hours
+		@week_number = server_response["week_number"] 
+		@confirmed_at = server_response["confirmed_at"].to_datetime + 7.hours 
+		@group_loan_name = server_response["group_loan_name"]
+		@group_loan_group_number  = server_response["group_loan_group_number"]
+
+		@objects = server_response["group_loan_weekly_collection_report_details"]
+ 
 	
 		html = render_to_string template: "group_loan_weekly_collection_reports/print" , layout: "pdf"
 		# puts 

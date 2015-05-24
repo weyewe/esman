@@ -2,6 +2,9 @@ require 'dropbox_sdk'
 require 'fileutils'
 require "pdf/merger"
 require 'rjb'
+require 'httparty'
+require 'json'
+
 
 task :post_to_dropbox => :environment do
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
@@ -21,18 +24,44 @@ task :post_to_dropbox => :environment do
 end
 
 task :local_report => :environment do
+  # get the ID to be printed
+
+  response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  auth_token  = server_response["auth_token"]
+
+  response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
+    :query => {
+      :auth_token => auth_token,
+      :starting_datetime =>  "2015-05-18T07:00:00+00:00",
+      :ending_datetime => "2015-05-19T06:59:59+00:00"
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  id = server_response["group_loan_weekly_collection_reports"].first["id"]
+
+
+
   WickedPdf.config = {
     exe_path:  '/usr/bin/wkhtmltopdf'
   }
 
   a = GroupLoanWeeklyCollectionReportsController.new
-  html = a.print( 5 )
+  html = a.print( id ) # calling method print
 
   pdf = WickedPdf.new.pdf_from_string(html,{
    orientation:  'Landscape',
    :page_size => "Letter"
   })
-  
+
   File.open("#{Rails.root}/awesome/file.pdf", 'wb') do |file|
     file << pdf
   end
@@ -40,45 +69,106 @@ task :local_report => :environment do
 end 
 
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
+  # get auth_token
+
+  response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  auth_token  = server_response["auth_token"]
+
+  # get all id to be printed
+  response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
+    :query => {
+      :auth_token => auth_token,
+      :starting_datetime =>  "2015-05-18T07:00:00+00:00",
+      :ending_datetime => "2015-05-19T06:59:59+00:00"
+    })
+
+  server_response =  JSON.parse(response.body )
+
+
+  id_list = []
+  counter = 0 
+  server_response["group_loan_weekly_collection_reports"].each do |row|
+    break if counter == 5
+    id_list << row["id"]
+    counter = counter + 1
+  end
+
+
   folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
   temporary_folder = "#{folder_location}/temporary"
   member_filename = "member_filename.pdf"
   kki_filename = "kki_filename.pdf"
   result_filename   = "result.pdf"
+  temp_result_filename = "temp_result.pdf"
   result_pdf = "#{folder_location}/#{result_filename}"
+  temp_result_pdf = "#{folder_location}/#{temp_result_filename}"
   unless File.directory?(temporary_folder)
     FileUtils.mkdir_p(temporary_folder)
   end
 
-
   WickedPdf.config = {
     exe_path:  WKHTMLTOPDF_EXE_PATH
   }
-  a = GroupLoanWeeklyCollectionReportsController.new
-  html = a.print( 5 )
 
-  pdf = WickedPdf.new.pdf_from_string(html,{
-   orientation:  'Landscape',
-   :page_size => "Letter"
-  })
+  id_list.each do |x|
 
-  member_pdf_path   = "#{temporary_folder}/#{member_filename}"
-  kki_pdf_path = "#{temporary_folder}/#{kki_filename}"
-  File.open(member_pdf_path, 'wb') do |file|
-    file << pdf
+    a = GroupLoanWeeklyCollectionReportsController.new
+    html = a.print( id )
+
+    pdf = WickedPdf.new.pdf_from_string(html,{
+     orientation:  'Landscape',
+     :page_size => "Letter"
+    })
+
+    member_pdf_path   = "#{temporary_folder}/#{member_filename}"
+    kki_pdf_path = "#{temporary_folder}/#{kki_filename}"
+    File.open(member_pdf_path, 'wb') do |file|
+      file << pdf
+    end
+
+    File.open(kki_pdf_path, 'wb') do |file|
+      file << pdf
+    end
+
+
+    failure_list = []
+    pdf = PDF::Merger.new
+    pdf.add_file member_pdf_path
+    pdf.add_file kki_pdf_path
+    pdf.add_javascript "this.print(true);"
+    pdf.save_as temp_result_pdf , failure_list
+
+    if   File.exist?( result_pdf )
+      failure_list = []
+      pdf = PDF::Merger.new
+      pdf.add_file result_pdf
+      pdf.add_file temp_result_pdf
+      pdf.add_javascript "this.print(true);"
+      pdf.save_as result_pdf , failure_list
+    else
+
+      failure_list = []
+      pdf = PDF::Merger.new
+      pdf.add_file temp_result_pdf
+      pdf.add_javascript "this.print(true);"
+      pdf.save_as result_pdf , failure_list
+    end
+
+    # remove the 2 created file, 
+    # FileUtils.rm(member_pdf_path)
+    # FileUtils.rm(kki_pdf_path)
+    File.delete( temp_result_pdf )
+    File.delete( member_pdf_path ) 
+    File.delete( kki_pdf_path )
   end
-
-  File.open(kki_pdf_path, 'wb') do |file|
-    file << pdf
-  end
-
-
-  failure_list = []
-  pdf = PDF::Merger.new
-  pdf.add_file member_pdf_path
-  pdf.add_file kki_pdf_path
-  pdf.add_javascript "this.print(true);"
-  pdf.save_as result_pdf , failure_list
 
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
@@ -89,10 +179,50 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
 
 
+
+
+  # WickedPdf.config = {
+  #   exe_path:  WKHTMLTOPDF_EXE_PATH
+  # }
+  # a = GroupLoanWeeklyCollectionReportsController.new
+  # html = a.print( 5 )
+
+  # pdf = WickedPdf.new.pdf_from_string(html,{
+  #  orientation:  'Landscape',
+  #  :page_size => "Letter"
+  # })
+
+  # member_pdf_path   = "#{temporary_folder}/#{member_filename}"
+  # kki_pdf_path = "#{temporary_folder}/#{kki_filename}"
+  # File.open(member_pdf_path, 'wb') do |file|
+  #   file << pdf
+  # end
+
+  # File.open(kki_pdf_path, 'wb') do |file|
+  #   file << pdf
+  # end
+
+
+  # failure_list = []
+  # pdf = PDF::Merger.new
+  # pdf.add_file member_pdf_path
+  # pdf.add_file kki_pdf_path
+  # pdf.add_javascript "this.print(true);"
+  # pdf.save_as result_pdf , failure_list
+
+  # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+
+  # file = open( result_pdf )
+
+  # dropbox_file_location  = "/willy/#{result_filename}"
+  # client.put_file(dropbox_file_location, file)
+
+
+
 end
 
 # cd /var/www/sableng.com/current ; bundle exec rake generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox
-# 
+
 
 
 =begin

@@ -25,7 +25,11 @@
         </div>
         <div class="col-xs-6 text-right">
           <h1>Lembar Konfirmasi Setoran</h1>
-          <h1><small>Printed: 12/5/2015</small></h1>
+          <h1>
+            <small>
+            Printed: <%= "#{@local_now.day}/#{@local_now.month}/#{@local_now.year}"   %>
+            </small>
+          </h1>
         </div>
       </div>
       <div class="row">
@@ -39,17 +43,19 @@
                 <tbody>
                   <tr> 
                     <td>Kelompok</td>
-                    <td>[718] Sukapura-718</td> 
+                    <td><%= "[#{@group_loan_group_number}]" %>  <%=  @group_loan_name %> 
+                      <!-- [718] Sukapura-718 -->
+                    </td> 
                   </tr>
 
                   <tr> 
                     <td>PKP</td>
-                    <td>Iskandar</td> 
+                    <td></td> 
                   </tr>
 
                   <tr> 
                     <td>Setoran</td>
-                    <td><%= @collection_week_number %></td> 
+                    <td><%= @week_number %></td> 
                   </tr>
                 </tbody>
               </table> 
@@ -66,12 +72,14 @@
                 <tbody>
                   <tr> 
                     <td>Hari Setor</td>
-                    <td>Senin</td> 
+                    <td></td> 
                   </tr>
 
                   <tr> 
                     <td>Tanggal Setor</td>
-                    <td>15/5/2015</td> 
+                    <td> 
+                      <%= "#{@confirmed_at.day}/#{@confirmed_at.month}/#{@confirmed_at.year}"   %> 
+                    </td> 
                   </tr>
 
                   <tr> 
@@ -134,26 +142,99 @@
           <!-- 13 column -->
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href="#">Jumairah</a></td>
-            <td class="text-right">9198</td>
-            <td class="text-right">500</td>
-            <td class="text-right">35</td>
-            <td class="text-right">ya</td>
-            <td class="text-right">ya</td>
-            <td class="text-right">0</td>
-            <td class="text-right">150</td>
-            <td class="text-right">0</td>
-            <td class="text-right">840</td>
-            <td class="text-right">0</td>
-            <td class="text-right">0</td>
-            <td class="text-right">0</td>
+          <% counter = 1 %>
+          <% total_setoran_mingguan = BigDecimal("0") %>
+          <% total_bayar  = 0 %>
+          <% total_tepat_waktu = 0 %>
+          <% total_penambahan_tabungan = BigDecimal("0") %>
+          <% total_penarikan_tabungan = BigDecimal("0") %>
+          <% sisa_tabungan = BigDecimal("0") %>
+          <% sisa_pinjaman = BigDecimal("0") %>
+          <% total_kumulative_tanggung_renteng =  0 %>
+          <% total_kumulative_telat = 0 %> 
+
+          <% @objects.each do |object| %>
+            <% total_setoran_mingguan = total_setoran_mingguan + 
+                BigDecimal( object["total_installment_adjusted"]) %>
+
+            <% if object["payment_status"] == "ya" %>
+              <% total_bayar  = total_bayar + 1  %>
+            <% end %> 
+
+            <% if object["attendance_status"] == "ya" %>
+              <% total_tepat_waktu  = total_tepat_waktu + 1  %>
+            <% end %> 
+
+
+            <% total_penambahan_tabungan = total_penambahan_tabungan + 
+                BigDecimal( object["savings_addition_adjusted"]  ) %> 
+
+            <% total_penarikan_tabungan = total_penarikan_tabungan + 
+                BigDecimal( object["savings_addition_adjusted"]  ) %> 
+            
+            
+            <% sisa_tabungan = sisa_tabungan + 
+                BigDecimal( object["remaining_savings_adjusted"] ) %>
+
+            <% sisa_pinjaman = sisa_pinjaman + 
+                BigDecimal( object["remaining_amount_adjusted"]) %>
+
+            <% total_kumulative_tanggung_renteng =  total_kumulative_tanggung_renteng + 
+                  object["total_dtr"].to_i %>
+
+            <% total_kumulative_telat = total_kumulative_telat +  
+                  object["total_telat"].to_i %> 
+            <tr>
+              <td><%= counter %></td>
+              <td><%= object["member_name"] %></td>
+              <td class="text-right"><%= object["member_id_number"] %></td>
+              <td class="text-right">
+                <%#= number_with_delimiter(@number, :delimiter => ',') %>
+
+                <%= object["total_principal_adjusted"] %>
+              </td>
+              <td class="text-right"><%= object["total_installment_adjusted"] %></td>
+              <td class="text-right"><%= object["payment_status"] %></td>
+              <td class="text-right"><%= object["attendance_status"] %></td>
+              <td class="text-right"><%= object["savings_addition_adjusted"] %></td>
+              <td class="text-right"><%= object["savings_withdrawal_adjusted"] %></td>
+              <td class="text-right"><%= object["remaining_savings_adjusted"] %></td>
+              <td class="text-right"><%= object["remaining_amount_adjusted"] %></td>
+              <td class="text-right"><%= object["total_dtr"] %></td>
+              <td class="text-right"><%= object["total_telat"] %></td>
+              <td class="text-right"></td>
+
+            </tr>
+
+            <% counter += 1 %>
+          <% end %> 
+
+          <tr style="font-weight: bold;">
+            <td colspan="4" class="text-right">Total</td>
+         <!--    <td></td>
+            <td class="text-right"></td>
+            <td class="text-right"></td> -->
+            <td class="text-right"><%= total_setoran_mingguan %></td>
+            <td class="text-right"><%= total_bayar %></td>
+            <td class="text-right"><%= total_tepat_waktu %></td>
+            <td class="text-right"><%= total_penambahan_tabungan%></td>
+            <td class="text-right"><%= total_penarikan_tabungan%></td>
+            <td class="text-right"><%= sisa_tabungan %></td>
+            <td class="text-right"><%= sisa_pinjaman %></td>
+            <td class="text-right"><%= total_kumulative_tanggung_renteng %></td>
+            <td class="text-right"><%= total_kumulative_tanggung_renteng %></td>
+            <td class="text-right"></td>
+
           </tr>
+          
+        
 
 
         </tbody>
       </table>
+
+
+<!--       
       <div class="row text-right">
         <div class="col-xs-2 col-xs-offset-8">
           <p>
@@ -205,6 +286,9 @@
           </div>
         </div>
       </div>
+ -->
+
+
     </div>
   </body>
 </html>
