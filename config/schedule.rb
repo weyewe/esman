@@ -18,3 +18,9 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+every 5.minutes do
+  # runner "MyModel.some_process"
+  rake "post_to_dropbox"
+  # command "/usr/bin/my_great_command"
+end
+
