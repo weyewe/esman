@@ -27,7 +27,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   kki_filename = "kki_filename.pdf"
   result_filename   = "result.pdf"
   result_pdf = "#{folder_location}/#{result_filename}"
-  unless File.directory?(dirname)
+  unless File.directory?(temporary_folder)
     FileUtils.mkdir_p(temporary_folder)
   end
 
