@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>LKS</title>
+    <%= wicked_pdf_stylesheet_link_tag "bootstrap" %>
+    <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+    <style>
+      @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
+      body, h1, h2, h3, h4, h5, h6{
+      font-family: 'Bree Serif', serif;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>
+            <a href="https://twitter.com/tahirtaous">
+              <%= wicked_pdf_image_tag 'logo.png' %>
+            <!-- <img src="logo.png"> -->
+            <!-- Logo here -->
+            </a>
+          </h1>
+        </div>
+        <div class="col-xs-6 text-right">
+          <h1>Lembar Konfirmasi Setoran</h1>
+          <h1><small>Printed: 12/5/2015</small></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="panel panel-default">
+  <!--           <div class="panel-heading">
+              <h4>From: <a href="#">Your Name</a></h4>
+            </div> -->
+            <!-- <div class="panel-body"> -->
+              <table class="table table-condensed">
+                <tbody>
+                  <tr> 
+                    <td>Kelompok</td>
+                    <td>[718] Sukapura-718</td> 
+                  </tr>
+
+                  <tr> 
+                    <td>PKP</td>
+                    <td>Iskandar</td> 
+                  </tr>
+
+                  <tr> 
+                    <td>Setoran</td>
+                    <td><%= @collection_week_number %></td> 
+                  </tr>
+                </tbody>
+              </table> 
+            <!-- </div> -->
+          </div>
+        </div>
+        <div class="col-xs-5 col-xs-offset-2">
+          <div class="panel panel-default">
+<!--             <div class="panel-heading">
+              <h4>To : <a href="#">Client Name</a></h4>
+            </div> -->
+            <!-- <div class="panel-body"> -->
+              <table class="table table-condensed">
+                <tbody>
+                  <tr> 
+                    <td>Hari Setor</td>
+                    <td>Senin</td> 
+                  </tr>
+
+                  <tr> 
+                    <td>Tanggal Setor</td>
+                    <td>15/5/2015</td> 
+                  </tr>
+
+                  <tr> 
+                    <td>Catatan</td>
+                    <td></td> 
+                  </tr>
+                </tbody>
+              </table> 
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- / end client details section -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>
+              <h4>No</h4>
+            </th>
+            <th>
+              <h4>Nama</h4>
+            </th>
+            <th>
+              <h4>Id</h4>
+            </th>
+            <th>
+              <h4>Pinjaman</h4>
+            </th>
+            <th>
+              <h4>Cicilan</h4>
+            </th>
+            <th>
+              <h4>Bayar</h4>
+            </th>
+            <th>
+              <h4>Tepat</h4>
+            </th>
+            <th>
+              <h4>Menabung</h4>
+            </th>
+            <th>
+              <h4>Ambil</h4>
+            </th>
+            <th>
+              <h4>Saldo</h4>
+            </th>
+            <th>
+              <h4>Sisa</h4>
+            </th>
+            <th>
+              <h4>DTR</h4>
+            </th>
+            <th>
+              <h4>Telat</h4>
+            </th>
+            <th>
+              <h4>TTD</h4>
+            </th>
+          </tr> 
+          <!-- 13 column -->
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><a href="#">Jumairah</a></td>
+            <td class="text-right">9198</td>
+            <td class="text-right">500</td>
+            <td class="text-right">35</td>
+            <td class="text-right">ya</td>
+            <td class="text-right">ya</td>
+            <td class="text-right">0</td>
+            <td class="text-right">150</td>
+            <td class="text-right">0</td>
+            <td class="text-right">840</td>
+            <td class="text-right">0</td>
+            <td class="text-right">0</td>
+            <td class="text-right">0</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+      <div class="row text-right">
+        <div class="col-xs-2 col-xs-offset-8">
+          <p>
+            <strong>
+            Sub Total : <br>
+            TAX : <br>
+            Total : <br>
+            </strong>
+          </p>
+        </div>
+        <div class="col-xs-2">
+          <strong>
+          $1200.00 <br>
+          N/A <br>
+          $1200.00 <br>
+          </strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4>Bank details</h4>
+            </div>
+            <div class="panel-body">
+              <p>Your Name</p>
+              <p>Bank Name</p>
+              <p>SWIFT : --------</p>
+              <p>Account Number : --------</p>
+              <p>IBAN : --------</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-7">
+          <div class="span7">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h4>Contact Details</h4>
+              </div>
+              <div class="panel-body">
+                <p>
+                  Email : you@example.com <br><br>
+                  Mobile : -------- <br> <br>
+                  Twitter : <a href="https://twitter.com/tahirtaous">@TahirTaous</a>
+                </p>
+                <h4>Payment should be made by Bank Transfer</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
