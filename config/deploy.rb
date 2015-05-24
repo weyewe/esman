@@ -65,7 +65,7 @@ task :setup => :environment do
   queue %[echo "-----> Be sure to edit 'shared/config/secrets.yml'."]
 
   queue! %[touch "#{deploy_to}/shared/config/initializers/app_secrets.rb"]
-  queue %[echo "-----> Be sure to edit 'shared/config/initializers.app_secrets.rb'."]
+  queue %[echo "-----> Be sure to edit 'shared/config/initializers/app_secrets.rb'."]
 
   # sidekiq needs a place to store its pid file and log file
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
