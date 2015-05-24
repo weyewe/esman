@@ -102,7 +102,7 @@ task :deploy => :environment do
     # end
     to :launch do
       invoke :'unicorn:restart'
-      # invoke :'whenever:update'
+      invoke :'whenever:update'
     end
   end
 end
