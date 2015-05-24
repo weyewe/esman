@@ -81,6 +81,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   server_response =  JSON.parse(response.body )
 
   auth_token  = server_response["auth_token"]
+  puts "auth_token = #{auth_token}"
 
   # get all id to be printed
   response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
@@ -101,6 +102,8 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
     counter = counter + 1
   end
 
+  puts "id_list: #{id_list}"
+
 
   folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
   temporary_folder = "#{folder_location}/temporary"
@@ -119,6 +122,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   }
 
   id_list.each do |x|
+    puts "id: #{x}"
 
     a = GroupLoanWeeklyCollectionReportsController.new
     html = a.print( id )
@@ -170,12 +174,16 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
     File.delete( kki_pdf_path )
   end
 
+  puts "gonna send to dropbox"
+
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
   file = open( result_pdf )
 
   dropbox_file_location  = "/willy/#{result_filename}"
   client.put_file(dropbox_file_location, file)
+
+  puts "done"
 
 
 
