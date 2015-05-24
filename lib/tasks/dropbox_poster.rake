@@ -39,7 +39,8 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   html = a.print( 5 )
 
   pdf = WickedPdf.new.pdf_from_string(html,{
-   orientation:  'Landscape'
+   orientation:  'Landscape',
+   :page_size => "Letter"
   })
 
   member_pdf_path   = "#{temporary_folder}/#{member_filename}"
