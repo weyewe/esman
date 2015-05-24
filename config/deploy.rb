@@ -26,7 +26,7 @@ set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml']
+set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml', 'config/initializers/app_secrets.rb']
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
@@ -64,8 +64,8 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/secrets.yml"]
   queue %[echo "-----> Be sure to edit 'shared/config/secrets.yml'."]
 
-  queue! %[touch "#{deploy_to}/shared/config/secret_ruby.rb"]
-  queue %[echo "-----> Be sure to edit 'shared/config/secret_ruby.rb'."]
+  queue! %[touch "#{deploy_to}/shared/config/initializers/app_secrets.rb"]
+  queue %[echo "-----> Be sure to edit 'shared/config/initializers.app_secrets.rb'."]
 
   # sidekiq needs a place to store its pid file and log file
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
