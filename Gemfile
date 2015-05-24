@@ -13,6 +13,7 @@ gem 'mina'
 gem 'mina-unicorn',    :require => false
 gem 'unicorn'
 
+gem 'dropbox-sdk'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
