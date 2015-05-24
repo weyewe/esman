@@ -64,7 +64,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
   file = open( result_pdf )
 
-  dropbox_file_location  = "/willy/#{result_filename}.txt"
+  dropbox_file_location  = "/willy/#{result_filename}"
   client.put_file(dropbox_file_location, file)
 
 
