@@ -112,7 +112,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   result_filename   = "result.pdf"
   temp_result_filename = "temp_result.pdf"
   result_pdf = "#{folder_location}/#{result_filename}"
-  temp_result_pdf = "#{folder_location}/#{temp_result_filename}"
+  
   unless File.directory?(temporary_folder)
     FileUtils.mkdir_p(temporary_folder)
   end
@@ -121,6 +121,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
     exe_path:  WKHTMLTOPDF_EXE_PATH
   }
 
+  temp_result_array = [] 
   id_list.each do |x|
     puts "id: #{x}"
 
@@ -132,8 +133,13 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
      :page_size => "Letter"
     })
 
-    member_pdf_path   = "#{temporary_folder}/#{member_filename}"
-    kki_pdf_path = "#{temporary_folder}/#{kki_filename}"
+    temporary_report_folder = "#{temporary_folder}/#{x}"
+    unless File.directory?(temporary_report_folder)
+      FileUtils.mkdir_p(temporary_report_folder)
+    end
+
+    member_pdf_path   = "#{temporary_report_folder}/#{member_filename}"
+    kki_pdf_path = "#{temporary_report_folder}/#{kki_filename}"
     File.open(member_pdf_path, 'wb') do |file|
       file << pdf
     end
@@ -142,6 +148,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
       file << pdf
     end
 
+    temp_result_pdf = "#{folder_location}/#{x}"
 
     failure_list = []
     pdf = PDF::Merger.new
@@ -149,30 +156,23 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
     pdf.add_file kki_pdf_path
     pdf.add_javascript "this.print(true);"
     pdf.save_as temp_result_pdf , failure_list
+    temp_result_array << temp_result_pdf
 
-    if   File.exist?( result_pdf )
-      failure_list = []
-      pdf = PDF::Merger.new
-      pdf.add_file result_pdf
-      pdf.add_file temp_result_pdf
-      pdf.add_javascript "this.print(true);"
-      pdf.save_as result_pdf , failure_list
-    else
 
-      failure_list = []
-      pdf = PDF::Merger.new
-      pdf.add_file temp_result_pdf
-      pdf.add_javascript "this.print(true);"
-      pdf.save_as result_pdf , failure_list
-    end
-
-    # remove the 2 created file, 
-    # FileUtils.rm(member_pdf_path)
-    # FileUtils.rm(kki_pdf_path)
-    File.delete( temp_result_pdf )
-    File.delete( member_pdf_path ) 
-    File.delete( kki_pdf_path )
+ 
   end
+
+  puts "merging all result folder"
+  failure_list = []
+  pdf = PDF::Merger.new
+  temp_result_array.each do |temp_result_pdf_path|
+    pdf.add_file temp_result_pdf_path
+  end
+
+  pdf.add_javascript "this.print(true);"
+  pdf.save_as result_pdf , failure_list
+
+
 
   puts "gonna send to dropbox"
 
@@ -182,6 +182,15 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
   dropbox_file_location  = "/willy/#{result_filename}"
   client.put_file(dropbox_file_location, file)
+
+  puts "deleting all temporary results"
+
+
+  temp_result_array.each do |temp_result_pdf_path|
+    File.delete( temp_result_pdf_path )
+  end
+  
+  FileUtils.rm_rf( temporary_folder )
 
   puts "done"
 
