@@ -118,9 +118,11 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   member_filename = "member_filename.pdf"
   kki_filename = "kki_filename.pdf"
 
-  year = today_date.year
-  month = today_date.month
-  day = today_date.day 
+
+
+  year = weekly_collection_report_disburse_day.year
+  month = weekly_collection_report_disburse_day.month
+  day = weekly_collection_report_disburse_day.day 
 
   result_filename = "" + year.to_s + "_"
   if month.to_s.length == 1
