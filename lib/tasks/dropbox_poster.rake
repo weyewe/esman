@@ -40,8 +40,8 @@ task :local_report => :environment do
   response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
     :query => {
       :auth_token => auth_token,
-      :starting_datetime =>  "2015-05-18T07:00:00+00:00",
-      :ending_datetime => "2015-05-19T06:59:59+00:00"
+      :starting_datetime =>  "2015-05-19T07:00:00+00:00",
+      :ending_datetime => "2015-05-20T06:59:59+00:00"
     })
 
   server_response =  JSON.parse(response.body )
@@ -71,6 +71,11 @@ end
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   # get auth_token
 
+  today_date = DateTime.now
+  weekly_collection_report_disburse_day = today_date + 2.days
+  collection_day_to_be_printed = weekly_collection_report_disburse_day  - 1.weeks 
+  beginning_of_day = collection_day_to_be_printed.beginning_of_day
+  end_of_day = collection_day_to_be_printed.end_of_day
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
     { 
       :body => {
@@ -89,8 +94,8 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
       :auth_token => auth_token,
       # :starting_datetime =>  "2015-05-18T07:00:00+00:00",
       # :ending_datetime => "2015-05-19T06:59:59+00:00"
-      :starting_datetime =>  "2015-05-19T07:00:00+00:00",
-      :ending_datetime => "2015-05-20T06:59:59+00:00"
+      :starting_datetime =>  "2015-05-20T07:00:00+00:00",
+      :ending_datetime => "2015-05-21T06:59:59+00:00"
     })
 
   server_response =  JSON.parse(response.body )
@@ -112,7 +117,31 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   temporary_folder = "#{folder_location}/temporary"
   member_filename = "member_filename.pdf"
   kki_filename = "kki_filename.pdf"
+
+  year = today_date.year
+  month = today_date.month
+  day = today_date.day 
+
+  result_filename = "" + year.to_s + "_"
+  if month.to_s.length == 1
+    result_filename   = result_filename + "0#{month}" + "_"
+  else
+    result_filename = result_filename + month.to_s + "_"
+  end
+
+  if day.to_s.length == 1 
+    result_filename = result_filename  + "0#{day}.pdf" 
+  else
+    result_filename = result_filename  + "#{day}.pdf" 
+  end
+
+
+
+
+
   result_filename   = "result.pdf"
+# 2015/04/06
+
   temp_result_filename = "temp_result.pdf"
   result_pdf = "#{folder_location}/#{result_filename}"
   
