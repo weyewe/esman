@@ -139,7 +139,7 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
 
 
-  result_filename   = "result.pdf"
+  # result_filename   = "result.pdf"
 # 2015/04/06
 
   temp_result_filename = "temp_result.pdf"
