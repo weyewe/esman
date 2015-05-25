@@ -24,3 +24,7 @@
 #   # command "/usr/bin/my_great_command"
 # end
 
+
+every 1.day, :at => '1pm' do
+  rake "my:rake:task"
+end

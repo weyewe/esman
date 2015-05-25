@@ -73,9 +73,10 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
   today_date = DateTime.now
   weekly_collection_report_disburse_day = today_date + 2.days
+  # we need to look at the collection last week, and adjust to  indonesia time (gmt + 7)
   collection_day_to_be_printed = weekly_collection_report_disburse_day  - 1.weeks 
-  beginning_of_day = collection_day_to_be_printed.beginning_of_day
-  end_of_day = collection_day_to_be_printed.end_of_day
+  beginning_of_day = collection_day_to_be_printed.beginning_of_day + 7.hours
+  end_of_day = collection_day_to_be_printed.end_of_day + 7.hours
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
     { 
       :body => {
@@ -94,8 +95,8 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
       :auth_token => auth_token,
       # :starting_datetime =>  "2015-05-18T07:00:00+00:00",
       # :ending_datetime => "2015-05-19T06:59:59+00:00"
-      :starting_datetime =>  "2015-05-20T07:00:00+00:00",
-      :ending_datetime => "2015-05-21T06:59:59+00:00"
+      :starting_datetime =>  beginning_of_day , # "2015-05-20T07:00:00+00:00",
+      :ending_datetime => end_of_day  # "2015-05-21T06:59:59+00:00"
     })
 
   server_response =  JSON.parse(response.body )
