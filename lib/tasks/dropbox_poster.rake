@@ -87,8 +87,10 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
     :query => {
       :auth_token => auth_token,
-      :starting_datetime =>  "2015-05-18T07:00:00+00:00",
-      :ending_datetime => "2015-05-19T06:59:59+00:00"
+      # :starting_datetime =>  "2015-05-18T07:00:00+00:00",
+      # :ending_datetime => "2015-05-19T06:59:59+00:00"
+      :starting_datetime =>  "2015-05-19T07:00:00+00:00",
+      :ending_datetime => "2015-05-20T06:59:59+00:00"
     })
 
   server_response =  JSON.parse(response.body )
