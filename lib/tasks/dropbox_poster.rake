@@ -94,10 +94,7 @@ task :local_report => :environment do
 end 
 
 
-task :dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
-  # get auth_token
-
-  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+def generate_report( today_kki_date )
   weekly_collection_report_disburse_day = today_kki_date  + 2.days
   last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
   beginning_of_day = last_week_report_data.beginning_of_day.utc
@@ -257,6 +254,19 @@ task :dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox =
   puts "done"
 
 end
+
+task :dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
+
+  today = DateTime.now.in_time_zone 'Jakarta'
+  (0.upto 10).each do |x|
+    generate_report( today - x.days )
+  end
+
+end
+
+# cd /var/www/sableng.com/current ; bundle exec rake dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox
+
+
 
 
 
