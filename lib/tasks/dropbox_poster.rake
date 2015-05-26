@@ -6,6 +6,31 @@ require 'httparty'
 require 'json'
 
 
+=begin
+  
+  for sikki: user send the local time 
+    2015-5-12 00:00 
+
+    Server save it as  UTC 
+    2015-5-11 17:00
+
+    When user wants to query, the user will query with local time
+
+    example: give me data in 12 May 2015
+    start_datetime : 2015-5-11 17:00
+    end_datetime   : 2015-5-12 16:59
+
+    so, if today's utc
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  report_disbursement_date = today_kki_date  + 2.days
+  last_week_report_data = report_disbursement_date - 1.weeks
+  start_datetime = last_week_report_data.beginning_of_day.utc
+  end_datetime =  last_week_report_data.end_of_day.utc
+
+  
+=end
+
 task :post_to_dropbox => :environment do
   client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
@@ -71,12 +96,13 @@ end
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   # get auth_token
 
-  today_date = DateTime.now
-  weekly_collection_report_disburse_day = today_date + 2.days
-  # we need to look at the collection last week, and adjust to  indonesia time (gmt + 7)
-  collection_day_to_be_printed = weekly_collection_report_disburse_day  - 1.weeks 
-  beginning_of_day = collection_day_to_be_printed.beginning_of_day + 7.hours
-  end_of_day = collection_day_to_be_printed.end_of_day + 7.hours
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  weekly_collection_report_disburse_day = today_kki_date  + 2.days
+  last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
+  beginning_of_day = last_week_report_data.beginning_of_day.utc
+  end_of_day =  last_week_report_data.end_of_day.utc
+
+ 
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
     { 
       :body => {
