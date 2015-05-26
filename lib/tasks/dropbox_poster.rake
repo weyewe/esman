@@ -128,6 +128,8 @@ def generate_report( today_kki_date )
 
   id_list = []
   # counter = 0 
+  return if server_response["group_loan_weekly_collection_reports"].count == 0 
+  
   server_response["group_loan_weekly_collection_reports"].each do |row|
     # break if counter == 5
     id_list << row["id"]
