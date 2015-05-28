@@ -260,7 +260,7 @@ end
 task :dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
 
   today = DateTime.now.in_time_zone 'Jakarta'
-  (0.upto 10).each do |x|
+  (0.upto 2).each do |x|
     generate_report( today - x.days )
   end
 

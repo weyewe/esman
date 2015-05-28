@@ -25,6 +25,8 @@
 # end
 
 
+set :output, "#{Rails.root}/cron_error_log"
+
 every 1.day, :at => '1pm' do
-  rake "my:rake:task"
+  rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox"
 end
