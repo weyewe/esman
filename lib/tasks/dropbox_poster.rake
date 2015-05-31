@@ -393,14 +393,14 @@ def generate_report_from_id_list( id_list )
 
 end
 
-task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
-  # get auth_token
 
-  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
-  weekly_collection_report_disburse_day = today_kki_date  + 2.days
+def generate_weekly_collection_report_for(weekly_collection_report_disburse_day) 
+
   last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
   beginning_of_day = last_week_report_data.beginning_of_day.utc
   end_of_day =  last_week_report_data.end_of_day.utc
+
+
 
  
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
@@ -445,8 +445,22 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
 
   end
   
+end
 
-  
+task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
+  # get auth_token
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  weekly_collection_report_disburse_day = today_kki_date  + 2.days
+
+  generate_weekly_collection_report_for( weekly_collection_report_disburse_day )
+
+
+  # Thursday, generate one report for monday as well
+  # will be printed on Friday altogether 
+  if today_kki_date.wday == 4 
+    generate_weekly_collection_report_for( today_kki_date + 4.days )
+  end
 end
 
 # cd /var/www/sableng.com/current ; bundle exec rake generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox

@@ -13,6 +13,22 @@ Ticketie::Application.routes.draw do
 
   get 'admin' => 'home#index'
 
+  namespace :api2 do
+    devise_for :users
+    post 'authenticate_auth_token', :to => 'sessions#authenticate_auth_token', :as => :authenticate_auth_token 
+    get 'latest_update' => 'reimburses#homepage', :as => :user_homepage, :method => :get
+
+    get 'transloadit_signature' => 'transloadits#get_new_signature', :as => :transloadit_signature, :method => :get
+    put 'update_password' , :to => "passwords#update" , :as => :update_password
+    
+    resources :reimburses
+    resources :reimburse_details 
+
+    resources :reimburse_associations 
+    resources :comments 
+
+    resources :app_users
+  end
   
   
   namespace :api do
