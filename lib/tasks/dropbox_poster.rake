@@ -289,7 +289,7 @@ def generate_report_from_id_list( id_list , result_filename, folder_location )
       "result.pdf" , 
       folder_location  )
 
-    temp_result_array << temp_result_pdf
+    temp_result_array << report_location
   end
 
   puts "merging all result folder"
