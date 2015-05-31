@@ -110,7 +110,7 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 	end
 
 	# will return the  report location in the server folder
-	def self.generate_report( weekly_collection_id, result_pdf , folder_location  )
+	def self.generate_report( weekly_collection_id, result_pdf_name , folder_location  )
 
 
 		temporary_folder = "#{folder_location}/temporary"
@@ -127,10 +127,11 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 
 	    member_pdf_path   = "#{temporary_report_folder}/#{member_filename}"
 	    kki_pdf_path = "#{temporary_report_folder}/#{kki_filename}"
+	    result_pdf_path = "#{temporary_report_folder}/#{result_pdf_name}"
 
 
 		a = GroupLoanWeeklyCollectionReportsController.new
-	    html = a.print( self.group_loan_weekly_collection_id)
+	    html = a.print( weekly_collection_id )
 
 	    pdf = WickedPdf.new.pdf_from_string(html,{
 	     orientation:  'Landscape',
@@ -154,12 +155,12 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 		pdf.add_file kki_pdf_path
 
 		pdf.add_javascript "this.print(true);"
-		pdf.save_as result_pdf , failure_list
+		pdf.save_as result_pdf_path , failure_list
 
 		# delete the temporary pdf file 
 		File.delete( member_pdf_path )
 		File.delete( kki_pdf_path )
 
-		return result_pdf 
+		return result_pdf_path 
 	end
 end

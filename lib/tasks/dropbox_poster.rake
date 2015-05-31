@@ -270,17 +270,65 @@ end
 
 
 
-
-
-def generate_report_from_id_list( id_list ) 
+def generate_report_from_id_list( id_list , result_filename, folder_location ) 
   
 
 
-  folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
+  # folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
   temporary_folder = "#{folder_location}/temporary"
   member_filename = "member_filename.pdf"
   kki_filename = "kki_filename.pdf"
 
+
+  result_pdf = "#{folder_location}/#{result_filename}"
+  
+  unless File.directory?(temporary_folder)
+    FileUtils.mkdir_p(temporary_folder)
+  end
+
+  temp_result_array = [] 
+
+  id_list.each do |x|
+    report_location = SingleGroupLoanWeeklyCollectionReport.generate_report( 
+      x, 
+      "result.pdf" , 
+      folder_location  )
+
+    temp_result_array << temp_result_pdf
+  end
+
+  puts "merging all result folder"
+  failure_list = []
+  pdf = PDF::Merger.new
+  temp_result_array.each do |temp_result_pdf_path|
+    pdf.add_file temp_result_pdf_path
+  end
+
+  pdf.add_javascript "this.print(true);"
+  pdf.save_as result_pdf , failure_list
+
+
+
+
+
+
+  temp_result_array.each do |temp_result_pdf_path|
+    File.delete( temp_result_pdf_path )
+  end
+
+  
+  FileUtils.rm_rf( temporary_folder )
+  puts "done creating result pdf"
+  return result_pdf 
+
+end
+
+def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
+                                           dropbox_upload_path, local_path) 
+
+  last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
+  beginning_of_day = last_week_report_data.beginning_of_day.utc
+  end_of_day =  last_week_report_data.end_of_day.utc
 
 
   year = weekly_collection_report_disburse_day.year
@@ -304,103 +352,11 @@ def generate_report_from_id_list( id_list )
 
 
 
-  # result_filename   = "result.pdf"
-# 2015/04/06
-
-  temp_result_filename = "temp_result.pdf"
-  result_pdf = "#{folder_location}/#{result_filename}"
-  
-  unless File.directory?(temporary_folder)
-    FileUtils.mkdir_p(temporary_folder)
-  end
-
-  WickedPdf.config = {
-    exe_path:  WKHTMLTOPDF_EXE_PATH
-  }
-
-  temp_result_array = [] 
-  id_list.each do |x|
-    puts "id: #{x}"
-
-    a = GroupLoanWeeklyCollectionReportsController.new
-    html = a.print( x )
-
-    pdf = WickedPdf.new.pdf_from_string(html,{
-     orientation:  'Landscape',
-     :page_size => "Letter"
-    })
-
-    temporary_report_folder = "#{temporary_folder}/#{x}"
-    unless File.directory?(temporary_report_folder)
-      FileUtils.mkdir_p(temporary_report_folder)
-    end
-
-    member_pdf_path   = "#{temporary_report_folder}/#{member_filename}"
-    kki_pdf_path = "#{temporary_report_folder}/#{kki_filename}"
-    File.open(member_pdf_path, 'wb') do |file|
-      file << pdf
-    end
-
-    File.open(kki_pdf_path, 'wb') do |file|
-      file << pdf
-    end
-
-    temp_result_pdf = "#{folder_location}/#{x}"
-
-    failure_list = []
-    pdf = PDF::Merger.new
-    pdf.add_file member_pdf_path
-    pdf.add_file kki_pdf_path
-    pdf.add_javascript "this.print(true);"
-    pdf.save_as temp_result_pdf , failure_list
-    temp_result_array << temp_result_pdf
-
-
- 
-  end
-
-  puts "merging all result folder"
-  failure_list = []
-  pdf = PDF::Merger.new
-  temp_result_array.each do |temp_result_pdf_path|
-    pdf.add_file temp_result_pdf_path
-  end
-
-  pdf.add_javascript "this.print(true);"
-  pdf.save_as result_pdf , failure_list
-
-
-
-  puts "gonna send to dropbox"
-
-  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
-
-  file = open( result_pdf )
-
-  dropbox_file_location  = "/willy/#{result_filename}"
-  client.put_file(dropbox_file_location, file)
-
-  puts "deleting all temporary results"
-
-
-  temp_result_array.each do |temp_result_pdf_path|
-    File.delete( temp_result_pdf_path )
-  end
-  
-  FileUtils.rm_rf( temporary_folder )
-
-  puts "done"
-
-end
-
-
-def generate_weekly_collection_report_for(weekly_collection_report_disburse_day) 
-
-  last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
-  beginning_of_day = last_week_report_data.beginning_of_day.utc
-  end_of_day =  last_week_report_data.end_of_day.utc
-
-
+  # 1. get auth token to get the weekly_collection_id_list to create report
+  # 2. generate report in the local
+  # 3. upload local report to dropbox
+  # 4. delete local report 
+  # 5. DONE 
 
  
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
@@ -433,6 +389,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day)
 
   if server_response["group_loan_weekly_collection_reports"].count == 0 
     puts "no data from server"
+     
   else
     server_response["group_loan_weekly_collection_reports"].each do |row|
       id_list << row["id"]
@@ -440,26 +397,52 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day)
       puts "id_list: #{id_list}"
     end
 
-    generate_report_from_id_list( id_list )
 
+
+    result_file_location = generate_report_from_id_list( 
+                  id_list , 
+                  result_filename,
+                  "#{PDF_FILE_LOCATION}/#{local_path}"
+                  )
+
+    # upload to dropbox
+
+    puts "gonna send to dropbox"
+
+    client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+
+    file = open( result_file_location )
+
+    dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
+    client.put_file(dropbox_file_location, file)
+
+    puts "deleting all temporary results"
+    File.delete( result_file_location )
+
+    puts "done upload"
 
   end
-  
 end
 
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
-  # get auth_token
-
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
   weekly_collection_report_disburse_day = today_kki_date  + 2.days
+  dropbox_upload_path = "/willy"
+  local_path = "tomorrow_date"
 
-  generate_weekly_collection_report_for( weekly_collection_report_disburse_day )
+  generate_weekly_collection_report_for( 
+          weekly_collection_report_disburse_day ,  
+            dropbox_upload_path,
+            local_path)
 
 
   # Thursday, generate one report for monday as well
   # will be printed on Friday altogether 
   if today_kki_date.wday == 4 
-    generate_weekly_collection_report_for( today_kki_date + 4.days )
+    generate_weekly_collection_report_for( 
+              today_kki_date + 4.days, 
+              dropbox_upload_path,
+              local_path )
   end
 end
 
