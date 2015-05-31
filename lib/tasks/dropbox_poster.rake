@@ -264,7 +264,9 @@ end
 
 
 def generate_report_from_id_list( id_list , result_filename, folder_location ) 
-  
+  unless File.directory?(folder_location)
+    FileUtils.mkdir_p(folder_location)
+  end
 
 
   # folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
