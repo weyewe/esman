@@ -438,7 +438,8 @@ task :dummy_report, [:number_of_days] => :environment do | t ,args |
   end
 
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
-  weekly_collection_report_disburse_day = today_kki_date  + args.number_of_days.days
+  number_of_days = args.number_of_days.to_i
+  weekly_collection_report_disburse_day = today_kki_date  + number_of_days.days
 
   dropbox_upload_path = "/dummy"
   local_path = "dummy_date"
