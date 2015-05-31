@@ -430,7 +430,7 @@ task :dummy_report, [:number_of_days] => :environment do | t ,args |
   # (0.upto 2).each do |x|
   #   generate_report( today + x.days )
   # end
-  if args.days.length == 0
+  if args.number_of_days.length == 0
     puts "the arguent must be valid"
     return 
   else
