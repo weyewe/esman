@@ -257,14 +257,7 @@ def generate_report( today_kki_date )
 
 end
 
-task :dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
 
-  today = DateTime.now.in_time_zone 'Jakarta'
-  (0.upto 2).each do |x|
-    generate_report( today + x.days )
-  end
-
-end
 
 # cd /var/www/sableng.com/current ; bundle exec rake dummy_generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox
 
@@ -423,6 +416,37 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
   end
 end
+
+
+
+
+# bundle exec rake dummy_report[3]
+
+task :dummy_report, [:number_of_days] => :environment do | t ,args | 
+
+  # today = DateTime.now.in_time_zone 'Jakarta'
+  # (0.upto 2).each do |x|
+  #   generate_report( today + x.days )
+  # end
+  if args.days.length == 0
+    puts "the arguent must be valid"
+    return 
+  else
+    puts "days is :#{ args.number_of_days}"
+  end
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  weekly_collection_report_disburse_day = today_kki_date  + args.number_of_days.days
+
+  dropbox_upload_path = "/dummy"
+  local_path = "dummy_date"
+
+  generate_weekly_collection_report_for( 
+          weekly_collection_report_disburse_day ,  
+            dropbox_upload_path,
+            local_path)
+end
+
 
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
