@@ -15,3 +15,5 @@
 /log/*.log
 /tmp
 /lib/tasks/play_local.rake
+
+/generated_folder
