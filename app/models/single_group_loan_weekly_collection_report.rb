@@ -133,6 +133,10 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 		a = GroupLoanWeeklyCollectionReportsController.new
 	    html = a.print( weekly_collection_id )
 
+	    WickedPdf.config = {
+		    exe_path:  WKHTMLTOPDF_EXE_PATH
+		  }
+
 	    pdf = WickedPdf.new.pdf_from_string(html,{
 	     orientation:  'Landscape',
 	     :page_size => "Letter"
