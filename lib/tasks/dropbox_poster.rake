@@ -138,8 +138,7 @@ def generate_report( today_kki_date )
     # counter = counter + 1
   end
 
-  puts "total : #{id_list.size}"
-  puts "id_list: #{id_list}"
+  puts "total : #{id_list.size}" 
 
 
   folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
