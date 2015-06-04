@@ -112,7 +112,7 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 	# will return the  report location in the server folder
 	def self.generate_report( weekly_collection_id, result_pdf_name , folder_location  )
 
-
+		puts "The id we are printing: #{weekly_collection_id}"
 		temporary_folder = "#{folder_location}/temporary"
 		member_filename = "member_filename.pdf"
 		kki_filename = "kki_filename.pdf"
