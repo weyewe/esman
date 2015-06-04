@@ -75,8 +75,10 @@ task :local_report => :environment do
 
 
 
+# /usr/local/bin/wkhtmltopdf
+
   WickedPdf.config = {
-    exe_path:  '/usr/bin/wkhtmltopdf'
+    exe_path:  WKHTMLTOPDF_EXE_PATH
   }
 
   a = GroupLoanWeeklyCollectionReportsController.new
