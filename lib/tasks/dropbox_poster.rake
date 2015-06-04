@@ -390,7 +390,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
     server_response["group_loan_weekly_collection_reports"].each do |row|
       id_list << row["id"]
       puts "total : #{id_list.size}"
-      puts "id_list: #{id_list}"
+      # puts "id_list: #{id_list}"
     end
 
 
