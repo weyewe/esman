@@ -5,8 +5,7 @@ require 'json'
 
 # entry_case ==1  == debit
 # entry_case == 2 == credit 
-BASE_FILE_LOC = "/home/willy/Sites/esman/result"
-TEMP_FILE_LOC = "#{BASE_FILE_LOC}/temp"
+
 
 def get_auth_token
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
