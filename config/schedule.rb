@@ -30,3 +30,9 @@ set :output, "/var/www/sableng.com/cron_log/error.log"
 every 1.day, :at => '1pm' do
   rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox"
 end
+
+
+# every 7th day of the month, 14 hour (in indonesia time: 21:00)
+every '0 14 7 * *' do
+  rake "generate_last_month_gl_report"
+end
