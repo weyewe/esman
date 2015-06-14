@@ -8,44 +8,6 @@ require 'json'
 BASE_FILE_LOC = "/home/willy/Sites/esman/result"
 TEMP_FILE_LOC = "#{BASE_FILE_LOC}/temp"
 
-
-
-def get_result_filename( the_date  )
-  result_filename = ""
-  month_string  = the_date.month.to_s
-  year_string   = the_date.year.to_s
-
-  if month_string.length == 1 
-    result_filename << "0"  + month_string + "_"
-  else
-    result_filename << month_string + "_"
-  end
-
-  return result_filename
-end
-
-def generate_csv_report_for_month( the_date ) 
-  auth_token = get_auth_token
-
-  beginning_of_month = the_date.beginning_of_month
-  ending_of_month = the_date.end_of_month
-  starting_datetime = beginning_of_month.utc 
-  ending_datetime = ending_of_month.utc 
-
-  result_filename = get_result_filename( the_date  )
-
-
-  # extract data from the server, and create csv 
-  temporary_file_array =  generate_temporary_files( auth_token )
-
-
-  result_file_location = BASE_FILE_LOC + "/#{result_filename}"
-  generate_header_file( result_file_location)
-
-  # return result file location to the main 
-  merge_all_files(result_file_location,  temporary_file_array ) 
-end
-
 def get_auth_token
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
     { 
@@ -60,119 +22,18 @@ def get_auth_token
   return auth_token 
 end
 
-task :extract_last_month_gl_report => :environment do
-  auth_token = get_auth_token 
+def get_result_filename( the_date  )
+  result_filename = ""
+  month_string  = the_date.month.to_s
+  year_string   = the_date.year.to_s
 
-  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
-  last_month = today_kki_date - 1.months
-
-  file_location =  generate_csv_report_for_month( last_month )
-
-  
-  upload_report_to_dropbox( file_location ) 
-  File.delete( file_location  )
-
-  # delete the file 
-
-
-
-
-
-
-  # then , try to generate csv report
-
-    
-    beginning_of_last_month = last_month.beginning_of_month
-    ending_of_last_month = last_month.end_of_month
-    starting_datetime = beginning_of_last_month.utc 
-    ending_datetime = ending_of_last_month.utc 
-
-
-  temporary_file_array = [] 
-
-
-  file_location = "#{BASE_FILE_LOC}/result.csv"
-
-  # delete temp folder 
-  if  File.directory?(TEMP_FILE_LOC)
-    FileUtils.rm_rf( TEMP_FILE_LOC )
-  end
-  FileUtils.mkdir_p(TEMP_FILE_LOC)
-
-  page = 1 
-  limit  = 1000
-  total = 0 
-  counter = 0 
-
-  begin
-    
-   puts "page #{page}. gonna get from the server"
-   server_response = extract_transaction_data( starting_datetime, ending_datetime, page, limit , auth_token )
-   # puts server_response 
-   total_result = server_response["transaction_datas"].length
-   the_total = server_response["total"]
-   puts ".>>>>> the page : #{page*limit}/#{the_total}"
-   
-
-    
-   if not total_result == 0 
-     result = generate_temp_csv_file( 
-        server_response["transaction_datas"],
-        page,
-        limit,
-        counter 
-      )
-
-   end
-
-   page = page + 1 
-
-   temporary_file_array << result[0]
-   counter =  result[1]
-
-   
-
-  end until total_result == 0  
-
-  # what if total  = 176
-  # page*limit = 2*100 == 200
-
-
-  puts "ALL TEMPORARY FILES" 
-  
-
-  result_file_location = BASE_FILE_LOC + "/result.csv"
-  generate_header_file( result_file_location)
-
-  temporary_file_array.each do |x|
-    puts "filename: #{x}"
+  if month_string.length == 1 
+    result_filename << "0"  + month_string + "_"
+  else
+    result_filename << month_string + "_"
   end
 
-  merge_all_files(result_file_location,  temporary_file_array ) 
-
-
-
-end
-
-def merge_all_files( result_file_location , temporary_file_array )
-
-  temporary_file_array.each do |temporary_file|
-    CSV.open( result_file_location, 'a' ) do |writer| 
-      
-      CSV.foreach( temporary_file ) do |row|
-        writer << row 
-      end
-    end 
-  end
-
-  
-end
-
-def generate_header_file( file_location  )
-  CSV.open( file_location, 'w' ) do |writer| 
-    writer << [ "",  "", "", "debit", "", "credit"]
-    writer << [ "no",  "description", "account", "amount", "account", "amount"]
-  end
+  return result_filename
 end
 
 
@@ -259,3 +120,222 @@ def extract_transaction_data( starting_datetime, ending_datetime, page, limit, a
 
   return server_response 
 end
+
+def generate_temporary_files(auth_token)
+  temporary_file_array = [] 
+
+  # delete temp folder 
+  if  File.directory?(TEMP_FILE_LOC)
+    FileUtils.rm_rf( TEMP_FILE_LOC )
+  end
+  FileUtils.mkdir_p(TEMP_FILE_LOC)
+
+  page = 1 
+  limit  = 1000
+  total = 0 
+  counter = 0 
+
+  begin
+    
+   puts "page #{page}. gonna get from the server"
+   server_response = extract_transaction_data( starting_datetime, ending_datetime, page, limit , auth_token )
+   # puts server_response 
+   total_result = server_response["transaction_datas"].length
+   the_total = server_response["total"]
+   puts ".>>>>> the page : #{page*limit}/#{the_total}"
+   
+
+    
+   if not total_result == 0 
+     result = generate_temp_csv_file( 
+        server_response["transaction_datas"],
+        page,
+        limit,
+        counter 
+      )
+
+     temporary_file_array << result[0]
+     counter =  result[1]
+
+   end
+
+   page = page + 1 
+
+   
+  end until total_result == 0
+
+  return temporary_file_array
+end
+
+def generate_header_file( file_location  )
+  CSV.open( file_location, 'w' ) do |writer| 
+    writer << [ "",  "", "", "debit", "", "credit"]
+    writer << [ "no",  "description", "account", "amount", "account", "amount"]
+  end
+end
+
+
+def merge_all_files( result_file_location , temporary_file_array )
+
+  temporary_file_array.each do |temporary_file|
+    CSV.open( result_file_location, 'a' ) do |writer| 
+      
+      CSV.foreach( temporary_file ) do |row|
+        writer << row 
+      end
+    end 
+  end
+
+  return result_file_location
+end
+
+
+
+def generate_csv_report_for_month( the_date ) 
+  auth_token = get_auth_token
+
+  beginning_of_month = the_date.beginning_of_month
+  ending_of_month = the_date.end_of_month
+  starting_datetime = beginning_of_month.utc 
+  ending_datetime = ending_of_month.utc 
+
+  result_filename = get_result_filename( the_date  )
+
+
+  # extract data from the server, and create csv 
+  temporary_file_array =  generate_temporary_files( auth_token )
+
+
+  result_file_location = BASE_FILE_LOC + "/#{result_filename}"
+  generate_header_file( result_file_location)
+
+  # return result file location to the main 
+  result_file_location = merge_all_files(result_file_location,  temporary_file_array ) 
+
+  temporary_file_array.each do |temp_file_loc|
+    File.delete( temp_file_loc )
+  end
+
+  return result_file_location
+end
+
+
+def upload_report_to_dropbox( file_location) 
+  puts "haven't implemented dropbox upload"
+end
+
+
+
+task :generate_last_month_gl_report => :environment do
+  auth_token = get_auth_token 
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  last_month = today_kki_date - 1.months
+
+  file_location =  generate_csv_report_for_month( last_month )
+
+  
+  # upload_report_to_dropbox( file_location ) 
+  # File.delete( file_location  )
+
+  puts "done generating file"
+
+end
+
+task :extract_last_month_gl_report => :environment do
+  auth_token = get_auth_token 
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  last_month = today_kki_date - 1.months
+
+  file_location =  generate_csv_report_for_month( last_month )
+
+  
+  # upload_report_to_dropbox( file_location ) 
+  File.delete( file_location  )
+
+  # delete the file 
+
+
+
+
+
+
+  # then , try to generate csv report
+
+    
+    beginning_of_last_month = last_month.beginning_of_month
+    ending_of_last_month = last_month.end_of_month
+    starting_datetime = beginning_of_last_month.utc 
+    ending_datetime = ending_of_last_month.utc 
+
+
+  temporary_file_array = [] 
+
+
+  file_location = "#{BASE_FILE_LOC}/result.csv"
+
+  # delete temp folder 
+  if  File.directory?(TEMP_FILE_LOC)
+    FileUtils.rm_rf( TEMP_FILE_LOC )
+  end
+  FileUtils.mkdir_p(TEMP_FILE_LOC)
+
+  page = 1 
+  limit  = 1000
+  total = 0 
+  counter = 0 
+
+  begin
+    
+   puts "page #{page}. gonna get from the server"
+   server_response = extract_transaction_data( starting_datetime, ending_datetime, page, limit , auth_token )
+   # puts server_response 
+   total_result = server_response["transaction_datas"].length
+   the_total = server_response["total"]
+   puts ".>>>>> the page : #{page*limit}/#{the_total}"
+   
+
+    
+   if not total_result == 0 
+     result = generate_temp_csv_file( 
+        server_response["transaction_datas"],
+        page,
+        limit,
+        counter 
+      )
+
+   end
+
+   page = page + 1 
+
+   temporary_file_array << result[0]
+   counter =  result[1]
+
+   
+
+  end until total_result == 0  
+
+  # what if total  = 176
+  # page*limit = 2*100 == 200
+
+
+  puts "ALL TEMPORARY FILES" 
+  
+
+  result_file_location = BASE_FILE_LOC + "/result.csv"
+  generate_header_file( result_file_location)
+
+  temporary_file_array.each do |x|
+    puts "filename: #{x}"
+  end
+
+  merge_all_files(result_file_location,  temporary_file_array ) 
+
+
+
+end
+
+
+
+
