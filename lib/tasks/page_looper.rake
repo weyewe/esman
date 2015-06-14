@@ -33,6 +33,8 @@ def get_result_filename( the_date  )
     result_filename << month_string + "_"
   end
 
+  result_filename << year_string + ".csv"
+
   return result_filename
 end
 
@@ -121,7 +123,7 @@ def extract_transaction_data( starting_datetime, ending_datetime, page, limit, a
   return server_response 
 end
 
-def generate_temporary_files(auth_token)
+def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
   temporary_file_array = [] 
 
   # delete temp folder 
@@ -203,7 +205,7 @@ def generate_csv_report_for_month( the_date )
 
 
   # extract data from the server, and create csv 
-  temporary_file_array =  generate_temporary_files( auth_token )
+  temporary_file_array =  generate_temporary_files( auth_token,starting_datetime,ending_datetime )
 
 
   result_file_location = BASE_FILE_LOC + "/#{result_filename}"

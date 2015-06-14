@@ -18,3 +18,5 @@
 
 /generated_folder
 /result/*.*
+
+/config/app_secrets.rb
