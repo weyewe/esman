@@ -221,8 +221,14 @@ def generate_csv_report_for_month( the_date )
 end
 
 
-def upload_report_to_dropbox( file_location) 
-  puts "haven't implemented dropbox upload"
+def upload_report_to_dropbox( file_location, result_filename) 
+  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+  dropbox_upload_path = "/accounting_report"
+
+  file = open( file_location )
+
+  dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
+  client.put_file(dropbox_file_location, file)
 end
 
 
@@ -236,107 +242,11 @@ task :generate_last_month_gl_report => :environment do
   file_location =  generate_csv_report_for_month( last_month )
 
   
-  # upload_report_to_dropbox( file_location ) 
-  # File.delete( file_location  )
+  upload_report_to_dropbox( file_location, get_result_filename( last_month ) ) 
+  File.delete( file_location  )
 
   puts "done generating file"
 
 end
-
-task :extract_last_month_gl_report => :environment do
-  auth_token = get_auth_token 
-
-  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
-  last_month = today_kki_date - 1.months
-
-  file_location =  generate_csv_report_for_month( last_month )
-
-  
-  # upload_report_to_dropbox( file_location ) 
-  File.delete( file_location  )
-
-  # delete the file 
-
-
-
-
-
-
-  # then , try to generate csv report
-
-    
-    beginning_of_last_month = last_month.beginning_of_month
-    ending_of_last_month = last_month.end_of_month
-    starting_datetime = beginning_of_last_month.utc 
-    ending_datetime = ending_of_last_month.utc 
-
-
-  temporary_file_array = [] 
-
-
-  file_location = "#{BASE_FILE_LOC}/result.csv"
-
-  # delete temp folder 
-  if  File.directory?(TEMP_FILE_LOC)
-    FileUtils.rm_rf( TEMP_FILE_LOC )
-  end
-  FileUtils.mkdir_p(TEMP_FILE_LOC)
-
-  page = 1 
-  limit  = 1000
-  total = 0 
-  counter = 0 
-
-  begin
-    
-   puts "page #{page}. gonna get from the server"
-   server_response = extract_transaction_data( starting_datetime, ending_datetime, page, limit , auth_token )
-   # puts server_response 
-   total_result = server_response["transaction_datas"].length
-   the_total = server_response["total"]
-   puts ".>>>>> the page : #{page*limit}/#{the_total}"
-   
-
-    
-   if not total_result == 0 
-     result = generate_temp_csv_file( 
-        server_response["transaction_datas"],
-        page,
-        limit,
-        counter 
-      )
-
-   end
-
-   page = page + 1 
-
-   temporary_file_array << result[0]
-   counter =  result[1]
-
-   
-
-  end until total_result == 0  
-
-  # what if total  = 176
-  # page*limit = 2*100 == 200
-
-
-  puts "ALL TEMPORARY FILES" 
-  
-
-  result_file_location = BASE_FILE_LOC + "/result.csv"
-  generate_header_file( result_file_location)
-
-  temporary_file_array.each do |x|
-    puts "filename: #{x}"
-  end
-
-  merge_all_files(result_file_location,  temporary_file_array ) 
-
-
-
-end
-
-
 
 

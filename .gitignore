@@ -20,3 +20,4 @@
 /result/*.*
 
 /config/app_secrets.rb
+/config/initializers/second_app_secrets.rb
