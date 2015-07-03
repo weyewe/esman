@@ -1,7 +1,0 @@
-SavingsSource,Status,Amount,Backdated?,Diff,Created At,Confirmed At,Running Total
-Independent,Incoming,300000.0,True,246,2014-09-18,2014-01-15,300000.0
-Independent,Incoming,300000.0,True,233,2014-09-18,2014-01-28,600000.0
-Independent,Incoming,300000.0,True,183,2014-09-18,2014-03-19,900000.0
-Independent,Outgoing,4000000.0,True,181,2014-09-18,2014-03-21,-3100000.0
-Independent,Incoming,3600000.0,False,0,2014-05-18,2014-05-18,500000.0
-Independent,Outgoing,600000.0,True,93,2014-09-19,2014-06-18,-100000.0
