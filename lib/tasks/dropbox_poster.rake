@@ -455,7 +455,7 @@ end
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
   weekly_collection_report_disburse_day = today_kki_date  + 2.days
-  dropbox_upload_path = "/willy"
+  dropbox_upload_path = "/play_demo"
   local_path = "tomorrow_date"
 
   generate_weekly_collection_report_for( 

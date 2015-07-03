@@ -1,0 +1,26 @@
+SavingsSource,Status,Amount,Backdated?,Diff,Created At,Confirmed At,Running Total
+GroupLoan,Incoming,20000.0,True,180,2014-09-09,2014-03-13,20000.0
+GroupLoan,Incoming,20000.0,True,173,2014-09-09,2014-03-20,40000.0
+GroupLoan,Incoming,20000.0,True,159,2014-09-09,2014-04-03,60000.0
+GroupLoan,Incoming,20000.0,True,152,2014-09-09,2014-04-10,80000.0
+GroupLoan,Incoming,10000.0,True,145,2014-09-09,2014-04-17,90000.0
+GroupLoan,Incoming,20000.0,True,138,2014-09-09,2014-04-24,110000.0
+GroupLoan,Incoming,40000.0,True,110,2014-09-09,2014-05-22,150000.0
+GroupLoan,Incoming,20000.0,True,96,2014-09-09,2014-06-05,170000.0
+GroupLoan,Incoming,20000.0,True,89,2014-09-09,2014-06-12,190000.0
+GroupLoan,Incoming,10000.0,True,82,2014-09-09,2014-06-19,200000.0
+Independent,Outgoing,150000.0,True,77,2014-09-19,2014-07-04,50000.0
+GroupLoan,Incoming,20000.0,True,61,2014-09-09,2014-07-10,70000.0
+GroupLoan,Incoming,40000.0,True,33,2014-09-09,2014-08-07,110000.0
+GroupLoan,Incoming,40000.0,True,26,2014-09-09,2014-08-14,150000.0
+GroupLoan,Incoming,40000.0,True,19,2014-09-09,2014-08-21,190000.0
+GroupLoan,Incoming,40000.0,True,12,2014-09-09,2014-08-28,230000.0
+GroupLoan,Incoming,20000.0,True,28,2014-10-02,2014-09-04,250000.0
+GroupLoan,Incoming,40000.0,True,21,2014-10-02,2014-09-11,290000.0
+GroupLoan,Incoming,40000.0,True,14,2014-10-02,2014-09-18,330000.0
+GroupLoan,Incoming,20000.0,True,7,2014-10-02,2014-09-25,350000.0
+Independent,Outgoing,250000.0,True,1,2014-10-15,2014-10-14,100000.0
+GroupLoan,Incoming,20000.0,True,1,2014-10-17,2014-10-16,120000.0
+Independent,Outgoing,100000.0,True,89,2015-02-04,2014-11-07,20000.0
+Independent,Outgoing,100000.0,True,3,2014-11-10,2014-11-07,-80000.0
+Independent,Outgoing,20000.0,True,1,2015-02-05,2015-02-04,-100000.0
