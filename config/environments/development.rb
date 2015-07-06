@@ -41,3 +41,7 @@ config.assets.digest = false
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 end
+
+
+
+PENDING_GROUP_LOAN_LOCATION = "/home/willy/Sites/esman"

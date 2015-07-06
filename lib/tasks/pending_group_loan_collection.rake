@@ -51,7 +51,7 @@ task :generate_pending_collection_report_and_post_to_dropbox => :environment do
   counter = 0
   page = 1 
   limit = 50
-  file_location = "/home/willy/Sites/esman/#{today_date_string}.csv" 
+  file_location = "#{PENDING_GROUP_LOAN_LOCATION}/#{today_date_string}.csv" 
 
   CSV.open( file_location, 'w' ) do |writer| 
 

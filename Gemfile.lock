@@ -63,6 +63,7 @@ GEM
     eventmachine (1.0.7)
     execjs (2.5.2)
     hike (1.2.3)
+    hiredis (0.4.5)
     httparty (0.13.5)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -129,6 +130,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    redis (3.0.7)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
     rjb (1.5.3)
@@ -218,6 +220,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   dropbox-sdk
+  hiredis (~> 0.4.5)
   httparty
   jbuilder (~> 1.2)
   jquery-rails
@@ -230,6 +233,7 @@ DEPENDENCIES
   protected_attributes (~> 1.0.5)
   rails (= 4.1.2)
   rails_12factor
+  redis (~> 3.0.1)
   rjb
   roadie
   roadie-rails

@@ -21,6 +21,8 @@ gem 'coffee-rails', '~> 4.0.0'
 
 
 gem 'simple_form'
+gem "redis", "~> 3.0.1"
+gem "hiredis", "~> 0.4.5"
 
 
 gem 'wicked_pdf'
