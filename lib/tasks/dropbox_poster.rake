@@ -412,6 +412,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
     dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
     puts "The result file location: #{result_file_location}"
     client.put_file(dropbox_file_location, file)
+    puts "the dropbox_file_location: #{dropbox_file_location}"
 
     puts "deleting all temporary results"
     File.delete( result_file_location )
