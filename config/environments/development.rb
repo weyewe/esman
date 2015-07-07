@@ -44,4 +44,4 @@ end
 
 
 
-PENDING_GROUP_LOAN_LOCATION = "/home/willy/Sites/esman"
+PENDING_GROUP_LOAN_FILE_LOCATION = "/home/willy/Sites/esman"
