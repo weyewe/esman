@@ -45,3 +45,4 @@ end
 
 
 PENDING_GROUP_LOAN_FILE_LOCATION = "/home/willy/Sites/esman"
+DISBURSED_GROUP_LOAN_FILE_LOCATION = "/home/willy/Sites/esman"
