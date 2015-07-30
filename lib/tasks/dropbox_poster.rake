@@ -438,7 +438,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
 
     result_file_location = generate_report_from_id_list( 
-                  [48841] , #id_list , 
+                  id_list, # [48841] , #id_list , 
                   result_filename,
                   "#{PDF_FILE_LOCATION}/#{local_path}"
                   )
