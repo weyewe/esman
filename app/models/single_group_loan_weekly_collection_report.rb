@@ -109,6 +109,9 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 		return result["url"]
 	end
 
+=begin 
+SingleGroupLoanWeeklyCollectionReport.generate_report( 48841 "awesome.pdf", "hah")
+=end
 	# will return the  report location in the server folder
 	def self.generate_report( weekly_collection_id, result_pdf_name , folder_location  )
 

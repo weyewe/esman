@@ -319,6 +319,48 @@ def generate_report_from_id_list( id_list , result_filename, folder_location )
 
 end
 
+=begin 
+
+require 'dropbox_sdk'
+require 'fileutils'
+require "pdf/merger"
+require 'rjb'
+require 'httparty'
+require 'json'
+
+
+tgl_17 = DateTime.new( 2015, 7, 17,0,0,0).in_time_zone "Jakarta"
+last_week = tgl_17 - 1.weeks 
+beginning_of_day = last_week.beginning_of_day.utc
+end_of_day =  last_week.end_of_day.utc
+
+  response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  auth_token  = server_response["auth_token"]
+  puts "auth_token = #{auth_token}"
+
+  # get all id to be printed
+  response = HTTParty.get( "http://neo-sikki.herokuapp.com/api2/group_loan_weekly_collection_reports" ,
+    :query => {
+      :auth_token => auth_token,
+      # :starting_datetime =>  "2015-05-18T07:00:00+00:00",
+      # :ending_datetime => "2015-05-19T06:59:59+00:00"
+      :starting_datetime =>  beginning_of_day , # "2015-05-20T07:00:00+00:00",
+      :ending_datetime => end_of_day  # "2015-05-21T06:59:59+00:00"
+    })
+
+  server_response =  JSON.parse(response.body )
+
+
+=end  
+
 def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
                                            dropbox_upload_path, local_path) 
 
@@ -396,7 +438,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
 
     result_file_location = generate_report_from_id_list( 
-                  id_list , 
+                  [48841] , #id_list , 
                   result_filename,
                   "#{PDF_FILE_LOCATION}/#{local_path}"
                   )
@@ -423,7 +465,12 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 end
 
 
-
+=begin
+   bundle exec rake dummy_report[-14]
+   bundle exec rake dummy_report[-13]
+   bundle exec rake dummy_report[-12]
+   bundle exec rake dummy_report[-11]
+=end 
 
 # bundle exec rake dummy_report[3]
 
@@ -453,7 +500,10 @@ task :dummy_report, [:number_of_days] => :environment do | t ,args |
             local_path)
 end
 
+=begin 
+tgl_17 = DateTime.new( 2015, 7, 17,0,0,0).in_time_zone "Jakarta"
 
+=end
 task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :environment do
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
   weekly_collection_report_disburse_day = today_kki_date  + 2.days

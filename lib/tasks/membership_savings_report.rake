@@ -7,6 +7,19 @@ FUND_TRANSFER_DIRECTION = {
   :outgoing => 2 
 }
 
+task :fail_authentication do 
+  response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "haha" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  auth_token  = server_response["auth_token"]
+end 
+
 task :generate_membership_savings_report_and_post_to_dropbox => :environment do
 
 
