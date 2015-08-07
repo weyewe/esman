@@ -24,8 +24,8 @@ task :generate_disburse_loan_report_and_post_to_dropbox => :environment do
 
 
 
-    # today_kki_date = DateTime.now.in_time_zone 'Jakarta'
-    today_kki_date = DateTime.new(2015,7,5,0,0,0 )
+    today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+    # today_kki_date = DateTime.new(2015,8,5,0,0,0 )
     last_month = today_kki_date - 1.months
     beginning_of_last_month = last_month.beginning_of_month
     ending_of_last_month = last_month.end_of_month
@@ -112,16 +112,16 @@ task :generate_disburse_loan_report_and_post_to_dropbox => :environment do
   end until total_result == 0
 
 
-  # puts "gonna put to dropbox"
-  # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+  puts "gonna put to dropbox"
+  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
 
-  # file = open( file_location )
+  file = open( file_location )
 
-  # dropbox_file_location  = "/pending_loan_collection/#{last_month_date_string}.csv"
-  # client.put_file(dropbox_file_location, file)
+  dropbox_file_location  = "/disbursed_loan/#{last_month_date_string}.csv"
+  client.put_file(dropbox_file_location, file)
 
-  # File.delete( file_location )
+  File.delete( file_location )
 
   
  

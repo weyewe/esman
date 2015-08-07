@@ -39,3 +39,7 @@ end
 every '0 14 7 * *' do
   rake "generate_last_month_gl_report"
 end
+
+every '0 14 5 * *' do
+  rake "generate_disburse_loan_report_and_post_to_dropbox"
+end
