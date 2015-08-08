@@ -155,6 +155,10 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    rubyXL (3.3.10)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.1.6)
+    rubyzip (1.1.7)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -238,6 +242,7 @@ DEPENDENCIES
   roadie
   roadie-rails
   rspec-rails (~> 2.0)
+  rubyXL
   sass-rails (~> 4.0.0)
   sdoc
   simple_form
