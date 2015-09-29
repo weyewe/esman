@@ -4,7 +4,7 @@ require 'httparty'
 require 'json'
 
 
-task :generate_deceased_member_report => :environment do
+task :generate_active_member_report => :environment do
 
 
 
