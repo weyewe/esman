@@ -134,7 +134,7 @@ require 'rubyXL'
       additional_counter = 0
       debit_list.each do |debit|
         debit_row = row_counter + additional_counter 
-        account_name = "[#{debit['account_code']}]"  + " #{debit['account_name']}"
+        account_name = "#{debit['account_name']}"
         worksheet.add_cell(debit_row ,9, account_name )
         worksheet.add_cell(debit_row ,10, debit["amount"])
         additional_counter = additional_counter + 1 
@@ -143,7 +143,7 @@ require 'rubyXL'
       additional_counter = 0
       credit_list.each do |credit|
         credit_row = row_counter + additional_counter 
-        account_name = "[#{credit['account_code']}]"  + " #{credit['account_name']}"
+        account_name =  "#{credit['account_name']}"
         worksheet.add_cell(credit_row ,11, account_name )
         worksheet.add_cell(credit_row ,12,  credit["amount"])
         additional_counter = additional_counter + 1 

@@ -472,7 +472,7 @@ end
    bundle exec rake dummy_report[-11]
 =end 
 
-# bundle exec rake dummy_report[3]
+# bundle exec rake dummy_report[0]
 
 task :dummy_report, [:number_of_days] => :environment do | t ,args | 
 

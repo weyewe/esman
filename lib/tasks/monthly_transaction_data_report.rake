@@ -34,10 +34,21 @@ task :generate_monthly_transaction_data_report => :environment do
 
   today_kki_date = DateTime.new(2015,8,5,0,0,0 )
   last_month = today_kki_date - 1.months
-  beginning_of_last_month = last_month.beginning_of_month
-  ending_of_last_month = last_month.end_of_month
-  starting_datetime = beginning_of_last_month.utc 
-  ending_datetime = ending_of_last_month.utc 
+  # beginning_of_last_month = last_month.beginning_of_month
+  # ending_of_last_month = last_month.end_of_month
+
+  beginning_of_year = today_kki_date.beginning_of_year
+  end_of_year = today_kki_date.end_of_month
+
+  # starting_datetime = beginning_of_last_month.utc 
+  # ending_datetime = ending_of_last_month.utc 
+
+  starting_datetime = beginning_of_year.utc 
+  ending_datetime = end_of_year.utc 
+
+  diff_duration = (ending_datetime - starting_datetime).to_i
+
+
 
   last_month_date_string = ""
   last_month_date_string << last_month.year.to_s  + "-"
@@ -82,8 +93,9 @@ task :generate_monthly_transaction_data_report => :environment do
   # total_days_in_month = Time.days_in_month(starting_datetime.month, starting_datetime.year)
   
   row_counter = 2
-  (1.upto 30).each do |day_number|
+  (0.upto diff_duration).each do |day_number|
     target_date = starting_datetime + day_number.days
+    puts "target_date: #{target_date}"
     target_date_string  =   target_date.year.to_s + "-" + 
               target_date.month.to_s + "-" + 
               target_date.day.to_s
@@ -140,7 +152,7 @@ task :generate_monthly_transaction_data_report => :environment do
         additional_counter = 0
         debit_list.each do |debit|
           debit_row = row_counter + additional_counter 
-          account_name = "[#{debit['account_code']}]"  + " #{debit['account_name']}"
+          account_name = "#{debit['account_name']}"
           worksheet.add_cell(debit_row ,9, account_name )
           worksheet.add_cell(debit_row ,10, debit["amount"])
           additional_counter = additional_counter + 1 
@@ -149,7 +161,7 @@ task :generate_monthly_transaction_data_report => :environment do
         additional_counter = 0
         credit_list.each do |credit|
           credit_row = row_counter + additional_counter 
-          account_name = "[#{credit['account_code']}]"  + " #{credit['account_name']}"
+          account_name =  "#{credit['account_name']}"
           worksheet.add_cell(credit_row ,11, account_name )
           worksheet.add_cell(credit_row ,12,  credit["amount"])
           additional_counter = additional_counter + 1 
@@ -173,7 +185,7 @@ task :generate_monthly_transaction_data_report => :environment do
 
  
 
-  workbook.write( Dir.pwd + "/" + "haha_monthly_report.xlsx")
+  workbook.write( Dir.pwd + "/" + "haha_monthly2_report.xlsx")
  
  
   
