@@ -43,3 +43,7 @@ end
 every '0 15 4 * *' do
   rake "generate_disburse_loan_report_and_post_to_dropbox"
 end
+
+every '0 15 5 * *' do
+  rake "generate_deceased_member_report"
+end
