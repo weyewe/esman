@@ -119,7 +119,7 @@ task :generate_deceased_member_report => :environment do
 
   file = open( file_location )
 
-  dropbox_file_location  = "/aux_kki_report/deceased_member/#{today_kki_date.year.to_s}.csv"
+  dropbox_file_location  = "/aux_kki_report/deceased_member/#{today_kki_date.year.to_s}_#{today_kki_date.month.to_s}.csv"
   client.put_file(dropbox_file_location, file)
 
   File.delete( file_location )
