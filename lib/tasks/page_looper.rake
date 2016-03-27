@@ -35,7 +35,7 @@ def get_result_filename( the_date  )
     result_filename << month_string  
   end
 
-  result_filename << month_string + ".csv"
+  result_filename <<  ".csv"
 
   return result_filename
 end
