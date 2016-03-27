@@ -73,7 +73,7 @@ def generate_temp_csv_file(
       (0.upto (length -1) ).each do |x| 
         row_array  = []
         if x == 0
-          row_array << counter 
+          row_array <<  counter 
           row_array << td["transaction_datetime"]
           row_array  << td["description"] 
         else
@@ -137,7 +137,7 @@ def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
   FileUtils.mkdir_p(TEMP_FILE_LOC)
 
   page = 1 
-  limit  = 100
+  limit  = 1000
   total = 0 
   counter = 0 
 
@@ -148,7 +148,7 @@ def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
    # puts server_response 
    total_result = server_response["transaction_datas"].length
    the_total = server_response["total"]
-   puts ".>>>>> the page #{page}:  the_limit: #{limit} => #{the_total}"
+   puts ".>>>>> the page : #{page*limit}/#{the_total}"
    
 
     
