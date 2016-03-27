@@ -73,9 +73,11 @@ def generate_temp_csv_file(
       (0.upto (length -1) ).each do |x| 
         row_array  = []
         if x == 0
+          row_array << td["transaction_datetime"]
           row_array << counter 
           row_array  << td["description"] 
         else
+          row_array << nil
           row_array <<  nil  
           row_array <<  nil  
         end
@@ -174,7 +176,7 @@ end
 def generate_header_file( file_location  )
   CSV.open( file_location, 'w' ) do |writer| 
     writer << [ "",  "", "", "debit", "", "credit"]
-    writer << [ "no",  "description", "account", "amount", "account", "amount"]
+    writer << [ "no", "date",  "description", "account", "amount", "account", "amount"]
   end
 end
 
