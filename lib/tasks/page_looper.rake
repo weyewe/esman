@@ -254,12 +254,12 @@ task :generate_last_month_gl_report => :environment do
 
 end
 
-task :generate_last_10_months_gl_report => :environment do
+task :generate_last_24_months_gl_report => :environment do
   auth_token = get_auth_token 
 
   today_kki_date = DateTime.now.in_time_zone 'Jakarta'
 
-  (1.upto 10).each do |x|
+  (1.upto 24).each do |x|
     puts "previous #{x} month(s)"
 
     last_month = today_kki_date - x.months
