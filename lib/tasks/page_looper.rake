@@ -73,7 +73,7 @@ def generate_temp_csv_file(
       (0.upto (length -1) ).each do |x| 
         row_array  = []
         if x == 0
-          row_array <<  counter 
+          row_array << counter 
           row_array << td["transaction_datetime"]
           row_array  << td["description"] 
         else
@@ -272,25 +272,27 @@ task :generate_last_10_months_gl_report => :environment do
   end
 
 
+
 end
 
 
-task :generate_2015_12_gl_report => :environment do 
+
+task :generate_2015_12_report => :environment do
   auth_token = get_auth_token 
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
  
- 
 
-  last_month =  DateTime.new(2015,12,15,0,0,0)
+    last_month = DateTime.new(2015,12,15,0,0,0)
 
-  file_location =  generate_csv_report_for_month( last_month )
+    file_location =  generate_csv_report_for_month( last_month )
 
-  
-  upload_report_to_dropbox( file_location, get_result_filename( last_month ) ) 
-  File.delete( file_location  )    
+    
+    upload_report_to_dropbox( file_location, get_result_filename( last_month ) ) 
+    File.delete( file_location  ) 
+
 
 end
 
 
-end
-
-
+ 
