@@ -26,13 +26,16 @@ def get_result_filename( the_date  )
   month_string  = the_date.month.to_s
   year_string   = the_date.year.to_s
 
+
+  result_filename << year_string + "_"
+
   if month_string.length == 1 
-    result_filename << "0"  + month_string + "_"
+    result_filename << "0"  + month_string  
   else
-    result_filename << month_string + "_"
+    result_filename << month_string  
   end
 
-  result_filename << year_string + ".csv"
+  result_filename << month_string + ".csv"
 
   return result_filename
 end
