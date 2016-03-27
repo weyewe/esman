@@ -13,12 +13,12 @@ require 'mina/whenever'
 #   branch       - Branch name to deploy. (needed by mina/git)
 # https://github.com/weyewe/shopper-deployment.git
  
-set :domain, '128.199.148.227'
-set :deploy_to, '/var/www/sableng.com'
+set :domain, '128.199.93.248'
+set :deploy_to, '/var/www/sikki'
 # https://github.com/weyewe/esman.git
 set :repository, 'git://github.com/weyewe/esman.git'
 set :branch, 'master'
-set :user , 'deployer'
+set :user , 'corgi_deployer'
 set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 
 # For system-wide RVM install.
@@ -27,6 +27,9 @@ set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml', 'config/initializers/app_secrets.rb']
+
+set :rbenv_path, "/usr/local/rbenv"
+
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.

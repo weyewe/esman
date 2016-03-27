@@ -3,6 +3,139 @@ require 'fileutils'
 require 'httparty'
 require 'json'
 
+task :bentar_localhost => :environment do
+
+  puts "setting up base url"
+  base_url = "http://localhost:5000"
+  puts "The base url: #{base_url}"
+
+  response = HTTParty.post( "#{base_url}/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  puts "server_response: #{server_response}"
+
+  auth_token  = server_response["auth_token"]
+
+  puts "tadaaaa.. this is the auth_token #{auth_token}"
+
+
+
+end
+
+
+def bentar_login
+
+  puts "setting up base url"
+  base_url = "http://localhost:5000"
+  puts "The base url: #{base_url}"
+
+  response = HTTParty.post( "#{base_url}/api2/users/sign_in" ,
+    { 
+      :body => {
+        :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
+      }
+    })
+
+  server_response =  JSON.parse(response.body )
+
+  puts "server_response: #{server_response}"
+
+  auth_token  = server_response["auth_token"]
+
+  puts "tadaaaa.. this is the auth_token #{auth_token}"
+
+
+  return auth_token 
+end
+
+task :bentar_test_pass_params => :environment do
+
+  auth_token = bentar_login
+
+  puts "The auth token from bentar_login: #{auth_token}"
+
+base_url = "http://localhost:5000"
+
+  response = HTTParty.post( "#{base_url}/api2/calculate_rico_score" ,
+    :query => {
+      :auth_token => auth_token
+    },
+    :body => {
+      :savings_entry => {  
+        :amount        =>  BigDecimal( '500000' ),
+        :member_id =>  1755, 
+        :direction =>   1 # 1 for addition, 2 for withdrawal
+      },
+      :source_node_key => 23432423,
+      :target_node_key => 23432
+    }
+
+  )
+
+
+  server_response =  JSON.parse(response.body )
+
+  puts "The response from server: #{server_response}"
+end
+
+
+
+task :bentar_test_get_array_result_params => :environment do
+
+  auth_token = bentar_login
+
+  puts "The auth token from bentar_login: #{auth_token}"
+
+base_url = "http://localhost:5000"
+
+  response = HTTParty.get( "#{base_url}/api2/show_connection_path" ,
+    :query => {
+      :auth_token => auth_token
+    },
+    :body => { 
+      :source_node_key => 23432423,
+      :target_node_key => 23432,
+      :jump => 2 
+    }
+
+  )
+
+
+  server_response =  JSON.parse(response.body )
+
+  puts "The response from server: #{server_response}"
+end
+
+task :bentar_test_get_api_token => :environment do
+  auth_token = bentar_login
+
+  puts "The auth token from bentar_login: #{auth_token}"
+
+  base_url = "http://localhost:5000"
+
+    response = HTTParty.get( "#{base_url}/api2/get_api_social_media" ,
+      :query => {
+        :auth_token => auth_token
+      },
+      :body => { 
+        :source_node_key => 23432423,
+        :target_node_key => 23432,
+        :jump => 2 
+      }
+
+    )
+
+
+    server_response =  JSON.parse(response.body )
+
+    puts "The response from server: #{server_response}"
+end
 
 task :generate_active_member_report => :environment do
 

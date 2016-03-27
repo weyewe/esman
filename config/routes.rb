@@ -20,6 +20,8 @@ Ticketie::Application.routes.draw do
 
     get 'transloadit_signature' => 'transloadits#get_new_signature', :as => :transloadit_signature, :method => :get
     put 'update_password' , :to => "passwords#update" , :as => :update_password
+
+
     
     resources :reimburses
     resources :reimburse_details 
