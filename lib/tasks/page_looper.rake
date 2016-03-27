@@ -73,8 +73,8 @@ def generate_temp_csv_file(
       (0.upto (length -1) ).each do |x| 
         row_array  = []
         if x == 0
-          row_array << td["transaction_datetime"]
           row_array << counter 
+          row_array << td["transaction_datetime"]
           row_array  << td["description"] 
         else
           row_array << nil
@@ -137,7 +137,7 @@ def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
   FileUtils.mkdir_p(TEMP_FILE_LOC)
 
   page = 1 
-  limit  = 1000
+  limit  = 100
   total = 0 
   counter = 0 
 
@@ -148,7 +148,7 @@ def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
    # puts server_response 
    total_result = server_response["transaction_datas"].length
    the_total = server_response["total"]
-   puts ".>>>>> the page : #{page*limit}/#{the_total}"
+   puts ".>>>>> the page #{page}:  the_limit: #{limit} => #{the_total}"
    
 
     
@@ -271,6 +271,24 @@ task :generate_last_10_months_gl_report => :environment do
     File.delete( file_location  )
   end
 
+
+end
+
+
+task :generate_2015_12_gl_report => :environment do 
+  auth_token = get_auth_token 
+ 
+ 
+
+  last_month =  DateTime.new(2015,12,15,0,0,0)
+
+  file_location =  generate_csv_report_for_month( last_month )
+
+  
+  upload_report_to_dropbox( file_location, get_result_filename( last_month ) ) 
+  File.delete( file_location  )    
+
+end
 
 
 end
