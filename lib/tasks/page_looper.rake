@@ -137,7 +137,7 @@ def generate_temporary_files(auth_token, starting_datetime, ending_datetime)
   FileUtils.mkdir_p(TEMP_FILE_LOC)
 
   page = 1 
-  limit  = 1000
+  limit  = 100
   total = 0 
   counter = 0 
 
