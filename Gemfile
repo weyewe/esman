@@ -42,7 +42,7 @@ gem "hiredis", "~> 0.4.5"
 
 
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+# gem 'wkhtmltopdf-binary'
 gem 'dropbox-sdk'
 gem 'httparty'
 gem 'json'
