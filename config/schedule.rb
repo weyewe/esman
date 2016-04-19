@@ -25,7 +25,7 @@
 # end
 
 
-set :output, "/var/www/sableng.com/cron_log/error.log"
+set :output, "/var/www/sikki/cron_error.log"
 
 every 1.day, :at => '1pm' do
   rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox"
