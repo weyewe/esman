@@ -28,9 +28,9 @@
 set :output, "/var/www/sikki/cron_error.log"
 
 
-every 1.minutes do 
-	rake "test_awesome_closing"
-end
+# every 1.minutes do 
+# 	rake "test_awesome_closing"
+# end
 
 
 every 1.day, :at => '1pm' do
