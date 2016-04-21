@@ -27,6 +27,12 @@
 
 set :output, "/var/www/sikki/cron_error.log"
 
+
+every 1.minutes do 
+	puts "This is amazing logger #{DateTime.now}"
+end
+
+
 every 1.day, :at => '1pm' do
   rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox"
 end
