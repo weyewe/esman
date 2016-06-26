@@ -4,25 +4,25 @@ ROLE_NAME = {
   :data_entry => "dataentry"
 }
 
- 
 
-# => TIMEZONE ( for 1 store deployment. For multitenant => different story) 
-UTC_OFFSET = 7 
-LOCAL_TIME_ZONE = "Jakarta" 
+
+# => TIMEZONE ( for 1 store deployment. For multitenant => different story)
+UTC_OFFSET = 7
+LOCAL_TIME_ZONE = "Jakarta"
 
 EXT_41_JS = 'https://s3.amazonaws.com/weyewe-extjs/41/ext-all.js'
 
 EXTENSIBLE = 'https://s3.amazonaws.com/weyewe-extjs/extensible-all.js'
 
 VIEW_VALUE = {
-  :week => 0, 
-  :month => 1, 
-  :year => 2 
+  :week => 0,
+  :month => 1,
+  :year => 2
 }
- 
+
 
 IMAGE_ASSET_URL = {
-  
+
   # MSG BOX
   :alert => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/alert.png',
   :background => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/background.png',
@@ -31,24 +31,24 @@ IMAGE_ASSET_URL = {
   :info => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/info.png',
   :question => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/question.png',
   :success => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/success.png',
-  
-  
-  # FONT 
+
+
+  # FONT
   :font_awesome_eot => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.eot',
   :font_awesome_svg => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.svg',
   :font_awesome_svgz =>'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.svgz',
   :font_awesome_ttf => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.ttf',
-  :font_awesome_woff => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.woff',  
-  
-  
-  # BOOTSTRAP SPECIFIC 
+  :font_awesome_woff => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.woff',
+
+
+  # BOOTSTRAP SPECIFIC
   :glyphicons_halflings_white => 'http://s3.amazonaws.com/salmod/app_asset/bootstrap/glyphicons-halflings-white.png',
   :glyphicons_halflings_black => 'http://s3.amazonaws.com/salmod/app_asset/bootstrap/glyphicons-halflings.png',
-  
-  # jquery UI-lightness 
+
+  # jquery UI-lightness
   :ui_bg_diagonal_thick_18 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_diagonals-thick_18_b81900_40x40.png',
   :ui_bg_diagonal_thick_20 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_diagonals-thick_20_666666_40x40.png',
-  :ui_bg_flat_10 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_flat_10_000000_40x100.png' , 
+  :ui_bg_flat_10 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_flat_10_000000_40x100.png' ,
   :ui_bg_glass_100_f6f6f6 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_glass_100_f6f6f6_1x400.png',
   :ui_bg_glass_100 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_glass_100_fdf5ce_1x400.png',
   :ui_bg_glass_65 => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_glass_65_ffffff_1x400.png',
@@ -61,9 +61,9 @@ IMAGE_ASSET_URL = {
   :ui_icons_ffd27a => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-icons_ffd27a_256x240.png',
   :ui_icons_ffffff => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-icons_ffffff_256x240.png',
   :ui_bg_highlight_soft_100_eeeeee => 'http://s3.amazonaws.com/salmod/app_asset/jquery-ui/ui-bg_highlight-soft_100_eeeeee_1x100.png',
-  
-  
-  # APP_APPLICATION.css 
+
+
+  # APP_APPLICATION.css
   :jquery_handle => 'http://s3.amazonaws.com/salmod/app_asset/app_application/handle.png',
   :jquery_handle_vertical => 'http://s3.amazonaws.com/salmod/app_asset/app_application/handle-vertical.png',
   :login_bg => 'http://s3.amazonaws.com/salmod/app_asset/app_application/login-bg.png',
@@ -76,45 +76,48 @@ IMAGE_ASSET_URL = {
   :validation_error => 'http://s3.amazonaws.com/salmod/app_asset/app_application/validation-error.png',
   :validation_success => 'http://s3.amazonaws.com/salmod/app_asset/app_application/validation-success.png',
   :zoom => 'http://s3.amazonaws.com/salmod/app_asset/app_application/zoom.png',
-  :logo => 'http://s3.amazonaws.com/salmod/app_asset/app_application/logo.png' 
+  :logo => 'http://s3.amazonaws.com/salmod/app_asset/app_application/logo.png'
 }
 
-# Application Specific 
+# Application Specific
 REVISION_STATUS = {
   :base => 0,
   :major => 1,
-  :minor => 2 
+  :minor => 2
 }
 
 CLEARANCE_STATUS = {
   :approved =>1 ,
-  :rejected => 2 
+  :rejected => 2
 }
 
 USER_JOB_STATUS = {
-  :observer => 1 , 
-  :worker => 2 
+  :observer => 1 ,
+  :worker => 2
 }
 
 MAINTENANCE_CASE ={
-  :scheduled => 1, 
-  :emergency => 2 
+  :scheduled => 1,
+  :emergency => 2
 }
 
 
 DIAGNOSIS_CASE = {
   :all_ok => 1 ,
   :require_fix => 2,
-  :require_replacement => 3  
+  :require_replacement => 3
 }
 
 SOLUTION_CASE = {
   :normal => 1 ,
   :pending => 2,
-  :solved =>  3    # 
+  :solved =>  3    #
 }
 
 ADJUSTMENT_STATUS = {
-  :addition => 1, 
-  :deduction => 2 
+  :addition => 1,
+  :deduction => 2
   }
+
+
+DISBURSED_GROUP_LOAN_FILE_LOCATION = "/home/willy/kki_deceased.txt"

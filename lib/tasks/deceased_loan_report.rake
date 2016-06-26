@@ -101,7 +101,7 @@ task :generate_deceased_loan_report_and_post_to_dropbox => :environment do
           result_array = []
 
     # "Group No.", " Group Name", "  Disbursement Date " , "Total Disbursement"
- 
+
 
 
           result_array << deceased_members["name"]
