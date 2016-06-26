@@ -27,8 +27,9 @@ task :generate_deceased_loan_report_and_post_to_dropbox => :environment do
     today_kki_date = DateTime.now.in_time_zone 'Jakarta'
     # today_kki_date = DateTime.new(2015,8,5,0,0,0 )
     last_week = today_kki_date - 1.weeks
-    starting_datetime = today_kki_date.end_of_day.utc
-    ending_datetime = last_week.beginning_of_day.utc
+    last year = today_kki_date - 1.years
+    starting_datetime = year.end_of_day.utc
+    ending_datetime = today_kki_date.end_of_day.utc
 
     today_date_string  = ""
     last_month_date_string = ""
