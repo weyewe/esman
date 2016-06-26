@@ -49,7 +49,7 @@ task :generate_deceased_loan_report_and_post_to_dropbox => :environment do
 
   counter = 0
   page = 1
-  limit = 50
+  limit = 10
   file_location = "#{DISBURSED_GROUP_LOAN_FILE_LOCATION}/deceased_#{today_date_string}.csv"
 
   CSV.open( file_location, 'w' ) do |writer|
