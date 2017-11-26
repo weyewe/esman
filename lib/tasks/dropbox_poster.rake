@@ -7,11 +7,11 @@ require 'json'
 
 
 =begin
-  
-  for sikki: user send the local time 
-    2015-5-12 00:00 
 
-    Server save it as  UTC 
+  for sikki: user send the local time
+    2015-5-12 00:00
+
+    Server save it as  UTC
     2015-5-11 17:00
 
     When user wants to query, the user will query with local time
@@ -28,31 +28,41 @@ require 'json'
   start_datetime = last_week_report_data.beginning_of_day.utc
   end_datetime =  last_week_report_data.end_of_day.utc
 
-  
+
 =end
 
 task :post_to_dropbox => :environment do
-  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+  # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
 
 
   filename = DateTime.now.to_s
   file_location = "#{PDF_FILE_LOCATION}/#{filename}.txt"
-  File.open( file_location , 'w') {|f| f.write("write your stuff here") }
-
-  file = open( file_location )
-
+  # File.open( file_location , 'w') {|f| f.write("write your stuff here") }
+  #
+  # file = open( file_location )
+  #
   dropbox_file_location  = "/willy/#{filename}.txt"
-  client.put_file(dropbox_file_location, file)
+  # client.put_file(dropbox_file_location, file)
 
-    
+
+
+  dropbox_access_token = DROPBOX_ACCESS_TOKEN
+  client = Dropbox::Client.new(dropbox_access_token)
+
+  file = open(file_location)
+  file = client.upload("#{dropbox_file_location}", file, {
+    :mode => "overwrite"
+  })
+
+
 end
 
 task :local_report => :environment do
   # get the ID to be printed
 
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
-    { 
+    {
       :body => {
         :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
       }
@@ -93,7 +103,7 @@ task :local_report => :environment do
     file << pdf
   end
 
-end 
+end
 
 
 def generate_report( today_kki_date )
@@ -102,9 +112,9 @@ def generate_report( today_kki_date )
   beginning_of_day = last_week_report_data.beginning_of_day.utc
   end_of_day =  last_week_report_data.end_of_day.utc
 
- 
+
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
-    { 
+    {
       :body => {
         :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
       }
@@ -129,8 +139,8 @@ def generate_report( today_kki_date )
 
 
   id_list = []
-  # counter = 0 
-  return if server_response["group_loan_weekly_collection_reports"].count == 0 
+  # counter = 0
+  return if server_response["group_loan_weekly_collection_reports"].count == 0
 
   server_response["group_loan_weekly_collection_reports"].each do |row|
     # break if counter == 5
@@ -138,7 +148,7 @@ def generate_report( today_kki_date )
     # counter = counter + 1
   end
 
-  puts "total : #{id_list.size}" 
+  puts "total : #{id_list.size}"
 
 
   folder_location = "#{PDF_FILE_LOCATION}/tomorrow_date"
@@ -150,7 +160,7 @@ def generate_report( today_kki_date )
 
   year = weekly_collection_report_disburse_day.year
   month = weekly_collection_report_disburse_day.month
-  day = weekly_collection_report_disburse_day.day 
+  day = weekly_collection_report_disburse_day.day
 
   result_filename = "" + year.to_s + "_"
   if month.to_s.length == 1
@@ -159,10 +169,10 @@ def generate_report( today_kki_date )
     result_filename = result_filename + month.to_s + "_"
   end
 
-  if day.to_s.length == 1 
-    result_filename = result_filename  + "0#{day}.pdf" 
+  if day.to_s.length == 1
+    result_filename = result_filename  + "0#{day}.pdf"
   else
-    result_filename = result_filename  + "#{day}.pdf" 
+    result_filename = result_filename  + "#{day}.pdf"
   end
 
 
@@ -174,7 +184,7 @@ def generate_report( today_kki_date )
 
   temp_result_filename = "temp_result.pdf"
   result_pdf = "#{folder_location}/#{result_filename}"
-  
+
   unless File.directory?(temporary_folder)
     FileUtils.mkdir_p(temporary_folder)
   end
@@ -183,7 +193,7 @@ def generate_report( today_kki_date )
     exe_path:  WKHTMLTOPDF_EXE_PATH
   }
 
-  temp_result_array = [] 
+  temp_result_array = []
   id_list.each do |x|
     puts "id: #{x}"
 
@@ -221,7 +231,7 @@ def generate_report( today_kki_date )
     temp_result_array << temp_result_pdf
 
 
- 
+
   end
 
   puts "merging all result folder"
@@ -238,20 +248,31 @@ def generate_report( today_kki_date )
 
   puts "gonna send to dropbox"
 
-  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+  # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
   file = open( result_pdf )
 
   dropbox_file_location  = "/dummy/#{result_filename}"
-  client.put_file(dropbox_file_location, file)
+  # client.put_file(dropbox_file_location, file)
 
   puts "deleting all temporary results"
+
+
+  dropbox_access_token = DROPBOX_ACCESS_TOKEN
+  client = Dropbox::Client.new(dropbox_access_token)
+
+  file = open(file_location)
+  file = client.upload("#{dropbox_file_location}", file, {
+    :mode => "overwrite"
+  })
+
+
 
 
   temp_result_array.each do |temp_result_pdf_path|
     File.delete( temp_result_pdf_path )
   end
-  
+
   FileUtils.rm_rf( temporary_folder )
 
   puts "done"
@@ -264,7 +285,7 @@ end
 
 
 
-def generate_report_from_id_list( id_list , result_filename, folder_location ) 
+def generate_report_from_id_list( id_list , result_filename, folder_location )
   unless File.directory?(folder_location)
     FileUtils.mkdir_p(folder_location)
   end
@@ -277,17 +298,17 @@ def generate_report_from_id_list( id_list , result_filename, folder_location )
 
 
   result_pdf = "#{folder_location}/#{result_filename}"
-  
+
   unless File.directory?(temporary_folder)
     FileUtils.mkdir_p(temporary_folder)
   end
 
-  temp_result_array = [] 
+  temp_result_array = []
 
   id_list.each do |x|
-    report_location = SingleGroupLoanWeeklyCollectionReport.generate_report( 
-      x, 
-      "result.pdf" , 
+    report_location = SingleGroupLoanWeeklyCollectionReport.generate_report(
+      x,
+      "result.pdf" ,
       folder_location  )
 
     temp_result_array << report_location
@@ -312,14 +333,14 @@ def generate_report_from_id_list( id_list , result_filename, folder_location )
     File.delete( temp_result_pdf_path )
   end
 
-  
+
   FileUtils.rm_rf( temporary_folder )
   puts "done creating result pdf"
-  return result_pdf 
+  return result_pdf
 
 end
 
-=begin 
+=begin
 
 require 'dropbox_sdk'
 require 'fileutils'
@@ -330,12 +351,12 @@ require 'json'
 
 
 tgl_17 = DateTime.new( 2015, 7, 17,0,0,0).in_time_zone "Jakarta"
-last_week = tgl_17 - 1.weeks 
+last_week = tgl_17 - 1.weeks
 beginning_of_day = last_week.beginning_of_day.utc
 end_of_day =  last_week.end_of_day.utc
 
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
-    { 
+    {
       :body => {
         :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
       }
@@ -359,10 +380,10 @@ end_of_day =  last_week.end_of_day.utc
   server_response =  JSON.parse(response.body )
 
 
-=end  
+=end
 
 def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
-                                           dropbox_upload_path, local_path) 
+                                           dropbox_upload_path, local_path)
 
   last_week_report_data = weekly_collection_report_disburse_day - 1.weeks
   beginning_of_day = last_week_report_data.beginning_of_day.utc
@@ -371,7 +392,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
   year = weekly_collection_report_disburse_day.year
   month = weekly_collection_report_disburse_day.month
-  day = weekly_collection_report_disburse_day.day 
+  day = weekly_collection_report_disburse_day.day
 
   result_filename = "" + year.to_s + "_"
   if month.to_s.length == 1
@@ -380,10 +401,10 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
     result_filename = result_filename + month.to_s + "_"
   end
 
-  if day.to_s.length == 1 
-    result_filename = result_filename  + "0#{day}.pdf" 
+  if day.to_s.length == 1
+    result_filename = result_filename  + "0#{day}.pdf"
   else
-    result_filename = result_filename  + "#{day}.pdf" 
+    result_filename = result_filename  + "#{day}.pdf"
   end
 
 
@@ -393,12 +414,12 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
   # 1. get auth token to get the weekly_collection_id_list to create report
   # 2. generate report in the local
   # 3. upload local report to dropbox
-  # 4. delete local report 
-  # 5. DONE 
+  # 4. delete local report
+  # 5. DONE
 
- 
+
   response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
-    { 
+    {
       :body => {
         :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
       }
@@ -423,11 +444,11 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
 
   id_list = []
-  # counter = 0 
+  # counter = 0
 
-  if server_response["group_loan_weekly_collection_reports"].count == 0 
+  if server_response["group_loan_weekly_collection_reports"].count == 0
     puts "no data from server"
-     
+
   else
     server_response["group_loan_weekly_collection_reports"].each do |row|
       id_list << row["id"]
@@ -437,8 +458,8 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
 
 
-    result_file_location = generate_report_from_id_list( 
-                  id_list, # [48841] , #id_list , 
+    result_file_location = generate_report_from_id_list(
+                  id_list, # [48841] , #id_list ,
                   result_filename,
                   "#{PDF_FILE_LOCATION}/#{local_path}"
                   )
@@ -447,14 +468,26 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
 
     puts "gonna send to dropbox"
 
-    client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+    # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
 
     file = open( result_file_location )
 
     dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
     puts "The result file location: #{result_file_location}"
-    client.put_file(dropbox_file_location, file)
+    # client.put_file(dropbox_file_location, file)
     puts "the dropbox_file_location: #{dropbox_file_location}"
+
+
+
+    ######### new dropbox
+    dropbox_access_token = DROPBOX_ACCESS_TOKEN
+    client = Dropbox::Client.new(dropbox_access_token)
+
+    file = open(file_location)
+    file = client.upload("#{dropbox_file_location}", file, {
+      :mode => "overwrite"
+    })
+
 
     puts "deleting all temporary results"
     File.delete( result_file_location )
@@ -470,11 +503,11 @@ end
    bundle exec rake dummy_report[-13]
    bundle exec rake dummy_report[-12]
    bundle exec rake dummy_report[-11]
-=end 
+=end
 
 # bundle exec rake dummy_report[0]
 
-task :dummy_report, [:number_of_days] => :environment do | t ,args | 
+task :dummy_report, [:number_of_days] => :environment do | t ,args |
 
   # today = DateTime.now.in_time_zone 'Jakarta'
   # (0.upto 2).each do |x|
@@ -482,7 +515,7 @@ task :dummy_report, [:number_of_days] => :environment do | t ,args |
   # end
   if args.number_of_days.length == 0
     puts "the arguent must be valid"
-    return 
+    return
   else
     puts "days is :#{ args.number_of_days}"
   end
@@ -494,13 +527,13 @@ task :dummy_report, [:number_of_days] => :environment do | t ,args |
   dropbox_upload_path = "/dummy"
   local_path = "dummy_date"
 
-  generate_weekly_collection_report_for( 
-          weekly_collection_report_disburse_day ,  
+  generate_weekly_collection_report_for(
+          weekly_collection_report_disburse_day ,
             dropbox_upload_path,
             local_path)
 end
 
-=begin 
+=begin
 tgl_17 = DateTime.new( 2015, 7, 17,0,0,0).in_time_zone "Jakarta"
 
 =end
@@ -510,22 +543,20 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   dropbox_upload_path = "/willy"
   local_path = "tomorrow_date"
 
-  generate_weekly_collection_report_for( 
-          weekly_collection_report_disburse_day ,  
+  generate_weekly_collection_report_for(
+          weekly_collection_report_disburse_day ,
             dropbox_upload_path,
             local_path)
 
 
   # Thursday, generate one report for monday as well
-  # will be printed on Friday altogether 
-  if today_kki_date.wday == 4 
-    generate_weekly_collection_report_for( 
-              today_kki_date + 4.days, 
+  # will be printed on Friday altogether
+  if today_kki_date.wday == 4
+    generate_weekly_collection_report_for(
+              today_kki_date + 4.days,
               dropbox_upload_path,
               local_path )
   end
 end
 
 # cd /var/www/sableng.com/current ; bundle exec rake generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox
-
-

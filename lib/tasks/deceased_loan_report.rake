@@ -126,13 +126,24 @@ task :generate_deceased_loan_report_and_post_to_dropbox => :environment do
 
 
   puts "gonna put to dropbox"
-  client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
-
-
-  file = open( file_location )
+  # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
+  #
+  #
+  # file = open( file_location )
 
   dropbox_file_location  = "/deceased_member/#{today_date_string}.csv"
-  client.put_file(dropbox_file_location, file)
+  # client.put_file(dropbox_file_location, file)
+
+
+  dropbox_access_token = DROPBOX_ACCESS_TOKEN
+  client = Dropbox::Client.new(dropbox_access_token)
+
+  file = open(file_location)
+  file = client.upload("#{dropbox_file_location}", file, {
+    :mode => "overwrite"
+  })
+
+
 
   File.delete( file_location )
 

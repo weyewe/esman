@@ -1,8 +1,8 @@
-# if Rails.env.production? 
+# if Rails.env.production?
 java_home = '/usr/lib/jvm/java-7-openjdk-amd64'
 if Dir.exist?(java_home)
 	puts "This is the god-damned java home"
-	ENV['JAVA_HOME'] = java_home 
+	ENV['JAVA_HOME'] = java_home
 else
 	puts "java home doesn't exists"
 end
@@ -43,7 +43,8 @@ gem "hiredis", "~> 0.4.5"
 
 gem 'wicked_pdf'
 # gem 'wkhtmltopdf-binary'
-gem 'dropbox-sdk'
+# gem 'dropbox-sdk'
+gem 'dropbox-sdk-v2'
 gem 'httparty'
 gem 'json'
 gem 'rjb'
@@ -73,7 +74,7 @@ end
 
 
 gem 'devise'
-gem "kaminari"  
+gem "kaminari"
 gem 'uuidtools'
 
 gem 'bootstrap-sass', '~> 2.3.1.0'
@@ -85,7 +86,7 @@ gem 'the_role_api', '~> 3.0.0'
 gem 'protected_attributes', '~> 1.0.5'
 gem 'delayed_job_active_record'
 # gem 'squeel', :git => "git://github.com/activerecord-hackery/squeel.git"
- 
+
 # https://github.com/activerecord-hackery/squeel.git
 group :production do
   gem 'rails_12factor'
@@ -96,7 +97,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
-  
+
 end
 
 
