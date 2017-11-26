@@ -483,7 +483,7 @@ def generate_weekly_collection_report_for(weekly_collection_report_disburse_day,
     dropbox_access_token = DROPBOX_ACCESS_TOKEN
     client = Dropbox::Client.new(dropbox_access_token)
 
-    file = open(file_location)
+    file = open(result_file_location)
     file = client.upload("#{dropbox_file_location}", file, {
       :mode => "overwrite"
     })
