@@ -232,7 +232,7 @@ def upload_report_to_dropbox( file_location, result_filename)
   #
   # file = open( file_location )
   #
-  # dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
+  dropbox_file_location  = "#{dropbox_upload_path}/#{result_filename}"
   # client.put_file(dropbox_file_location, file)
 
 
