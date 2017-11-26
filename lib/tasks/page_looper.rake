@@ -267,6 +267,42 @@ task :generate_last_month_gl_report => :environment do
 
 end
 
+
+
+task :generate_last_month_september_2017_gl_report => :environment do
+  auth_token = get_auth_token
+
+  today_kki_date = DateTime.new(2017,10,5).in_time_zone 'Jakarta'
+  last_month = today_kki_date - 1.months
+
+  file_location =  generate_csv_report_for_month( last_month )
+
+
+  upload_report_to_dropbox( file_location, get_result_filename( last_month ) )
+  File.delete( file_location  )
+
+  puts "done generating file"
+
+end
+
+
+
+task :generate_last_month_october_2017_gl_report => :environment do
+  auth_token = get_auth_token
+
+  today_kki_date = DateTime.new(2017,11,5).in_time_zone 'Jakarta'
+  last_month = today_kki_date - 1.months
+
+  file_location =  generate_csv_report_for_month( last_month )
+
+
+  upload_report_to_dropbox( file_location, get_result_filename( last_month ) )
+  File.delete( file_location  )
+
+  puts "done generating file"
+
+end
+
 task :generate_last_24_months_gl_report => :environment do
   auth_token = get_auth_token
 
