@@ -228,7 +228,7 @@ end
 
 def upload_report_to_dropbox( file_location, result_filename)
   # client = DropboxClient.new(DROPBOX_ACCESS_TOKEN)
-  # dropbox_upload_path = "/accounting_report"
+  dropbox_upload_path = "/accounting_report"
   #
   # file = open( file_location )
   #
