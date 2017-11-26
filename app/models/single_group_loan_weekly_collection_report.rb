@@ -1,4 +1,4 @@
-require 'dropbox_sdk'
+require 'dropbox'
 require 'fileutils'
 require "pdf/merger"
 require 'rjb'
@@ -10,10 +10,10 @@ require 'json'
 
 class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 	validates_presence_of :group_loan_weekly_collection_id
-	validates_presence_of :return_url 
+	validates_presence_of :return_url
 
 	def self.create_object( params )
-		new_object = self.new 
+		new_object = self.new
 		new_object.group_loan_weekly_collection_id = params[:group_loan_weekly_collection_id]
 		new_object.return_url = params[:return_url]
 
@@ -33,28 +33,28 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 
 
 	def generate_report_and_report_back
-		local_result_location = self.class.generate_report( 
+		local_result_location = self.class.generate_report(
 							self.group_loan_weekly_collection_id,
 							"result_pdf_name",
 							"/folder/location" )
 
-		# upload to dropbox 
+		# upload to dropbox
 
-		dropbox_upload_result_url  = self.class.upload_to_dropbox( 
+		dropbox_upload_result_url  = self.class.upload_to_dropbox(
 						local_result_location,
 						dropbox_path,
 						dropbox_filename )
 
-		
+
 
 
 
 
 
 		self.stored_result_url = dropbox_upload_result_url #result["url"]
-		self.is_finished = true 
-		self.finished_at = DateTime.now 
-		self.save 
+		self.is_finished = true
+		self.finished_at = DateTime.now
+		self.save
 
 		# update the main server
 
@@ -66,7 +66,7 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 
 	def self.get_auth_token
 		response = HTTParty.post( "http://neo-sikki.herokuapp.com/api2/users/sign_in" ,
-			{ 
+			{
 			  :body => {
 			    :user_login => { :email => "willy@gmail.com", :password => "willy1234" }
 			  }
@@ -76,16 +76,16 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 
 		auth_token  = server_response["auth_token"]
 
-		return auth_token 
+		return auth_token
 	end
 
 
 
-	def self.notify_core_server( report_generator ) 
+	def self.notify_core_server( report_generator )
 
 
 		response = HTTParty.put( report_generator.return_url  ,
-	    { 
+	    {
 			:query => {
       			:auth_token => self.get_auth_token,
       			:result_url => report_generator.stored_result_url
@@ -109,7 +109,7 @@ class SingleGroupLoanWeeklyCollectionReport < ActiveRecord::Base
 		return result["url"]
 	end
 
-=begin 
+=begin
 SingleGroupLoanWeeklyCollectionReport.generate_report( 48841 "awesome.pdf", "hah")
 =end
 	# will return the  report location in the server folder
@@ -164,10 +164,10 @@ SingleGroupLoanWeeklyCollectionReport.generate_report( 48841 "awesome.pdf", "hah
 		pdf.add_javascript "this.print(true);"
 		pdf.save_as result_pdf_path , failure_list
 
-		# delete the temporary pdf file 
+		# delete the temporary pdf file
 		File.delete( member_pdf_path )
 		File.delete( kki_pdf_path )
 
-		return result_pdf_path 
+		return result_pdf_path
 	end
 end

@@ -1,4 +1,4 @@
-require 'dropbox_sdk'
+require 'dropbox'
 require 'fileutils'
 require "pdf/merger"
 require 'rjb'
@@ -342,7 +342,7 @@ end
 
 =begin
 
-require 'dropbox_sdk'
+require 'dropbox'
 require 'fileutils'
 require "pdf/merger"
 require 'rjb'

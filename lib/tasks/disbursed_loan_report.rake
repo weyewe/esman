@@ -1,4 +1,4 @@
-require 'dropbox_sdk'
+require 'dropbox'
 require 'fileutils'
 require 'httparty'
 require 'json'
