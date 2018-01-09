@@ -341,7 +341,7 @@ task :generate_last_24_months_gl_report_v2 => :environment do
 
 
     upload_report_to_dropbox( file_location, "lalala_"+ get_result_filename( last_month )   )
-    File.delete( file_location  )
+    # File.delete( file_location  )
   end
 
 
