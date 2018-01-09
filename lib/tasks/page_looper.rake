@@ -316,7 +316,7 @@ task :generate_last_24_months_gl_report => :environment do
     file_location =  generate_csv_report_for_month( last_month )
 
 
-    upload_report_to_dropbox( file_location, get_result_filename( last_month ) )
+    upload_report_to_dropbox( file_location, get_result_filename( last_month )  )
     File.delete( file_location  )
   end
 
@@ -324,6 +324,52 @@ task :generate_last_24_months_gl_report => :environment do
 
 end
 
+
+task :generate_last_24_months_gl_report_v2 => :environment do
+  auth_token = get_auth_token
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+
+  (1.upto 24).each do |x|
+    puts "previous #{x} month(s)"
+
+    last_month = today_kki_date - x.months
+
+    file_location =  generate_csv_report_for_month( last_month )
+
+
+    upload_report_to_dropbox( file_location, "lalala_"+ get_result_filename( last_month )   )
+    File.delete( file_location  )
+  end
+
+
+
+end
+
+
+
+task :generate_last_year_gl_report => :environment do
+  auth_token = get_auth_token
+
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+
+  today_kki_date = (today_kki_date - 1.years ).end_of_year
+
+  (1.upto 24).each do |x|
+    puts "previous #{x} month(s)"
+
+    last_month = today_kki_date - x.months
+
+    file_location =  generate_csv_report_for_month( last_month )
+
+
+    upload_report_to_dropbox( file_location, get_result_filename( last_month ) )
+    File.delete( file_location  )
+  end
+
+
+
+end
 
 
 task :generate_2015_12_report => :environment do
