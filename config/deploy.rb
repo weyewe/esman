@@ -111,8 +111,8 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
 
-  queue! %[  export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64]
-  queue! %[export PATH=$PATH:/usr/lib/jvm/java-7-openjdk-amd64/jre/bin]
+  # queue! %[  export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64]
+  # queue! %[export PATH=$PATH:/usr/lib/jvm/java-7-openjdk-amd64/jre/bin]
 
 end
 
