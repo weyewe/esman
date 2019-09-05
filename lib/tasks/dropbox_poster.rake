@@ -559,4 +559,28 @@ task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox => :env
   end
 end
 
+
+task :generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox_v2 => :environment do
+  today_kki_date = DateTime.now.in_time_zone 'Jakarta'
+  weekly_collection_report_disburse_day = today_kki_date  + 5.days
+  dropbox_upload_path = "/willy_2"
+  local_path = "tomorrow_date"
+
+  generate_weekly_collection_report_for(
+          weekly_collection_report_disburse_day ,
+            dropbox_upload_path,
+            local_path)
+
+
+  # Thursday, generate one report for monday as well
+  # will be printed on Friday altogether
+  if today_kki_date.wday == 4
+    dropbox_upload_path = "/special_willy_2"
+    generate_weekly_collection_report_for(
+              today_kki_date + 3.days,
+              dropbox_upload_path,
+              local_path )
+  end
+end
+
 # cd /var/www/sableng.com/current ; bundle exec rake generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox

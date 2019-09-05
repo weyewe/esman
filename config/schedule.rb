@@ -37,6 +37,11 @@ every 1.day, :at => '1pm' do
   rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox"
 end
 
+every 1.day, :at => '8am' do
+  rake "generate_weekly_collection_report_for_tomorrow_and_post_to_dropbox_v2"
+end
+
+
 every 1.day, :at => '2pm' do
   rake "generate_pending_collection_report_and_post_to_dropbox"
 end
