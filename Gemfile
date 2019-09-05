@@ -1,5 +1,6 @@
 # if Rails.env.production?
-java_home = '/usr/lib/jvm/java-7-openjdk-amd64'
+
+java_home = '/usr/lib/jvm/java-8-openjdk-amd64'
 if Dir.exist?(java_home)
 	puts "This is the god-damned java home"
 	ENV['JAVA_HOME'] = java_home
